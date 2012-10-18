@@ -51,9 +51,9 @@ public class Device {
 		return "";
 	}
 	
-	public void initializeLocation(int timeWait, int minDist){
+	public void initializeLocation(int timeWait, int minDistance){
 		devLocation = new DeviceLocation(this.context);
-		devLocation.enableLocationListener(timeWait, minDist);
+		devLocation.enableLocationListener(timeWait, minDistance);
 	}
 	
 	public void initializeOrientation(int sensorType){
