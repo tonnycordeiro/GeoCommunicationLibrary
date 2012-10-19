@@ -13,11 +13,7 @@ public class NetworkConfiguration {
 	}	
 		
 	public String getSSID() {
-		if(sSID == null)
-			return null;
-		int mid = SSID_PREFIX.length();
-		String s = sSID.substring(mid);
-		return s;
+		return NetworkConfiguration.removePrefix(sSID);
 	}
 
 	public void setSSID(String sSID) {
@@ -40,7 +36,14 @@ public class NetworkConfiguration {
 		this.isOpen = isOpen;
 	}
 
-	public static String getSsidPrefix() {
+	protected static String removePrefix(String ssid){
+		if(ssid == null)
+			return null;
+		int mid = SSID_PREFIX.length();
+		String s = ssid.substring(mid);
+		return s;
+	}
+	protected static String getSsidPrefix() {
 		return SSID_PREFIX;
 	}
 	

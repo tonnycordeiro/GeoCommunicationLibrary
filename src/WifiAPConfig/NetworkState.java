@@ -1,6 +1,6 @@
 package WifiAPConfig;
 
-public enum NetworkStatus {
+public enum NetworkState {
 
 	ACTIVATED, DEACTIVATED, ACTIVATING, DEACTIVATING 
 }
