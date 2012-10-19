@@ -3,9 +3,9 @@ package WifiAPConfig;
 public class NetworkConfiguration {
 
 	private static final String SSID_PREFIX = "ANDROID_LIBRARY_";
-	private String sSID;
-	private String password;
-	private int channel;
+	private String sSID = null;
+	private String password = null;
+	private boolean isOpen = false;
 	
 	
 	public NetworkConfiguration() {
@@ -13,8 +13,11 @@ public class NetworkConfiguration {
 	}	
 		
 	public String getSSID() {
-		String[] values = sSID.split(SSID_PREFIX);
-		return values[0];
+		if(sSID == null)
+			return null;
+		int mid = SSID_PREFIX.length();
+		String s = sSID.substring(mid);
+		return s;
 	}
 
 	public void setSSID(String sSID) {
@@ -29,12 +32,12 @@ public class NetworkConfiguration {
 		this.password = password;
 	}
 
-	public int getChannel() {
-		return channel;
+	public boolean isOpen() {
+		return this.isOpen;
 	}
 
-	public void setChannel(int channel) {
-		this.channel = channel;
+	public void setisOpen(boolean isOpen) {
+		this.isOpen = isOpen;
 	}
 
 	public static String getSsidPrefix() {

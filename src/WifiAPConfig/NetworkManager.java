@@ -12,25 +12,39 @@ public class NetworkManager {
 	private final WifiManager mWifiManager;
 	private WifiConfiguration wifiConfig;
 	private boolean wasStarted;
+	private Context context;
 	
 	public NetworkManager(Context context) {
-		mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		this.context = context;
+		mWifiManager = (WifiManager) this.context.getSystemService(Context.WIFI_SERVICE);
 		wasStarted = false;
 	}
 	
 	public NetworkStatus getNetworkState(){
-		
+		//TODO
 		return NetworkStatus.ACTIVATED;
 	}
 	
+	
 	public int startNetwork(NetworkConfiguration netConfig){
+		
+		if(wasStarted || netConfig == null || netConfig.getSSID() == null || (!netConfig.isOpen() && netConfig.getPassword() == null))
+			return 2;
 		
 		if(mWifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED)
 			mWifiManager.setWifiEnabled(false);
-		wifiConfig = parseConfiguration(netConfig);
-		boolean res = setWifiApEnabled(wifiConfig, true);
+		
+		int ret = parseConfiguration(netConfig);
+		if(ret > 0)
+			return ret;
+		int id = mWifiManager.addNetwork(wifiConfig);
+        mWifiManager.enableNetwork(id, true);
+        mWifiManager.saveConfiguration();
+		
+        boolean res = setWifiApEnabled(wifiConfig, true);
 		if(!res)
 			return 1;
+		
 		wasStarted = true;
 		return 0;
 	}
@@ -51,20 +65,31 @@ public class NetworkManager {
 		boolean res = setWifiApEnabled(wifiConfig, false);
 		if(!res)
 			return 1;
+		mWifiManager.removeNetwork(wifiConfig.networkId);
+		mWifiManager.saveConfiguration();
+		
+		wasStarted = false;
 		return 0;
 	}
 	
-	private WifiConfiguration parseConfiguration(NetworkConfiguration netConfig) {
-		WifiConfiguration wc = new WifiConfiguration();
-		wc.SSID = "\"" + netConfig.getSSID() + "\"";
-		wc.preSharedKey = "\"" + netConfig.getPassword() + "\"";
-		try{
-			WifiConfiguration.class.getField("frequency").setInt(wc, netConfig.getChannel());
+	private int parseConfiguration(NetworkConfiguration netConfig) {
+		wifiConfig = new WifiConfiguration();
+		
+		wifiConfig.SSID = netConfig.getSSID();
+		wifiConfig.status = WifiConfiguration.Status.ENABLED;
+		if(netConfig.isOpen()){
+			wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
 		}
-		catch(Exception e){
-			e.printStackTrace();
+		else {
+			wifiConfig.preSharedKey = netConfig.getPassword();
+			wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+			wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+			wifiConfig.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+			wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+	        wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
 		}
-		return wc;
+		
+		return 0;
 	}
 
 	private boolean setWifiApEnabled(WifiConfiguration wifiConfig, boolean enabled) {
