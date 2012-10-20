@@ -10,6 +10,12 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.util.Log;
 
+/**
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class NetworkManager {
 
 	private final WifiManager wifiManager;
@@ -50,8 +56,12 @@ public class NetworkManager {
 		for (ScanResult scan : scans) {
 			String ssid = scan.SSID;
 			if(ssid.startsWith(NetworkConfiguration.getSsidPrefix())){
-				boolean isopen = scan.capabilities == null ? true : false;
-				NetworkAvailable net = new NetworkAvailable(NetworkConfiguration.removePrefix(ssid), isopen);
+				boolean isopen;
+				if(scan.capabilities.contains("WPA"))
+					isopen = false;
+				else
+					isopen = true;
+				NetworkAvailable net = new NetworkAvailable(ssid, isopen);
 				nets.add(net);
 			}
 		}
@@ -59,11 +69,50 @@ public class NetworkManager {
 	}
 	
 	/**
+	 * Try connect to a network. 
+	 * 
+	 * @param net
+	 * @param password
+	 * @return
+	 */
+	public int connectNetwork(NetworkAvailable net, String password){
+		if(net == null)
+			return 1;
+		if(!net.isOpen() && password == null)
+			return 2;
+		
+		NetworkConfiguration netConfig = new NetworkConfiguration();
+		netConfig.setisOpen(net.isOpen());
+		netConfig.setSSID("\"" + net.getSSID() + "\"");
+		netConfig.setPassword("\"" + password + "\"");
+		
+		parseConfiguration(netConfig);
+		
+		int id = wifiManager.addNetwork(wifiConfig);
+		if(id < 0)
+			return 3;
+		wifiManager.enableNetwork(id, true);;
+		wifiManager.saveConfiguration();
+        
+			
+		List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
+		for( WifiConfiguration i : list ) {
+		    if(i.SSID != null && i.SSID.equals(wifiConfig.SSID)) {
+		        wifiManager.disconnect();
+		    	wifiManager.enableNetwork(i.networkId, true);
+		    	wifiManager.reconnect();
+		        return 0;
+		    }           
+		}
+		return 4;
+	}
+	
+	/**
 	 * Try start a new Access Point. It will turn off wifi.
 	 * 
 	 * @param netConfig @see {@link NetworkConfiguration}
 	 * 
-	 * @return These are return codes:
+	 * @return These are the return codes:
 	 * <ul>
 	 * 	<li>0: The network was started successfully.</li>
 	 * 	<li>1: A exception occurred. Verify if your device can start a wifi Access Point.</li>
@@ -77,6 +126,7 @@ public class NetworkManager {
 			return 2;
 		if(netConfig == null || netConfig.getSSID() == null || (!netConfig.isOpen() && netConfig.getPassword() == null))
 			return 3;
+		netConfig.setSSID(NetworkConfiguration.getSsidPrefix() + netConfig.getSSID());
 		
 		if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED)
 			wifiManager.setWifiEnabled(false);
@@ -98,7 +148,7 @@ public class NetworkManager {
 	
 	/**
 	 * 
-	 * @return These are return codes:
+	 * @return These are the return codes:
 	 * <ul>
 	 * 	<li>0: Successful</li>
 	 * 	<li>1: Occurred a exception during the stopping.</li>
@@ -123,17 +173,32 @@ public class NetworkManager {
 		wifiConfig = new WifiConfiguration();
 		
 		wifiConfig.SSID = netConfig.getSSID();
-		wifiConfig.status = WifiConfiguration.Status.ENABLED;
+		wifiConfig.priority = 40;
+		wifiConfig.status = WifiConfiguration.Status.DISABLED;
 		if(netConfig.isOpen()){
 			wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+			wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+			wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+			wifiConfig.allowedAuthAlgorithms.clear();
+			wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+			wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+			wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+			wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+			wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+			wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+
 		}
 		else {
 			wifiConfig.preSharedKey = netConfig.getPassword();
-			wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
-			wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-			wifiConfig.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
-			wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
 	        wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+	        wifiConfig.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+	        wifiConfig.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+	        wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+	        wifiConfig.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+	        wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+	        wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+	        wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+	        wifiConfig.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
 		}
 		
 		return 0;

@@ -13,11 +13,11 @@ public class NetworkConfiguration {
 	}	
 		
 	public String getSSID() {
-		return NetworkConfiguration.removePrefix(sSID);
+		return this.sSID;
 	}
 
 	public void setSSID(String sSID) {
-		this.sSID = SSID_PREFIX + sSID;
+		this.sSID = sSID;
 	}
 
 	public String getPassword() {
