@@ -17,7 +17,7 @@ public class Device {
 	
 	private String id;
 	private String nick;
-	private Context context;
+	private Context context;//TODO(Tonny): deixa dependente da biblioteca Android
 	private DeviceLocation devLocation;
 	private DeviceOrientation devOrient;
 	
@@ -56,7 +56,7 @@ public class Device {
 		devLocation.enableLocationListener(timeWait, minDistance);
 	}
 	
-	public void initializeOrientation(int sensorType){
+	public void initializeOrientation(int sensorType){//TODO(Tonny): sensorType deixa dependente da biblioteca Android 
 		devOrient = new DeviceOrientation(this.context, sensorType);
 		devOrient.enableSensorListener();
 	}
@@ -71,7 +71,6 @@ public class Device {
 
 	public String getId() {
 		return id;
-
 	}
 
 	public String getNick() {

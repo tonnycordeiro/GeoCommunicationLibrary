@@ -1,8 +1,9 @@
 package usp.ime.tcc.Communication;
 
 import usp.ime.tcc.Auxiliaries.Device;
-import usp.ime.tcc.Auxiliaries.SenderType;
-import usp.ime.tcc.SenderAndReceiver.*;
+import usp.ime.tcc.SenderAndReceiver.ReceiveListener;
+import usp.ime.tcc.SenderAndReceiver.UDPReceiver;
+import usp.ime.tcc.SenderAndReceiver.UDPSender;
 
 
 /**
@@ -32,7 +33,7 @@ public class CommunicationSocket {
 	 * </ul>
 	 */
 	public int sendResponse(Device device, byte[] message, String dstIP){
-		CommunicationPacket packet = new CommunicationPacket(device, SenderType.UNICAST, message);
+		CommunicationPacket packet = new CommunicationPacket(device, message);
 		packet.setDstIP(dstIP);
 		
 		return sendMessage(packet);
@@ -48,22 +49,9 @@ public class CommunicationSocket {
 	 * 	<li>2: Undefined error</li>
 	 * </ul>
 	 */
-	public int sendMessage(CommunicationPacket packet){
+	public int sendMessage(CommunicationPacket packet, AppProtocol protocol){
 		int sendReturn = 1;
-		
-		AppProtocol protocol;
-		
-		if(packet.getSenderType() == SenderType.BROADCAST_TO_ALL || packet.getSenderType() == SenderType.UNICAST)
-			protocol = new AppProtocol(packet.getSenderType());
-		else if(packet.getSenderType() == SenderType.BROADCAST_TO_ONE){
-			Device device = packet.getSrcDevice();
-			protocol = new AppProtocol(packet.getSenderType(), device.getLatitude(), device.getLongitude(), device.getOrientation());
-		}
-		else{
-			System.out.println("Tipo inexistente");
-			return 1;
-		}
-		
+				
 		byte[] header = protocol.toString().getBytes();
 		byte[] data = packet.getData();
 		byte[] buffer = new byte[header.length + data.length];

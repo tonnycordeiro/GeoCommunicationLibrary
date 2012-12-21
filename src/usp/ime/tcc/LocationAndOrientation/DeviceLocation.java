@@ -10,10 +10,13 @@ public class DeviceLocation implements LocationListener {
 	
 	private double latitude;
 	private double longitude;
-	private LocationManager lm;
-	private Context context;
 	private boolean isGpsEnable = false;
 	private Object waitGps = new Object();
+	
+	/*TODO: separar em classe específica para Android*/
+	/*AndroidLocation al*/
+	private LocationManager lm;
+	private Context context;
 	
 	public DeviceLocation(Context context) {
 		this.context = context;

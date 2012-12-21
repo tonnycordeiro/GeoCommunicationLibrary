@@ -35,4 +35,6 @@ public class IP {
 		//TODO
 		return "192.168.255.255";
 	}
+	
+	//TODO(Tonny): (baixo nível de importância) setar a máscara apenas se conseguir setar o ip do dispositivo
 }

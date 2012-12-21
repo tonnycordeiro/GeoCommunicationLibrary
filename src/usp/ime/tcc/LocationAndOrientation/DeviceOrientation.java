@@ -9,8 +9,13 @@ import android.hardware.SensorManager;
 public class DeviceOrientation implements SensorEventListener {
 
 	private float orientation;
+	
+	/*TODO: separar em classe específica para Android*/
+	/*AndroidLocation al*/
 	private SensorManager mySensorManager;
 	private Context context;
+	
+	/*TODO: tirar sensores daqui*/
 	private int[] sensorsType;
 	private int sensorType;
 	
@@ -41,7 +46,7 @@ public class DeviceOrientation implements SensorEventListener {
 	}
 	
 	public void onAccuracyChanged(Sensor arg0, int arg1) {
-
+		
 	}
 
 	public void onSensorChanged(SensorEvent event) {
