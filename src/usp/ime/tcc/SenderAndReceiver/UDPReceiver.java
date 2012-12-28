@@ -1,47 +1,68 @@
 package usp.ime.tcc.SenderAndReceiver;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
-import usp.ime.tcc.Communication.CommunicationPacket;
+import usp.ime.tcc.Communication.ProtocolInformation;
+import usp.ime.tcc.Communication.ProtocolMessages;
 
 
 
-public class UDPReceiver {
+public class UDPReceiver implements Runnable{
 
-	static final int SERVER_PORT = 27384;
+	static final int SERVER_PORT = 27385;
+	private ReceiveListener listener;
 	
-	public void receive(CommunicationPacket packet, ReceiveListener listener) {
+	public UDPReceiver(ReceiveListener listener) {
+		this.listener = listener;
+	}
+	
+	public void run() {
+		DatagramSocket serverSocket;
 		try{
-			DatagramSocket serverSocket = new DatagramSocket(SERVER_PORT);
+			serverSocket = new DatagramSocket(SERVER_PORT);
 	        byte[] rcvData = new byte[1024];
-			
+
 	        while(true){
+	        	System.out.println("ALORAAA!!!!!! - To no UDPREceive no while(true)");
 				DatagramPacket rcvPacket = new DatagramPacket(rcvData, rcvData.length);
 	            serverSocket.receive(rcvPacket);
 	            
-	            if(thisMessageIsForMe(rcvPacket)){
-	            	packet.setData(rcvPacket.getData());
-	            	packet.setSrcIP(rcvPacket.getAddress().getHostAddress());
-	            	getHeader(rcvPacket, packet);
-	            	listener.onReceiveMessage(packet);
+	            System.out.println("ALORAAA!!!!!! - To no UDPREceive no while(true)");
+	            System.out.println("ALORAAA!!!!!! - To no UDPREceive no while(true)");
+	            System.out.println("ALORAAA!!!!!! - To no UDPREceive no while(true)");
+	            System.out.println("ALORAAA!!!!!! - To no UDPREceive no while(true)");
+	            
+	            ByteArrayInputStream bis = new ByteArrayInputStream(rcvPacket.getData());
+	            ObjectInput in = null;
+	            try {
+					in = new ObjectInputStream(bis);
+					ProtocolInformation appInfo = (ProtocolInformation) in.readObject();
+					  
+					if(thisMessageIsForMe(appInfo)){
+						if(appInfo.getTypeMsg().equals(ProtocolMessages.GEOMSG)){
+							listener.onReceiveGEOMSG(appInfo);
+						}
+					}
+	            } catch(ClassNotFoundException e) {
+	            	e.printStackTrace();
 	            }
+
 			}
 		}
 		catch(IOException e){
 			e.printStackTrace();
-			listener.onReceiveMessage(null);
 		}
 	}
 
-	private void getHeader(DatagramPacket rcvPacket, CommunicationPacket packet) {
-		//TODO
-	}
-
-	private boolean thisMessageIsForMe(DatagramPacket rcvPacket) {
+	private boolean thisMessageIsForMe(ProtocolInformation appInfo) {
 		//TODO
 		return true;
 	}
+
 	
 }

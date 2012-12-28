@@ -1,5 +1,7 @@
 package usp.ime.tcc.Auxiliaries;
 
+import java.io.Serializable;
+
 import usp.ime.tcc.LocationAndOrientation.DeviceLocation;
 import usp.ime.tcc.LocationAndOrientation.DeviceOrientation;
 import android.content.Context;
@@ -11,12 +13,14 @@ import android.content.Context;
  * @version 1.0
  *
  */
-public class Device {
+public class Device implements Serializable{
 	
+	private static final long serialVersionUID = 3L;
+
 	private static final String DEFAULT_NICK = "DeviceApp";
 	
-	private String id;
 	private String nick;
+	private String ip;
 	private Context context;//TODO(Tonny): deixa dependente da biblioteca Android
 	private DeviceLocation devLocation;
 	private DeviceOrientation devOrient;
@@ -26,8 +30,8 @@ public class Device {
 	 */
 	public Device(Context context){
 		this.context = context;
-		this.id = getDeviceMacAddress();
 		this.nick = DEFAULT_NICK;
+		this.ip = IP.getLocalIpAddress();
 	}
 	
 	/**
@@ -37,28 +41,22 @@ public class Device {
 	 */
 	public Device(String nick, Context context) {
 		this.context = context;
-		this.id = getDeviceMacAddress();
 		this.nick = nick;
+		this.ip = IP.getLocalIpAddress();
 	}
 
-	/**
-	 * This method search the MAC Address of device.
-	 *  
-	 * @return MAC Address
-	 */
-	private String getDeviceMacAddress() {
-		//TODO
-		return "";
-	}
-	
 	public void initializeLocation(int timeWait, int minDistance){
 		devLocation = new DeviceLocation(this.context);
 		devLocation.enableLocationListener(timeWait, minDistance);
 	}
 	
-	public void initializeOrientation(int sensorType){//TODO(Tonny): sensorType deixa dependente da biblioteca Android 
-		devOrient = new DeviceOrientation(this.context, sensorType);
+	public void initializeOrientation(){//TODO(Tonny): sensorType deixa dependente da biblioteca Android 
+		devOrient = new DeviceOrientation(this.context);
 		devOrient.enableSensorListener();
+	}
+	
+	public String getIp(){
+		return this.ip;
 	}
 	
 	public double getLatitude() {
@@ -67,10 +65,6 @@ public class Device {
 
 	public double getLongitude() {
 		return devLocation.getLongitude();
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	public String getNick() {

@@ -1,12 +1,16 @@
 package usp.ime.tcc.LocationAndOrientation;
 
+import java.io.Serializable;
+
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-public class DeviceLocation implements LocationListener {
+public class DeviceLocation implements LocationListener, Serializable {
+	
+	private static final long serialVersionUID = 4L;
 	
 	private double latitude;
 	private double longitude;
@@ -20,6 +24,8 @@ public class DeviceLocation implements LocationListener {
 	
 	public DeviceLocation(Context context) {
 		this.context = context;
+		this.latitude = 0.0;
+		this.longitude = 0.0;
 	}
 	
 	public boolean gpsIsReady(){

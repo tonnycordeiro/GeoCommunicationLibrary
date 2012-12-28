@@ -33,7 +33,7 @@ public class IP {
 	
 	public static String getBroadcastAddress() {
 		//TODO
-		return "192.168.255.255";
+		return "192.168.43.255";
 	}
 	
 	//TODO(Tonny): (baixo nível de importância) setar a máscara apenas se conseguir setar o ip do dispositivo

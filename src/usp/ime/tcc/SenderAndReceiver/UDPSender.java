@@ -5,8 +5,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import usp.ime.tcc.Auxiliaries.IP;
-
 
 public class UDPSender {
 
@@ -33,7 +31,7 @@ public class UDPSender {
 			DatagramSocket socket = new DatagramSocket();
 			socket.setBroadcast(true);
 			socket.send(sndPacket);
-			
+
 			socket.close();
 		}
 		catch(IOException e){
@@ -47,42 +45,6 @@ public class UDPSender {
 		
 		return 0;
 	}
-	
-	/**
-	 * Send a message on the network.
-	 * 
-	 * @param message Specify the message that will be send.
-	 * 
-	 * @return Result of send:
-	 * <ul>
-	 * 	<li>0: Successful</li>
-	 * 	<li>1: Unsuccessful</li>
-	 * 	<li>2: Undefined error</li>
-	 * </ul>
-	 */
-	public int send(byte[] sndData){
-		try{
-			InetAddress serverAddr = InetAddress.getByName(IP.getBroadcastAddress());
-			
-			DatagramPacket sndPacket = new DatagramPacket(sndData, sndData.length, serverAddr, UDPReceiver.SERVER_PORT);
-			DatagramSocket socket = new DatagramSocket();
-			socket.setBroadcast(true);
-			socket.send(sndPacket);
-			
-			socket.close();
-		}
-		catch(IOException e){
-			e.printStackTrace();
-			return 1;
-		}
-		catch(Exception e){
-			e.printStackTrace();
-			return 2;
-		}
-		
-		return 0;
-	}
-	
 	
 
 }
