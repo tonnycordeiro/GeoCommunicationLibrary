@@ -6,36 +6,39 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.SocketException;
 
+import usp.ime.tcc.Communication.ProtocolGEOSMSGInformation;
 import usp.ime.tcc.Communication.ProtocolInformation;
-import usp.ime.tcc.Communication.ProtocolMessages;
+import usp.ime.tcc.Communication.ProtocolSTSAPPInformation;
 
 
 
-public class UDPReceiver implements Runnable{
+public class UDPReceiver implements Runnable {
 
 	static final int SERVER_PORT = 27385;
 	private ReceiveListener listener;
+	public static DatagramSocket serverSocket;
 	
 	public UDPReceiver(ReceiveListener listener) {
 		this.listener = listener;
 	}
 	
 	public void run() {
-		DatagramSocket serverSocket;
+		
 		try{
 			serverSocket = new DatagramSocket(SERVER_PORT);
 	        byte[] rcvData = new byte[1024];
 
 	        while(true){
-	        	System.out.println("ALORAAA!!!!!! - To no UDPREceive no while(true)");
 				DatagramPacket rcvPacket = new DatagramPacket(rcvData, rcvData.length);
-	            serverSocket.receive(rcvPacket);
-	            
-	            System.out.println("ALORAAA!!!!!! - To no UDPREceive no while(true)");
-	            System.out.println("ALORAAA!!!!!! - To no UDPREceive no while(true)");
-	            System.out.println("ALORAAA!!!!!! - To no UDPREceive no while(true)");
-	            System.out.println("ALORAAA!!!!!! - To no UDPREceive no while(true)");
+	            try{
+	            	serverSocket.receive(rcvPacket);
+	            }
+	            catch(SocketException e){
+	            	e.printStackTrace();
+	            	break;
+	            }
 	            
 	            ByteArrayInputStream bis = new ByteArrayInputStream(rcvPacket.getData());
 	            ObjectInput in = null;
@@ -44,9 +47,23 @@ public class UDPReceiver implements Runnable{
 					ProtocolInformation appInfo = (ProtocolInformation) in.readObject();
 					  
 					if(thisMessageIsForMe(appInfo)){
-						if(appInfo.getTypeMsg().equals(ProtocolMessages.GEOMSG)){
-							listener.onReceiveGEOMSG(appInfo);
+						switch(appInfo.getTypeMsg()){
+							case GEOMSG:
+								listener.onReceiveGEOMSG((ProtocolGEOSMSGInformation)appInfo);
+								break;
+							case APPDATA:
+								listener.onReceiveAPPDATA(appInfo);
+								break;
+							case ONLINE:
+								listener.onReceiveONLINE(appInfo);
+								break;
+							case STSAPP:
+								listener.onReceiveSTSAPP((ProtocolSTSAPPInformation)appInfo);
+								break;
+							default:
+								break;
 						}
+						
 					}
 	            } catch(ClassNotFoundException e) {
 	            	e.printStackTrace();
@@ -60,7 +77,7 @@ public class UDPReceiver implements Runnable{
 	}
 
 	private boolean thisMessageIsForMe(ProtocolInformation appInfo) {
-		//TODO
+		//TODO terminar isso aqui!!
 		return true;
 	}
 

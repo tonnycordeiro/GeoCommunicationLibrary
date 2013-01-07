@@ -1,0 +1,5 @@
+To add a new message in application protocol:
+
+1: Add a 'case' on 'UDPReceive' class on 'run()' method.
+2: Add the method signature on 'ReceiveListener' class. This method must be implemented by application.
+3: If desirable, it's possible add new information in the header of application protocol. Just add the new information in 'ProtocolInformation' class. That information must be serializable.

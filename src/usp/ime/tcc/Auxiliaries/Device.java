@@ -24,6 +24,7 @@ public class Device implements Serializable{
 	private Context context;//TODO(Tonny): deixa dependente da biblioteca Android
 	private DeviceLocation devLocation;
 	private DeviceOrientation devOrient;
+	private boolean isCreator;
 	
 	/**
 	 * Initialize a device with a default nick name.
@@ -50,9 +51,18 @@ public class Device implements Serializable{
 		devLocation.enableLocationListener(timeWait, minDistance);
 	}
 	
+	public void stopLocation() {
+		devLocation.disableLocationListener();
+		devLocation = null;
+	}
+	
 	public void initializeOrientation(){//TODO(Tonny): sensorType deixa dependente da biblioteca Android 
 		devOrient = new DeviceOrientation(this.context);
 		devOrient.enableSensorListener();
+	}
+	
+	public boolean gpsIsReady() {
+		return devLocation.gpsIsReady();
 	}
 	
 	public String getIp(){
@@ -70,6 +80,10 @@ public class Device implements Serializable{
 	public String getNick() {
 		return nick;
 	}
+	
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
 
 	public float getOrientation() {
 		return devOrient.getOrientatio();
@@ -79,5 +93,13 @@ public class Device implements Serializable{
 		while(!devLocation.gpsIsReady()){
 			devLocation.waitGps();	
 		}
+	}
+
+	public boolean isCreator() {
+		return isCreator;
+	}
+
+	public void setCreator(boolean isCreator) {
+		this.isCreator = isCreator;
 	}
 }

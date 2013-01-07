@@ -1,47 +1,52 @@
 package usp.ime.tcc.Communication;
 
 import java.io.Serializable;
+import java.util.List;
 
 import usp.ime.tcc.Auxiliaries.Device;
-import usp.ime.tcc.Auxiliaries.IP;
 
 public class AppProtocol implements Serializable{
 	private static final long serialVersionUID = 1L;
 	final static String CRLF = "\r\n";
 	final static String dividerHeader = " ";
 	
-	private Device device;
-	private String ipDst;
+	private Device deviceSrc;
+	private List<String> listIpDst;
 	private byte[] message;
-	private ProtocolMessages typeMsg;
+	private EProtocolMessages typeMsg;
+	private ESendTo sendTo;
+	private EProtocolTranspLayer protocol;
 	
-	public AppProtocol(Device device, byte[] message, ProtocolMessages typeMsg) {
-		this.device = device;
+	public AppProtocol(Device deviceSrc, byte[] message, EProtocolMessages typeMsg, ESendTo sendTo, EProtocolTranspLayer protocol) {
+		this.deviceSrc = deviceSrc;
 		this.message = message;
 		this.typeMsg = typeMsg;
-		this.ipDst = IP.getBroadcastAddress();
+		this.sendTo = sendTo;
+		this.protocol = protocol;
 	}
 	
-	public AppProtocol(ProtocolInformation appInfo) {
-		this.device = new Device(appInfo.getNick(), null);
-		this.ipDst = appInfo.getIp();
-		this.message = appInfo.getMessage();
-		this.typeMsg = appInfo.getTypeMsg();
+	public AppProtocol(Device deviceSrc, byte[] message, EProtocolMessages typeMsg, List<String> listIpDst, EProtocolTranspLayer protocol) {
+		this.deviceSrc = deviceSrc;
+		this.message = message;
+		this.typeMsg = typeMsg;
+		this.listIpDst = listIpDst;
+		this.protocol = protocol;
+		this.sendTo = ESendTo.LISTIPS;
 	}
 
-	protected void setIpDst(String ipDst) {
-		this.ipDst = ipDst;
+	protected void setListIpDst(List<String> listIpDst) {
+		this.listIpDst = listIpDst;
 	}
 
-	public String getIpDst() {
-		return this.ipDst;
+	public List<String> getListIpDst() {
+		return this.listIpDst;
 	}
-	public Device getDevice() {
-		return this.device;
+	public Device getDeviceSrc() {
+		return this.deviceSrc;
 	}
 
-	public void setDevice(Device device) {
-		this.device = device;
+	public void setDeviceSrc(Device deviceSrc) {
+		this.deviceSrc = deviceSrc;
 	}
 
 	public byte[] getMessage() {
@@ -52,12 +57,28 @@ public class AppProtocol implements Serializable{
 		this.message = message;
 	}
 
-	public ProtocolMessages getTypeMsg() {
+	public EProtocolMessages getTypeMsg() {
 		return typeMsg;
 	}
 
-	public void setTypeMsg(ProtocolMessages typeMsg) {
+	public void setTypeMsg(EProtocolMessages typeMsg) {
 		this.typeMsg = typeMsg;
+	}
+
+	public ESendTo getSendTo() {
+		return sendTo;
+	}
+
+	public void setSendTo(ESendTo sendTo) {
+		this.sendTo = sendTo;
+	}
+
+	public EProtocolTranspLayer getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(EProtocolTranspLayer protocol) {
+		this.protocol = protocol;
 	}
 	
 	

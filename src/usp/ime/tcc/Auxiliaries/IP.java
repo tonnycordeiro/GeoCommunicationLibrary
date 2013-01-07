@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
-import java.util.List;
 
 public class IP {
 
@@ -26,14 +25,18 @@ public class IP {
         return null;
     }
 	
-	public static List<String> getAllIPs() {
-		//TODO
-		return null;
+	public static String getBroadcastAddress(String ipBase) {
+		String[] s = ipBase.split("\\.");
+		if(s.length != 4)
+			return "255.255.255.255";
+		return s[0] + "." + s[1] + "." + s[2] + ".255";
 	}
 	
-	public static String getBroadcastAddress() {
-		//TODO
-		return "192.168.43.255";
+	public static String getGatewayAddress(String ipBase) {
+		String[] s = ipBase.split("\\.");
+		if(s.length != 4)
+			return "192.168.43.1";
+		return s[0] + "." + s[1] + "." + s[2] + ".1";
 	}
 	
 	//TODO(Tonny): (baixo nível de importância) setar a máscara apenas se conseguir setar o ip do dispositivo

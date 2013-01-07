@@ -15,7 +15,7 @@ public class DeviceLocation implements LocationListener, Serializable {
 	private double latitude;
 	private double longitude;
 	private boolean isGpsEnable = false;
-	private Object waitGps = new Object();
+	//private Object waitGps = new Object();
 	
 	/*TODO: separar em classe específica para Android*/
 	/*AndroidLocation al*/
@@ -33,15 +33,15 @@ public class DeviceLocation implements LocationListener, Serializable {
 	}
 	
 	public void waitGps(){
-		try {
+		/*try {
 			waitGps.wait();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	private void notifyGps(){
-		waitGps.notify();
+		//waitGps.notify();
 	}
 	
 	public void enableLocationListener(int timeWait, int minDist){
