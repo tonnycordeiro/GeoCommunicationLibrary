@@ -2,16 +2,12 @@ package usp.ime.tcc.WifiAPConfig;
 
 public class NetworkConfiguration {
 
-	private static final String SSID_PREFIX = "ANDROID_LIBRARY_";
+	private static final String SSID_PREFIX = "AND_LIB_";
 	private String sSID = null;
 	private String password = null;
 	private boolean isOpen = false;
 	
 	
-	public NetworkConfiguration() {
-		
-	}	
-		
 	public String getSSID() {
 		return this.sSID;
 	}

@@ -35,17 +35,25 @@ public class NetworkManager {
 	 * @return @see {@link NetworkState}
 	 */
 	public NetworkState getNetworkState(){
-		//TODO
-		return NetworkState.ACTIVATED;
+		try{
+			Method method = wifiManager.getClass().getMethod("getWifiApState");
+	        int tmp = ((Integer) method.invoke(wifiManager));
+	        if (tmp > 10)
+	            tmp = tmp - 10; // Fix for Android 4
+	
+	        return NetworkState.class.getEnumConstants()[tmp];
+	    }
+		catch (Exception e) {
+	        return NetworkState.FAILED;
+	    }
 	}
 	
 	/**
 	 * This method returns a list of all Networks available that was create
 	 * by another device running the same application.
 	 * 
-	 * @return A list of {@link NetworkAvailable}. If the return was null is
-	 * because wifi is turned off. If the return was empty is because no networks
-	 * are available.
+	 * @return A list of {@link NetworkAvailable}. Return null if the wifi is disable.
+	 * If the return was empty is because no networks are available.
 	 */
 	public List<NetworkAvailable> getAllNetworksAvailable(){
 		if(!wifiManager.isWifiEnabled())

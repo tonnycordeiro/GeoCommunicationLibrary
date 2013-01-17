@@ -9,6 +9,7 @@ public class ProtocolInformation implements Serializable{
 	private String nick;
 	private String ipSrc;
 	private EProtocolMessages typeMsg;
+	private EProtocolTranspLayer protocol;
 	private byte[] message;
 	
 	public ProtocolInformation(AppProtocol app) {
@@ -16,6 +17,7 @@ public class ProtocolInformation implements Serializable{
 		this.ipSrc = app.getDeviceSrc().getIp();
 		this.message = app.getMessage();
 		this.setTypeMsg(app.getTypeMsg());
+		this.protocol = app.getProtocol();
 	}
 	
 	public String getNick() {
@@ -34,6 +36,14 @@ public class ProtocolInformation implements Serializable{
 
 	public void setTypeMsg(EProtocolMessages typeMsg) {
 		this.typeMsg = typeMsg;
+	}
+
+	public EProtocolTranspLayer getProtocol() {
+		return protocol;
+	}
+
+	public void setProtocol(EProtocolTranspLayer protocol) {
+		this.protocol = protocol;
 	}
 
 }
