@@ -20,13 +20,13 @@ public class NetworkManager {
 
 	private final WifiManager wifiManager;
 	private WifiConfiguration wifiConfig;
-	private boolean wasStarted;
+	private boolean wasStartedNetwork;
 	private Context context;
 	
 	public NetworkManager(Context context) {
 		this.context = context;
 		wifiManager = (WifiManager) this.context.getSystemService(Context.WIFI_SERVICE);
-		wasStarted = false;
+		wasStartedNetwork = false;
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class NetworkManager {
 	        int tmp = ((Integer) method.invoke(wifiManager));
 	        if (tmp > 10)
 	            tmp = tmp - 10; // Fix for Android 4
-	
+	        
 	        return NetworkState.class.getEnumConstants()[tmp];
 	    }
 		catch (Exception e) {
@@ -48,6 +48,15 @@ public class NetworkManager {
 	    }
 	}
 	
+	
+	/**
+	 * 
+	 */
+	public void searchNetworks() {
+		wifiManager.startScan();
+	}
+	
+
 	/**
 	 * This method returns a list of all Networks available that was create
 	 * by another device running the same application.
@@ -69,7 +78,7 @@ public class NetworkManager {
 					isopen = false;
 				else
 					isopen = true;
-				NetworkAvailable net = new NetworkAvailable(ssid, isopen);
+				NetworkAvailable net = new NetworkAvailable(NetworkConfiguration.removePrefix(ssid), isopen);
 				nets.add(net);
 			}
 		}
@@ -91,7 +100,7 @@ public class NetworkManager {
 		
 		NetworkConfiguration netConfig = new NetworkConfiguration();
 		netConfig.setisOpen(net.isOpen());
-		netConfig.setSSID("\"" + net.getSSID() + "\"");
+		netConfig.setSSID("\"" + NetworkConfiguration.getSsidPrefix() + net.getSSID() + "\"");
 		netConfig.setPassword("\"" + password + "\"");
 		
 		parseConfiguration(netConfig);
@@ -130,7 +139,7 @@ public class NetworkManager {
 	 */
 	public int startNetwork(NetworkConfiguration netConfig){
 		
-		if(wasStarted)
+		if(wasStartedNetwork)
 			return 2;
 		if(netConfig == null || netConfig.getSSID() == null || (!netConfig.isOpen() && netConfig.getPassword() == null))
 			return 3;
@@ -150,7 +159,7 @@ public class NetworkManager {
 		if(!res)
 			return 1;
 		
-		wasStarted = true;
+		wasStartedNetwork = true;
 		return 0;
 	}
 	
@@ -164,7 +173,7 @@ public class NetworkManager {
 	 * <ul>
 	 */
 	public int stopNetwork(){
-		if(!wasStarted){
+		if(!wasStartedNetwork){
 			return 2;
 		}
 		boolean res = setWifiApEnabled(wifiConfig, false);
@@ -173,7 +182,7 @@ public class NetworkManager {
 		wifiManager.removeNetwork(wifiConfig.networkId);
 		wifiManager.saveConfiguration();
 		
-		wasStarted = false;
+		wasStartedNetwork = false;
 		return 0;
 	}
 	

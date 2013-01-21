@@ -15,39 +15,33 @@ import android.content.Context;
  */
 public class Device implements Serializable{
 	
-	private static final long serialVersionUID = 3L;
-
-	private static final String DEFAULT_NICK = "DeviceApp";
+	private static final long serialVersionUID = 1L;
 	
 	private String nick;
 	private String ip;
-	private Context context;//TODO(Tonny): deixa dependente da biblioteca Android
 	private DeviceLocation devLocation;
 	private DeviceOrientation devOrient;
-	private boolean isCreator;
-	
-	/**
-	 * Initialize a device with a default nick name.
-	 */
-	public Device(Context context){
-		this.context = context;
-		this.nick = DEFAULT_NICK;
-		this.ip = IP.getLocalIpAddress();
-	}
+	private boolean isAccessPoint;
 	
 	/**
 	 * Initialize a device with nick name.
 	 * 
 	 * @param nick Nick name to identify easily the device by application.
 	 */
-	public Device(String nick, Context context) {
-		this.context = context;
+	public Device(String nick) {
 		this.nick = nick;
-		this.ip = IP.getLocalIpAddress();
 	}
 
-	public void initializeLocation(int timeWait, int minDistance){
-		devLocation = new DeviceLocation(this.context);
+	public Device() {
+		
+	}
+	
+	public void startIp() {
+		ip = IP.getLocalIpAddress();
+	}
+
+	public void initializeLocation(int timeWait, int minDistance, Context context){
+		devLocation = new DeviceLocation(context);
 		devLocation.enableLocationListener(timeWait, minDistance);
 	}
 	
@@ -56,13 +50,17 @@ public class Device implements Serializable{
 		devLocation = null;
 	}
 	
-	public void initializeOrientation(){//TODO(Tonny): sensorType deixa dependente da biblioteca Android 
-		devOrient = new DeviceOrientation(this.context);
+	public void initializeOrientation(Context context){//TODO(Tonny): sensorType deixa dependente da biblioteca Android 
+		devOrient = new DeviceOrientation(context);
 		devOrient.enableSensorListener();
 	}
 	
 	public boolean gpsIsReady() {
 		return devLocation.gpsIsReady();
+	}
+	
+	public boolean gpsIsEnable() {
+		return devLocation.gpsIsEnable();
 	}
 	
 	public String getIp(){
@@ -89,17 +87,12 @@ public class Device implements Serializable{
 		return devOrient.getOrientatio();
 	}
 
-	public void waitGpsEnable(){
-		while(!devLocation.gpsIsReady()){
-			devLocation.waitGps();	
-		}
+	public boolean isAccessPoint() {
+		return isAccessPoint;
 	}
 
-	public boolean isCreator() {
-		return isCreator;
+	public void setAccessPoint(boolean isAccessPoint) {
+		this.isAccessPoint = isAccessPoint;
 	}
 
-	public void setCreator(boolean isCreator) {
-		this.isCreator = isCreator;
-	}
 }

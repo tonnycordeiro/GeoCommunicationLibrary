@@ -30,9 +30,9 @@ public class TesteClasses implements ReceiveListener{
 		System.out.println("Enviando...");
 		String s = "Mensagem";
 		CommunicationSocket sndSocket = new CommunicationSocket();
-		Device dev = new Device("nick", context);
-		dev.initializeLocation(0, 0);
-		dev.initializeOrientation();
+		Device dev = new Device("nick");
+		dev.initializeLocation(0, 0, context);
+		dev.initializeOrientation(context);
 	 	AppProtocol o = new AppProtocol(dev, s.getBytes(), EProtocolMessages.GEOMSG, ESendTo.ALL, EProtocolTranspLayer.UDP);
 		ret = sndSocket.sendMessage(o);
 		
