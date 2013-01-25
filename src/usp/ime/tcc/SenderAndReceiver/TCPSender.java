@@ -8,27 +8,16 @@ import java.net.UnknownHostException;
 
 import usp.ime.tcc.Auxiliaries.IP;
 import usp.ime.tcc.Communication.AppProtocol;
-import usp.ime.tcc.Communication.EProtocolMessages;
 import usp.ime.tcc.Communication.ESendTo;
-import usp.ime.tcc.Communication.ProtocolGEOSMSGInformation;
 import usp.ime.tcc.Communication.ProtocolInformation;
-import usp.ime.tcc.Communication.ProtocolSTSAPPInformation;
 
 public class TCPSender {
 
-	public int send(AppProtocol protocol) {
+	public int send(AppProtocol protocol, ProtocolInformation appInfo) {
 		int sendReturn = 0;
 		
 		if(protocol.getSendTo() == ESendTo.ALL)
 			return 2;
-		
-		ProtocolInformation appInfo;
-		if(protocol.getTypeMsg() == EProtocolMessages.GEOMSG)
-			appInfo = new ProtocolGEOSMSGInformation(protocol);
-		else if(protocol.getTypeMsg() == EProtocolMessages.STSAPP)
-			appInfo = new ProtocolSTSAPPInformation(protocol, 2, 10);
-		else
-			appInfo = new ProtocolInformation(protocol);
 		
 		if(protocol.getSendTo() == ESendTo.GATEWAY)
 			sendReturn = send(appInfo, IP.getGatewayAddress(protocol.getDeviceSrc().getIp()));

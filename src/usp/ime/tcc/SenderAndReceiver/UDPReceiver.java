@@ -8,9 +8,10 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import usp.ime.tcc.Communication.ProtocolGEOACKInformation;
 import usp.ime.tcc.Communication.ProtocolGEOSMSGInformation;
 import usp.ime.tcc.Communication.ProtocolInformation;
-import usp.ime.tcc.Communication.ProtocolSTSAPPInformation;
+import usp.ime.tcc.Communication.ProtocolLIBCONFIGInformation;
 
 
 
@@ -51,14 +52,20 @@ public class UDPReceiver implements Runnable {
 							case GEOMSG:
 								listener.onReceiveGEOMSG((ProtocolGEOSMSGInformation)appInfo);
 								break;
+							case GEOACK:
+								listener.onReceiveGEOACK((ProtocolGEOACKInformation)appInfo);
+								break;
 							case APPDATA:
 								listener.onReceiveAPPDATA(appInfo);
 								break;
 							case ONLINE:
 								listener.onReceiveONLINE(appInfo);
 								break;
-							case STSAPP:
-								listener.onReceiveSTSAPP((ProtocolSTSAPPInformation)appInfo);
+							case ONLINEANSWER:
+								listener.onReceiveONLINEANSWER(appInfo);
+								break;
+							case LIBCONFIG:
+								listener.onReceiveLIBCONFIG((ProtocolLIBCONFIGInformation)appInfo);
 								break;
 							default:
 								break;

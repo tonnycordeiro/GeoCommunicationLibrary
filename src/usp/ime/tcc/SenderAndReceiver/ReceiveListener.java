@@ -1,8 +1,9 @@
 package usp.ime.tcc.SenderAndReceiver;
 
+import usp.ime.tcc.Communication.ProtocolGEOACKInformation;
 import usp.ime.tcc.Communication.ProtocolGEOSMSGInformation;
 import usp.ime.tcc.Communication.ProtocolInformation;
-import usp.ime.tcc.Communication.ProtocolSTSAPPInformation;
+import usp.ime.tcc.Communication.ProtocolLIBCONFIGInformation;
 
 public interface ReceiveListener {
 
@@ -12,6 +13,10 @@ public interface ReceiveListener {
 	
 	public void onReceiveONLINE(ProtocolInformation appInfo);
 	
-	public void onReceiveSTSAPP(ProtocolSTSAPPInformation appInfo);
+	public void onReceiveLIBCONFIG(ProtocolLIBCONFIGInformation appInfo);
+
+	public void onReceiveGEOACK(ProtocolGEOACKInformation appInfo);
+
+	public void onReceiveONLINEANSWER(ProtocolInformation appInfo);
 	
 }

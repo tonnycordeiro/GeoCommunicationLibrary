@@ -5,9 +5,10 @@ import usp.ime.tcc.Communication.CommunicationSocket;
 import usp.ime.tcc.Communication.EProtocolMessages;
 import usp.ime.tcc.Communication.EProtocolTranspLayer;
 import usp.ime.tcc.Communication.ESendTo;
+import usp.ime.tcc.Communication.ProtocolGEOACKInformation;
 import usp.ime.tcc.Communication.ProtocolGEOSMSGInformation;
 import usp.ime.tcc.Communication.ProtocolInformation;
-import usp.ime.tcc.Communication.ProtocolSTSAPPInformation;
+import usp.ime.tcc.Communication.ProtocolLIBCONFIGInformation;
 import usp.ime.tcc.SenderAndReceiver.ReceiveListener;
 import android.content.Context;
 
@@ -41,17 +42,22 @@ public class TesteClasses implements ReceiveListener{
 	}
 
 	public void onReceiveAPPDATA(ProtocolInformation appInfo) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public void onReceiveONLINE(ProtocolInformation appInfo) {
-		// TODO Auto-generated method stub
 		
 	}
 
-	public void onReceiveSTSAPP(ProtocolSTSAPPInformation appInfo) {
-		// TODO Auto-generated method stub
+	public void onReceiveLIBCONFIG(ProtocolLIBCONFIGInformation appInfo) {
+		
+	}
+
+	public void onReceiveGEOACK(ProtocolGEOACKInformation appInfo) {
+		
+	}
+
+	public void onReceiveONLINEANSWER(ProtocolInformation appInfo) {
 		
 	}
 

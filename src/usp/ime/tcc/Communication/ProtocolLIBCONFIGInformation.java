@@ -2,14 +2,14 @@ package usp.ime.tcc.Communication;
 
 import java.io.Serializable;
 
-public class ProtocolSTSAPPInformation extends ProtocolInformation implements Serializable{
+public class ProtocolLIBCONFIGInformation extends ProtocolInformation implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	private int raio;
 	private int angulo;
 	
-	public ProtocolSTSAPPInformation(AppProtocol app, int raio, int angulo) {
+	public ProtocolLIBCONFIGInformation(AppProtocol app, int raio, int angulo) {
 		super(app);
 		this.raio = raio;
 		this.angulo = angulo;

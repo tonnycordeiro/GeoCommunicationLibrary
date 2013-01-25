@@ -40,21 +40,22 @@ public class CommunicationSocket {
 	public int sendMessage(AppProtocol protocol){
 		int sendReturn = 1;
 		
-		
-		if(protocol.getProtocol() == EProtocolTranspLayer.TCP) {
-			TCPSender tcp = new TCPSender();
-			return tcp.send(protocol);
-		}
-		
 		byte[] header = new byte[1024]; //TODO Pode ser um problema no futuro. Pensar num jeito de contornar isso.
 		
 		ProtocolInformation appInfo;
 		if(protocol.getTypeMsg() == EProtocolMessages.GEOMSG)
 			appInfo = new ProtocolGEOSMSGInformation(protocol);
-		else if(protocol.getTypeMsg() == EProtocolMessages.STSAPP)
-			appInfo = new ProtocolSTSAPPInformation(protocol, 2, 10);
+		else if(protocol.getTypeMsg() == EProtocolMessages.GEOACK)
+			appInfo = new ProtocolGEOACKInformation(protocol, 10); //TODO como fazer pra pegar esse argumento??
+		else if(protocol.getTypeMsg() == EProtocolMessages.LIBCONFIG)
+			appInfo = new ProtocolLIBCONFIGInformation(protocol, 2, 10); //TODO como fazer pra pegar esse argumento??
 		else
 			appInfo = new ProtocolInformation(protocol);
+		
+		if(protocol.getProtocol() == EProtocolTranspLayer.TCP) {
+			TCPSender tcp = new TCPSender();
+			return tcp.send(protocol, appInfo);
+		}
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ObjectOutput out = null;

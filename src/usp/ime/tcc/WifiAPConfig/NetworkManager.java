@@ -37,7 +37,7 @@ public class NetworkManager {
 	public NetworkState getNetworkState(){
 		try{
 			Method method = wifiManager.getClass().getMethod("getWifiApState");
-	        int tmp = ((Integer) method.invoke(wifiManager));
+	        int tmp = ((Integer) method.invoke(wifiManager)) ;
 	        if (tmp > 10)
 	            tmp = tmp - 10; // Fix for Android 4
 	        

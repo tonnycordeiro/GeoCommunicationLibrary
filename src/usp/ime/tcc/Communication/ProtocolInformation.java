@@ -16,7 +16,7 @@ public class ProtocolInformation implements Serializable{
 		this.nick = app.getDeviceSrc().getNick();
 		this.ipSrc = app.getDeviceSrc().getIp();
 		this.message = app.getMessage();
-		this.setTypeMsg(app.getTypeMsg());
+		this.typeMsg = app.getTypeMsg();
 		this.protocol = app.getProtocol();
 	}
 	
