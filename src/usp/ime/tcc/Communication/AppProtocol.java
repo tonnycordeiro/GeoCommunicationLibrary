@@ -3,30 +3,25 @@ package usp.ime.tcc.Communication;
 import java.io.Serializable;
 import java.util.List;
 
-import usp.ime.tcc.Auxiliaries.Device;
-
 public class AppProtocol implements Serializable{
 	private static final long serialVersionUID = 1L;
 	final static String CRLF = "\r\n";
 	final static String dividerHeader = " ";
 	
-	private Device deviceSrc;
 	private List<String> listIpDst;
 	private byte[] message;
 	private EProtocolMessages typeMsg;
 	private ESendTo sendTo;
 	private EProtocolTranspLayer protocol;
 	
-	public AppProtocol(Device deviceSrc, byte[] message, EProtocolMessages typeMsg, ESendTo sendTo, EProtocolTranspLayer protocol) {
-		this.deviceSrc = deviceSrc;
+	public AppProtocol(byte[] message, EProtocolMessages typeMsg, ESendTo sendTo, EProtocolTranspLayer protocol) {
 		this.message = message;
 		this.typeMsg = typeMsg;
 		this.sendTo = sendTo;
 		this.protocol = protocol;
 	}
 	
-	public AppProtocol(Device deviceSrc, byte[] message, EProtocolMessages typeMsg, List<String> listIpDst, EProtocolTranspLayer protocol) {
-		this.deviceSrc = deviceSrc;
+	public AppProtocol(byte[] message, EProtocolMessages typeMsg, List<String> listIpDst, EProtocolTranspLayer protocol) {
 		this.message = message;
 		this.typeMsg = typeMsg;
 		this.listIpDst = listIpDst;
@@ -40,13 +35,6 @@ public class AppProtocol implements Serializable{
 
 	public List<String> getListIpDst() {
 		return this.listIpDst;
-	}
-	public Device getDeviceSrc() {
-		return this.deviceSrc;
-	}
-
-	public void setDeviceSrc(Device deviceSrc) {
-		this.deviceSrc = deviceSrc;
 	}
 
 	public byte[] getMessage() {

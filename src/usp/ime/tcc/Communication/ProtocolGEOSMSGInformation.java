@@ -2,19 +2,21 @@ package usp.ime.tcc.Communication;
 
 import java.io.Serializable;
 
+import usp.ime.tcc.Auxiliaries.Device;
+
 public class ProtocolGEOSMSGInformation extends ProtocolInformation implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
 	private double latitude;
 	private double longitude;
-	private double azimuth;
+	private float[] orientation;
 	
-	public ProtocolGEOSMSGInformation(AppProtocol app) {
-		super(app);
-		this.latitude = app.getDeviceSrc().getLatitude();
-		this.longitude = app.getDeviceSrc().getLongitude();
-		this.azimuth = app.getDeviceSrc().getOrientation()[0];
+	public ProtocolGEOSMSGInformation(Device deviceSrc, AppProtocol app) {
+		super(deviceSrc, app);
+		this.latitude = deviceSrc.getLatitude();
+		this.longitude = deviceSrc.getLongitude();
+		this.orientation = deviceSrc.getOrientation();
 	}
 
 	public double getLatitude() {
@@ -33,12 +35,12 @@ public class ProtocolGEOSMSGInformation extends ProtocolInformation implements S
 		this.longitude = longitude;
 	}
 
-	public double getAzimuth() {
-		return azimuth;
+	public float[] getOrientation() {
+		return orientation;
 	}
 
-	public void setAzimuth(double azimuth) {
-		this.azimuth = azimuth;
+	public void setOrientation(float[] orientation) {
+		this.orientation = orientation;
 	}
 
 }

@@ -20,7 +20,7 @@ public class TCPSender {
 			return 2;
 		
 		if(protocol.getSendTo() == ESendTo.GATEWAY)
-			sendReturn = send(appInfo, IP.getGatewayAddress(protocol.getDeviceSrc().getIp()));
+			sendReturn = send(appInfo, IP.getGatewayAddress(appInfo.getDeviceSrc().getIp()));
 		else {
 			for (String ip : protocol.getListIpDst()) {
 				sendReturn += send(appInfo, ip);

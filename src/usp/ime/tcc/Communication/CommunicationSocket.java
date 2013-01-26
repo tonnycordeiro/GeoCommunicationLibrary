@@ -37,20 +37,10 @@ public class CommunicationSocket {
 	 * 	<li>2: Undefined error</li>
 	 * </ul>
 	 */
-	public int sendMessage(AppProtocol protocol){
+	public int sendMessage(AppProtocol protocol, ProtocolInformation appInfo){
 		int sendReturn = 1;
 		
 		byte[] header = new byte[1024]; //TODO Pode ser um problema no futuro. Pensar num jeito de contornar isso.
-		
-		ProtocolInformation appInfo;
-		if(protocol.getTypeMsg() == EProtocolMessages.GEOMSG)
-			appInfo = new ProtocolGEOSMSGInformation(protocol);
-		else if(protocol.getTypeMsg() == EProtocolMessages.GEOACK)
-			appInfo = new ProtocolGEOACKInformation(protocol, 10); //TODO como fazer pra pegar esse argumento??
-		else if(protocol.getTypeMsg() == EProtocolMessages.LIBCONFIG)
-			appInfo = new ProtocolLIBCONFIGInformation(protocol, 2, 10); //TODO como fazer pra pegar esse argumento??
-		else
-			appInfo = new ProtocolInformation(protocol);
 		
 		if(protocol.getProtocol() == EProtocolTranspLayer.TCP) {
 			TCPSender tcp = new TCPSender();
@@ -86,10 +76,10 @@ public class CommunicationSocket {
 			}
 		}
 		else if(protocol.getSendTo() == ESendTo.ALL){
-			sendReturn = udp.send(header, IP.getBroadcastAddress(protocol.getDeviceSrc().getIp()));
+			sendReturn = udp.send(header, IP.getBroadcastAddress(appInfo.getDeviceSrc().getIp()));
 		}
 		else if(protocol.getSendTo() == ESendTo.GATEWAY){
-			sendReturn = udp.send(header, IP.getGatewayAddress(protocol.getDeviceSrc().getIp()));
+			sendReturn = udp.send(header, IP.getGatewayAddress(appInfo.getDeviceSrc().getIp()));
 		}
 		
 		return sendReturn;

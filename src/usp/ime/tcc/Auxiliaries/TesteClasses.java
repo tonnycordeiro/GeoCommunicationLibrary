@@ -20,7 +20,7 @@ public class TesteClasses implements ReceiveListener{
 	private static Context context;
 	
 	public void onReceiveGEOMSG(ProtocolGEOSMSGInformation appInfo) {
-		System.out.println("NICK do cara: " + appInfo.getNick());
+		System.out.println("NICK do cara: " + appInfo.getDeviceSrc().getNick());
 	}
 	
 	public static void main(String[] args) {
@@ -41,9 +41,9 @@ public class TesteClasses implements ReceiveListener{
 		devLoc.enableLocationListener(context, 0, 0);
 		devOr.enableSensorListener(context);
 		
-	 	AppProtocol o = new AppProtocol(dev, s.getBytes(), EProtocolMessages.GEOMSG, ESendTo.ALL, EProtocolTranspLayer.UDP);
-	 	ProtocolLIBCONFIGInformation pc = new ProtocolLIBCONFIGInformation(o, 0, 0);
-		/*ret = sndSocket.sendMessage(o, pc);*/
+	 	AppProtocol o = new AppProtocol(s.getBytes(), EProtocolMessages.GEOMSG, ESendTo.ALL, EProtocolTranspLayer.UDP);
+	 	ProtocolLIBCONFIGInformation pc = new ProtocolLIBCONFIGInformation(dev, o);
+		ret = sndSocket.sendMessage(o, pc);
 		
 		System.out.println("Envio " + ret);
 		
