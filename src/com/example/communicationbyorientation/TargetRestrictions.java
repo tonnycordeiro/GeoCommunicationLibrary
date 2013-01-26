@@ -1,7 +1,12 @@
 package com.example.communicationbyorientation;
 
+import java.io.Serializable;
 
-public class TargetRestrictions {
+
+public class TargetRestrictions implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	double radiusRangeOfShoot;
 	float gpsLocationAccuracy;
 	
@@ -14,9 +19,9 @@ public class TargetRestrictions {
 		this.gpsLocationAccuracy = GPS_LOCATION_ACCURACY_DEFAULT;
 	}
 	
-	public TargetRestrictions(double radiusRangeOfShoot, double gpsLocationAccuracy) {
+	public TargetRestrictions(double radiusRangeOfShoot, float gpsLocationAccuracy) {
 		this.radiusRangeOfShoot = radiusRangeOfShoot;
-		this.gpsLocationAccuracy = this.gpsLocationAccuracy;
+		this.gpsLocationAccuracy = gpsLocationAccuracy;
 	}
 
 	public float getGpsLocationAccuracy() {

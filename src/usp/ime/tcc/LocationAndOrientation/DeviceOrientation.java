@@ -21,7 +21,7 @@ public class DeviceOrientation {
 	public DeviceOrientation(Device device){
 		this.device = device;
 		this.orientation = new float[3];
-		this.listener = new OrientationSensorListener(this);
+		this.listener = OrientationSensorListener.getInstance(this);
 	}
 	
 	public float[] getOrientation() {

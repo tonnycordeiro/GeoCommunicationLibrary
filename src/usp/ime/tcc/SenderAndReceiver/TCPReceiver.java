@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.net.SocketException;
 
 import usp.ime.tcc.Communication.ProtocolGEOACKInformation;
-import usp.ime.tcc.Communication.ProtocolGEOSMSGInformation;
+import usp.ime.tcc.Communication.ProtocolGEOMSGInformation;
 import usp.ime.tcc.Communication.ProtocolInformation;
 import usp.ime.tcc.Communication.ProtocolLIBCONFIGInformation;
 
@@ -41,7 +41,7 @@ public class TCPReceiver implements Runnable{
 					
 					switch (appInfo.getTypeMsg()) {
 						case GEOMSG:
-							listener.onReceiveGEOMSG((ProtocolGEOSMSGInformation)appInfo);
+							listener.onReceiveGEOMSG((ProtocolGEOMSGInformation)appInfo);
 							break;
 						case GEOACK:
 							listener.onReceiveGEOACK((ProtocolGEOACKInformation)appInfo);

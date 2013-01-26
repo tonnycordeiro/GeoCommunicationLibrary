@@ -7,30 +7,20 @@ import usp.ime.tcc.Auxiliaries.Device;
 public class ProtocolGEOACKInformation extends ProtocolInformation implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private double latitude;
-	private double longitude;
 	
-	public ProtocolGEOACKInformation(Device deviceSrc, AppProtocol app) {
+	private GeoAckInformation geoAckInfo;
+	
+	public ProtocolGEOACKInformation(Device deviceSrc, AppProtocol app, GeoAckInformation geaoAckInfo) {
 		super(deviceSrc, app);
-		this.latitude = deviceSrc.getLatitude();
-		this.longitude = deviceSrc.getLongitude();
+		this.geoAckInfo = geaoAckInfo;
 	}
 
-	public double getLatitude() {
-		return latitude;
+	public GeoAckInformation getGeoAckInfo() {
+		return geoAckInfo;
 	}
 
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
+	public void setGeoAckInfo(GeoAckInformation geoAckInfo) {
+		this.geoAckInfo = geoAckInfo;
 	}
 
 }

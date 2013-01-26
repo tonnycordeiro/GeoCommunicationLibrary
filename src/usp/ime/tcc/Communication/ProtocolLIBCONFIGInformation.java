@@ -8,9 +8,19 @@ public class ProtocolLIBCONFIGInformation extends ProtocolInformation implements
 
 	private static final long serialVersionUID = 1L;
 
-	
-	public ProtocolLIBCONFIGInformation(Device deviceSrc, AppProtocol app) {
+	private LibConfigurationObject libConfig;
+
+	public ProtocolLIBCONFIGInformation(Device deviceSrc, AppProtocol app, LibConfigurationObject libConfig) {
 		super(deviceSrc, app);
+		this.setLibConfig(libConfig);
+	}
+
+	public LibConfigurationObject getLibConfig() {
+		return libConfig;
+	}
+
+	public void setLibConfig(LibConfigurationObject libConfig) {
+		this.libConfig = libConfig;
 	}
 
 }

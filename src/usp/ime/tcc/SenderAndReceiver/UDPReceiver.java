@@ -9,7 +9,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import usp.ime.tcc.Communication.ProtocolGEOACKInformation;
-import usp.ime.tcc.Communication.ProtocolGEOSMSGInformation;
+import usp.ime.tcc.Communication.ProtocolGEOMSGInformation;
 import usp.ime.tcc.Communication.ProtocolInformation;
 import usp.ime.tcc.Communication.ProtocolLIBCONFIGInformation;
 
@@ -50,7 +50,7 @@ public class UDPReceiver implements Runnable {
 					if(thisMessageIsForMe(appInfo)){
 						switch(appInfo.getTypeMsg()){
 							case GEOMSG:
-								listener.onReceiveGEOMSG((ProtocolGEOSMSGInformation)appInfo);
+								listener.onReceiveGEOMSG((ProtocolGEOMSGInformation)appInfo);
 								break;
 							case GEOACK:
 								listener.onReceiveGEOACK((ProtocolGEOACKInformation)appInfo);

@@ -21,7 +21,15 @@ public class OrientationSensorListener implements SensorEventListener, Serializa
 	
 	private SensorManager sensorManager;
 	
-	public OrientationSensorListener(DeviceOrientation deviceOrientation) {
+	private static OrientationSensorListener listener;
+	
+	public static OrientationSensorListener getInstance(DeviceOrientation deviceOrientation) {
+		if(listener == null)
+			listener = new OrientationSensorListener(deviceOrientation);
+		return listener;
+	}
+	
+	private OrientationSensorListener(DeviceOrientation deviceOrientation) {
 		this.deviceOrientation = deviceOrientation;
 		this.isAcclerometerActivated = false;
 		this.isGyroscopeActivated = false;

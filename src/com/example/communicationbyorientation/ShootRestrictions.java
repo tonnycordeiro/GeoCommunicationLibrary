@@ -1,6 +1,11 @@
 package com.example.communicationbyorientation;
 
-public class ShootRestrictions {
+import java.io.Serializable;
+
+public class ShootRestrictions implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	double openingAngleShoot;
 	double widthShoot;
 	double maximumDistanceSrcToDst;

@@ -1,13 +1,13 @@
 package usp.ime.tcc.SenderAndReceiver;
 
 import usp.ime.tcc.Communication.ProtocolGEOACKInformation;
-import usp.ime.tcc.Communication.ProtocolGEOSMSGInformation;
+import usp.ime.tcc.Communication.ProtocolGEOMSGInformation;
 import usp.ime.tcc.Communication.ProtocolInformation;
 import usp.ime.tcc.Communication.ProtocolLIBCONFIGInformation;
 
 public interface ReceiveListener {
 
-	public void onReceiveGEOMSG(ProtocolGEOSMSGInformation appInfo);
+	public void onReceiveGEOMSG(ProtocolGEOMSGInformation appInfo);
 	
 	public void onReceiveAPPDATA(ProtocolInformation appInfo);
 	
