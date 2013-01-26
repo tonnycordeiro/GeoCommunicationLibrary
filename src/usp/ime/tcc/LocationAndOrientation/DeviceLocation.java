@@ -1,72 +1,62 @@
 package usp.ime.tcc.LocationAndOrientation;
 
-import java.io.Serializable;
-
+import usp.ime.tcc.Auxiliaries.Device;
 import android.content.Context;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
 
-public class DeviceLocation implements LocationListener, Serializable {
-	
-	private static final long serialVersionUID = 4L;
+import com.example.communicationbyorientation.LocationGpsListener;
+
+public class DeviceLocation {
 	
 	private double latitude;
 	private double longitude;
 	private boolean isGpsEnable = false;
 	
-	private LocationManager lm;
-	private Context context;
+	private Device device;
 	
-	public DeviceLocation(Context context) {
-		this.context = context;
+	private LocationGpsListener locationGpsListener;
+	
+	public DeviceLocation(Device device) {
 		this.latitude = 0.0;
 		this.longitude = 0.0;
+		this.device = device;
+		locationGpsListener = new LocationGpsListener(this);
 	}
 	
+	public boolean isGpsEnable() {
+		return isGpsEnable;
+	}
+
+	public void setGpsEnable(boolean isGpsEnable) {
+		this.isGpsEnable = isGpsEnable;
+	}
+
 	public boolean gpsIsReady(){
 		return this.isGpsEnable;
 	}
 	
-	public boolean gpsIsEnable() {
-		return lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-	}
-	
-	public void enableLocationListener(int timeWait, int minDist){
-		lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-    	lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeWait, minDist, this);
-	}
-
-	public void disableLocationListener(){
-		lm.removeUpdates(this);
-		lm = null;
-	}
-	
-	public void onLocationChanged(Location location) {
-		isGpsEnable = true;
-		this.latitude = location.getLatitude();
-		this.longitude = location.getLongitude();
-	}
-
-	public void onProviderDisabled(String provider) {
-
-	}
-
-	public void onProviderEnabled(String provider) {
-
-	}
-
-	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
-
-	}
-
 	public double getLatitude() {
 		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+		device.setLatitude(this.latitude);
 	}
 
 	public double getLongitude() {
 		return longitude;
 	}
 
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+		this.device.setLongitude(this.latitude);
+	}
+	
+	public void enableLocationListener(Context context, int timeWait, int minDist){
+		this.locationGpsListener.enableLocationListener(context, timeWait, minDist);
+	}
+	
+	public void disableLocationListener(){
+		this.locationGpsListener.disableLocationListener();
+	}	
 }

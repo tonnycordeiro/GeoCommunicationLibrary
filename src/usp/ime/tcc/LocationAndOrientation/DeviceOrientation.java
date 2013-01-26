@@ -1,65 +1,89 @@
 package usp.ime.tcc.LocationAndOrientation;
 
-import java.io.Serializable;
-
+import usp.ime.tcc.Auxiliaries.Device;
 import android.content.Context;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 
-public class DeviceOrientation implements SensorEventListener, Serializable{
+import com.example.communicationbyorientation.OrientationSensorListener;
+import com.example.communicationbyorientation.SensorType;
 
-	private static final long serialVersionUID = 5L;
-
-	private float orientation;
+public class DeviceOrientation {
 	
-	/*TODO: separar em classe específica para Android*/
-	/*AndroidLocation al*/
-	private SensorManager mySensorManager;
-	private Context context;
+	private float[] orientation;
+	private OrientationSensorListener listener;
+	protected Device device;
 	
-	public DeviceOrientation(Context context) {
-		this.context = context;
+	public static final int AZIMUTH_INDEX = 0;
+	public static final int YAW_INDEX = 0;
+	public static final int PITCH_INDEX = 1;
+	public static final int ROLL_INDEX = 2;
+	
+	
+	public DeviceOrientation(Device device){
+		this.device = device;
+		this.orientation = new float[3];
+		this.listener = new OrientationSensorListener(this);
 	}
 	
-	public void enableSensorListener() {
-		mySensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
-		mySensorManager.registerListener(this, mySensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_UI);
-	}
-	
-	public void disableSensorListener() {
-		mySensorManager.unregisterListener(this);
-		mySensorManager = null;
-	}
-	
-	public void onAccuracyChanged(Sensor arg0, int arg1) {
-		
+	public float[] getOrientation() {
+		return orientation;
 	}
 
-	public void onSensorChanged(SensorEvent event) {
-		switch(event.sensor.getType()){
-			case Sensor.TYPE_ACCELEROMETER:
-				//System.out.println("Acelerometro");
-				break;
-			case Sensor.TYPE_GYROSCOPE:
-				//System.out.println("Giroscopio");
-				break;
-			case Sensor.TYPE_MAGNETIC_FIELD:
-				//System.out.println("Magnetic_field");
-				break;
-			case Sensor.TYPE_ORIENTATION:
-				this.orientation = event.values[0];
-				//System.out.println("Orientation");
-				break;
-			default:
-				//System.out.println("Other sensor: " + event.sensor.getType());
-				break;
-		}
-	}
-	
-	public float getOrientatio(){
-		return this.orientation;
+	public void setOrientation(float[] orientation) {
+		this.orientation = orientation;
+		device.setOritentation(this.orientation);
 	}
 
+	public float getAzimuth(){
+		return orientation[AZIMUTH_INDEX];
+	}
+
+	public void setAzimuth(float azimuth){
+		this.orientation[AZIMUTH_INDEX] = azimuth;
+		device.setOritentation(this.orientation);
+	}
+
+	public float getYaw(){
+		return getAzimuth();
+	}
+
+	public void setYaw(float angle){
+		this.orientation[YAW_INDEX] = angle;
+		device.setOritentation(this.orientation);
+	}
+
+	public float getPitch(){
+		return orientation[PITCH_INDEX];
+	}
+
+	public void setPitch(float angle){
+		this.orientation[PITCH_INDEX] = angle;
+		device.setOritentation(this.orientation);
+	}
+
+	public float getRoll(){
+		return orientation[ROLL_INDEX];
+	}
+
+	public void setRoll(float angle){
+		this.orientation[ROLL_INDEX] = angle;
+		device.setOritentation(this.orientation);
+	}
+	
+	public OrientationSensorListener getListener() {
+		return listener;
+	}
+
+	public void setListener(OrientationSensorListener listener) {
+		this.listener = listener;
+	}
+
+	/*TODO: providenciar auto-generate*/
+	public void sensorManager(SensorType sensorType, float[] sample, long timestampSample) {
+	}	
+	
+	public void enableSensorListener(Context context){
+		this.listener.enableSensorService(context);
+	}	
+	
 }
+

@@ -2,10 +2,6 @@ package usp.ime.tcc.Auxiliaries;
 
 import java.io.Serializable;
 
-import usp.ime.tcc.LocationAndOrientation.DeviceLocation;
-import usp.ime.tcc.LocationAndOrientation.DeviceOrientation;
-import android.content.Context;
-
 
 /**
  * 
@@ -19,8 +15,9 @@ public class Device implements Serializable{
 	
 	private String nick;
 	private String ip;
-	private DeviceLocation devLocation;
-	private DeviceOrientation devOrient;
+	private double latitude;
+	private double longitude;
+	private float[] orientation;
 	private boolean isAccessPoint;
 	
 	/**
@@ -31,7 +28,7 @@ public class Device implements Serializable{
 	public Device(String nick) {
 		this.nick = nick;
 	}
-
+	
 	public Device() {
 		
 	}
@@ -40,39 +37,24 @@ public class Device implements Serializable{
 		ip = IP.getLocalIpAddress();
 	}
 
-	public void initializeLocation(int timeWait, int minDistance, Context context){
-		devLocation = new DeviceLocation(context);
-		devLocation.enableLocationListener(timeWait, minDistance);
-	}
-	
-	public void stopLocation() {
-		devLocation.disableLocationListener();
-		devLocation = null;
-	}
-	
-	public void initializeOrientation(Context context){//TODO(Tonny): sensorType deixa dependente da biblioteca Android 
-		devOrient = new DeviceOrientation(context);
-		devOrient.enableSensorListener();
-	}
-	
-	public boolean gpsIsReady() {
-		return devLocation.gpsIsReady();
-	}
-	
-	public boolean gpsIsEnable() {
-		return devLocation.gpsIsEnable();
-	}
-	
 	public String getIp(){
 		return this.ip;
 	}
 	
 	public double getLatitude() {
-		return devLocation.getLatitude();
+		return this.latitude;
 	}
 
 	public double getLongitude() {
-		return devLocation.getLongitude();
+		return this.longitude;
+	}
+	
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
 	}
 
 	public String getNick() {
@@ -83,8 +65,12 @@ public class Device implements Serializable{
 		this.nick = nick;
 	}
 
-	public float getOrientation() {
-		return devOrient.getOrientatio();
+	public float[] getOrientation() {
+		return this.orientation;
+	}
+	
+	public void setOritentation(float[] orientation) {
+		this.orientation = orientation;
 	}
 
 	public boolean isAccessPoint() {

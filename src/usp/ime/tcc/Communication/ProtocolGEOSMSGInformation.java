@@ -14,7 +14,7 @@ public class ProtocolGEOSMSGInformation extends ProtocolInformation implements S
 		super(app);
 		this.latitude = app.getDeviceSrc().getLatitude();
 		this.longitude = app.getDeviceSrc().getLongitude();
-		this.azimuth = app.getDeviceSrc().getOrientation();
+		this.azimuth = app.getDeviceSrc().getOrientation()[0];
 	}
 
 	public double getLatitude() {
