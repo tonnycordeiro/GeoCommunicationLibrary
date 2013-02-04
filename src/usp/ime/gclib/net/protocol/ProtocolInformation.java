@@ -2,7 +2,7 @@ package usp.ime.gclib.net.protocol;
 
 import java.io.Serializable;
 
-import usp.ime.gclib.hit.example.Device;
+import usp.ime.gclib.device.Device;
 
 public class ProtocolInformation implements Serializable{
 	

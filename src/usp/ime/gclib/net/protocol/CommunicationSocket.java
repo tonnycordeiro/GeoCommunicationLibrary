@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
-import usp.ime.gclib.hit.example.IP;
+import usp.ime.gclib.net.communication.IP;
 import usp.ime.gclib.net.communication.ReceiveListener;
 import usp.ime.gclib.net.communication.TCPReceiver;
 import usp.ime.gclib.net.communication.TCPSender;

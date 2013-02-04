@@ -2,8 +2,6 @@ package usp.ime.gclib.sensor.orientation;
 
 import java.io.Serializable;
 
-import usp.ime.tcc.LocationAndOrientation.DeviceOrientation;
-
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

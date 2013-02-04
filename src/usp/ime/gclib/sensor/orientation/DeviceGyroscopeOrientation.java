@@ -2,7 +2,7 @@ package usp.ime.gclib.sensor.orientation;
 
 import javax.vecmath.Vector3f;
 
-import usp.ime.gclib.hit.example.Device;
+import usp.ime.gclib.device.Device;
 import android.content.Context;
 import android.hardware.SensorManager;
 import android.util.FloatMath;

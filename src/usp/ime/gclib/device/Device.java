@@ -37,7 +37,7 @@ public class Device implements Serializable{
 	}
 	
 	public void startIp() {
-		ip = IP.getLocalIpAddress();
+		this.ip = IP.getLocalIpAddress();
 	}
 
 	public String getIp(){

@@ -6,7 +6,6 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import usp.ime.gclib.hit.example.IP;
 import usp.ime.gclib.net.protocol.AppProtocol;
 import usp.ime.gclib.net.protocol.ESendTo;
 import usp.ime.gclib.net.protocol.ProtocolInformation;

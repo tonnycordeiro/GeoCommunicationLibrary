@@ -1,6 +1,6 @@
 package usp.ime.gclib.example;
 
-import usp.ime.gclib.hit.DeviceGyroscopeOrientation;
+import usp.ime.gclib.device.Device;
 import usp.ime.gclib.hit.ShootingRestrictions;
 import usp.ime.gclib.hit.TargetRestrictions;
 import usp.ime.gclib.net.communication.ReceiveListener;
@@ -14,7 +14,8 @@ import usp.ime.gclib.net.protocol.ProtocolGEOACKInformation;
 import usp.ime.gclib.net.protocol.ProtocolGEOMSGInformation;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 import usp.ime.gclib.net.protocol.ProtocolLIBCONFIGInformation;
-import usp.ime.tcc.LocationAndOrientation.DeviceLocation;
+import usp.ime.gclib.sensor.location.DeviceLocation;
+import usp.ime.gclib.sensor.orientation.DeviceGyroscopeOrientation;
 import android.content.Context;
 
 

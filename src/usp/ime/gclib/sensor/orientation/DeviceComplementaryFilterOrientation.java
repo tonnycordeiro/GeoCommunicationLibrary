@@ -3,8 +3,7 @@ package usp.ime.gclib.sensor.orientation;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import usp.ime.gclib.hit.example.Device;
-import usp.ime.tcc.LocationAndOrientation.DeviceOrientation;
+import usp.ime.gclib.device.Device;
 import android.content.Context;
 
 /*Versão do Android >= 2.3*/

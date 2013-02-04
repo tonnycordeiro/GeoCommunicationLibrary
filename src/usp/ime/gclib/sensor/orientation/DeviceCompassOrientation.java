@@ -1,7 +1,6 @@
 package usp.ime.gclib.sensor.orientation;
 
-import usp.ime.gclib.hit.example.Device;
-import usp.ime.tcc.LocationAndOrientation.DeviceOrientation;
+import usp.ime.gclib.device.Device;
 import android.content.Context;
 import android.hardware.SensorManager;
 

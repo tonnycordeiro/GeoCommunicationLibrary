@@ -3,7 +3,7 @@ package usp.ime.gclib.hit;
 import org.geotools.referencing.GeodesicPosition;
 import org.geotools.referencing.GeodeticCalculator;
 
-import usp.ime.gclib.hit.example.Device;
+import usp.ime.gclib.device.Device;
 
 public class GeodesicManager {
 

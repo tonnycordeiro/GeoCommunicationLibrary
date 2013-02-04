@@ -1,7 +1,6 @@
 package usp.ime.gclib.sensor.location;
 
-import usp.ime.gclib.hit.LocationGpsListener;
-import usp.ime.gclib.hit.example.Device;
+import usp.ime.gclib.device.Device;
 import android.content.Context;
 
 
