@@ -3,7 +3,8 @@ package usp.ime.gclib.device;
 import java.io.Serializable;
 
 import usp.ime.gclib.net.communication.IP;
-
+import usp.ime.gclib.sensor.location.DeviceLocation;
+import usp.ime.gclib.sensor.orientation.DeviceOrientation;
 
 /**
  * 
@@ -17,23 +18,45 @@ public class Device implements Serializable{
 	
 	private String nick;
 	private String ip;
-	private double latitude;
-	private double longitude;
-	private float locationAccuracy;
-	private float[] orientation;
+	private DeviceLocation deviceLocation;
+	private DeviceOrientation deviceOrientation;
 	private boolean isAccessPoint;
-	
 	/**
 	 * Initialize a device with nick name.
 	 * 
 	 * @param nick Nick name to identify easily the device by application.
 	 */
+	public Device() {
+		deviceLocation = new DeviceLocation();
+		deviceOrientation = new DeviceOrientation();
+	}
+
 	public Device(String nick) {
 		this.nick = nick;
+		deviceLocation = new DeviceLocation();
+		deviceOrientation = new DeviceOrientation();
 	}
 	
-	public Device() {
-		
+	public Device(String nick, DeviceLocation deviceLocation, DeviceOrientation deviceOrientation) {
+		this.nick = nick;
+		this.deviceLocation = deviceLocation;
+		this.deviceOrientation = deviceOrientation;
+	}
+	
+	public DeviceLocation getDeviceLocation() {
+		return deviceLocation;
+	}
+
+	public void setDeviceLocation(DeviceLocation deviceLocation) {
+		this.deviceLocation = deviceLocation;
+	}
+
+	public DeviceOrientation getDeviceOrientation() {
+		return deviceOrientation;
+	}
+
+	public void setDeviceOrientation(DeviceOrientation deviceOrientation) {
+		this.deviceOrientation = deviceOrientation;
 	}
 	
 	public void startIp() {
@@ -44,36 +67,12 @@ public class Device implements Serializable{
 		return this.ip;
 	}
 	
-	public double getLatitude() {
-		return this.latitude;
-	}
-
-	public double getLongitude() {
-		return this.longitude;
-	}
-	
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
-	}
-
 	public String getNick() {
 		return nick;
 	}
 	
 	public void setNick(String nick) {
 		this.nick = nick;
-	}
-
-	public float[] getOrientation() {
-		return this.orientation;
-	}
-	
-	public void setOritentation(float[] orientation) {
-		this.orientation = orientation;
 	}
 
 	public boolean isAccessPoint() {
@@ -83,12 +82,4 @@ public class Device implements Serializable{
 	public void setAccessPoint(boolean isAccessPoint) {
 		this.isAccessPoint = isAccessPoint;
 	}
-	public float getLocationAccuracy() {
-		return locationAccuracy;
-	}
-
-	public void setLocationAccuracy(float locationAccuracy) {
-		this.locationAccuracy = locationAccuracy;
-	}
-
 }

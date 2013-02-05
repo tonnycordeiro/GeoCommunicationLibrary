@@ -8,21 +8,23 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import usp.ime.gclib.net.protocol.ProtocolGEOACKInformation;
-import usp.ime.gclib.net.protocol.ProtocolGEOMSGInformation;
+import usp.ime.gclib.device.Device;
+import usp.ime.gclib.hit.TargetRestrictions;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
-import usp.ime.gclib.net.protocol.ProtocolLIBCONFIGInformation;
 
 
 
-public class UDPReceiver implements Runnable {
+public class UDPReceiver extends Receiver implements Runnable {
 
 	static final int SERVER_PORT = 27385;
-	private ReceiveListener listener;
 	public static DatagramSocket serverSocket;
 	
-	public UDPReceiver(ReceiveListener listener) {
-		this.listener = listener;
+	public UDPReceiver(ReceiveListener listener, Device receiverDevice) {
+		super(listener, receiverDevice);
+	}
+	
+	public UDPReceiver(ReceiveListener listener, Device receiverDevice, TargetRestrictions targetRestrictions) {
+		super(listener, receiverDevice, targetRestrictions);
 	}
 	
 	public void run() {
@@ -46,31 +48,8 @@ public class UDPReceiver implements Runnable {
 	            try {
 					in = new ObjectInputStream(bis);
 					ProtocolInformation appInfo = (ProtocolInformation) in.readObject();
-					  
 					if(thisMessageIsForMe(appInfo)){
-						switch(appInfo.getTypeMsg()){
-							case GEOMSG:
-								listener.onReceiveGEOMSG((ProtocolGEOMSGInformation)appInfo);
-								break;
-							case GEOACK:
-								listener.onReceiveGEOACK((ProtocolGEOACKInformation)appInfo);
-								break;
-							case APPDATA:
-								listener.onReceiveAPPDATA(appInfo);
-								break;
-							case ONLINE:
-								listener.onReceiveONLINE(appInfo);
-								break;
-							case ONLINEANSWER:
-								listener.onReceiveONLINEANSWER(appInfo);
-								break;
-							case LIBCONFIG:
-								listener.onReceiveLIBCONFIG((ProtocolLIBCONFIGInformation)appInfo);
-								break;
-							default:
-								break;
-						}
-						
+						activateEvents(appInfo);
 					}
 	            } catch(ClassNotFoundException e) {
 	            	e.printStackTrace();
@@ -83,10 +62,4 @@ public class UDPReceiver implements Runnable {
 		}
 	}
 
-	private boolean thisMessageIsForMe(ProtocolInformation appInfo) {
-		//TODO terminar isso aqui!!
-		return true;
-	}
-
-	
 }

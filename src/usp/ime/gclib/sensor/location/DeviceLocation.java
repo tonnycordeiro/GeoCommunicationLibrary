@@ -1,26 +1,28 @@
 package usp.ime.gclib.sensor.location;
 
-import usp.ime.gclib.device.Device;
-import android.content.Context;
+import java.io.Serializable;
 
-
-public class DeviceLocation {
+public class DeviceLocation implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private double latitude;
 	private double longitude;
 	private float accuracy;
 	private boolean isGpsEnable = false;
 	
-	private Device device;
-	
-	private LocationGpsListener locationGpsListener;
-	
-	public DeviceLocation(Device device) {
+	public DeviceLocation() {
 		this.latitude = 0.0;
 		this.longitude = 0.0;
-		this.device = device;
-		locationGpsListener = new LocationGpsListener(this);
+		this.accuracy = 0f;
 	}
+
+	public DeviceLocation(boolean activeListener) {
+		this.latitude = 0.0;
+		this.longitude = 0.0;
+		this.accuracy = 0f;
+	}
+		
 	
 	public boolean isGpsEnable() {
 		return isGpsEnable;
@@ -40,7 +42,6 @@ public class DeviceLocation {
 
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
-		device.setLatitude(this.latitude);
 	}
 
 	public double getLongitude() {
@@ -49,7 +50,6 @@ public class DeviceLocation {
 
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
-		this.device.setLongitude(this.latitude);
 	}
 	
 	public double getAccuracy() {
@@ -58,14 +58,6 @@ public class DeviceLocation {
 
 	public void setAccuracy(float accuracy) {
 		this.accuracy = accuracy;
-		this.device.setLocationAccuracy(accuracy);
 	}
 
-	public void enableLocationListener(Context context, int timeWait, int minDist){
-		this.locationGpsListener.enableLocationListener(context, timeWait, minDist);
-	}
-	
-	public void disableLocationListener(){
-		this.locationGpsListener.disableLocationListener();
-	}	
 }

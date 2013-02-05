@@ -32,8 +32,8 @@ public class DeviceGyroscopeOrientation extends DeviceOrientation{
 	
 	private boolean disableCompassFilterAfterFirstUse;
 	
-	public DeviceGyroscopeOrientation(Device device) {
-		super(device);
+	public DeviceGyroscopeOrientation() {
+		super();
 		gyro = new float[3];
 		
 		// rotation matrix from gyro data
@@ -42,8 +42,13 @@ public class DeviceGyroscopeOrientation extends DeviceOrientation{
 		// orientation angles from gyro matrix
 		orientation = new float[3];
 		
-		compassOrientation = new DeviceCompassOrientation(device);
+		compassOrientation = new DeviceCompassOrientation();
 		this.disableCompassFilterAfterFirstUse = false;
+	
+		sensors = new ESensorType[3];
+		sensors[0] = ESensorType.ACCELEROMETER;
+		sensors[1] = ESensorType.GYROSCOPE;
+		sensors[2] = ESensorType.MAGNETIC_FIELD;
 		
 		prepareForOrientationObtaining();
 	}
@@ -96,17 +101,17 @@ public class DeviceGyroscopeOrientation extends DeviceOrientation{
 	}
 	
 	@Override
-	public void sensorManager(ESensorType sensorType, float[] sample, long timestampSample) {
+	public void sensorManager(ESensorType sensorType, float[] sample, long timestampSample, OrientationSensorListener listener) {
 		switch(sensorType) {
 		    case ACCELEROMETER:
 		    case MAGNETIC_FIELD:
-		    	compassOrientation.sensorManager(sensorType, sample, timestampSample);
+		    	compassOrientation.sensorManager(sensorType, sample, timestampSample, listener);
 		        break;
 		        
 		    case GYROSCOPE:
 		        // process gyro data
 		    	//TODO: alterar no 2.2
-		    	gyroFunction(sample, timestampSample);
+		    	gyroFunction(sample, timestampSample,listener);
 		        break;
 		 
 		    default:
@@ -144,7 +149,7 @@ public class DeviceGyroscopeOrientation extends DeviceOrientation{
 	    deltaRotationVector[3] = cosThetaOverTwo;
 	}
 	
-	private void gyroFunction(float[] gyroSample, long timestampSample) {
+	private void gyroFunction(float[] gyroSample, long timestampSample, OrientationSensorListener listener) {
 	    // don't start until first accelerometer/magnetometer orientation has been acquired
 	    if (!compassOrientation.isCompassOrientationDefined())
 	        return;
@@ -159,7 +164,7 @@ public class DeviceGyroscopeOrientation extends DeviceOrientation{
 	        this.updateWithCompassOrientation = false;
 	        
 	        if(this.disableCompassFilterAfterFirstUse)
-	        	this.getCompassOrientation().disableSensors();
+	        	listener.disableDeviceSensors(this.getCompassOrientation().getSensors());
 	    }
 	 
 	    // copy the new gyro values into the gyro array
@@ -188,31 +193,15 @@ public class DeviceGyroscopeOrientation extends DeviceOrientation{
 	    this.isGyroOrientationDefined= true; 
 	}	
 	
-	public void renewOrientationWithCompass(){
-		if(!this.getListener().isAcclerometerActivated()){
-			this.getListener().enableSensorListener(ESensorType.ACCELEROMETER, ESensorDelayType.GAME_DELAY);
+	public void renewOrientationWithCompass(OrientationSensorListener listener){
+		if(!listener.isAcclerometerActivated()){
+			listener.enableSensorListener(ESensorType.ACCELEROMETER, ESensorDelayType.GAME_DELAY);
 		}
-		if(!this.getListener().isMagneticFieldActivated()){
-			this.getListener().enableSensorListener(ESensorType.MAGNETIC_FIELD, ESensorDelayType.GAME_DELAY);
+		if(!listener.isMagneticFieldActivated()){
+			listener.enableSensorListener(ESensorType.MAGNETIC_FIELD, ESensorDelayType.GAME_DELAY);
 		}
 		
 		this.updateWithCompassOrientation = true;
 	}
-	
-	public void disableSensors(){
-		compassOrientation.disableSensors();
-		this.getListener().disableSensorListener(ESensorType.GYROSCOPE);
-	}
-	
-	public void enableSensors(){
-		this.getListener().enableSensorListener(ESensorType.GYROSCOPE, ESensorDelayType.GAME_DELAY);
-	}
-	
-	@Override
-	public void enableSensorListener(Context context){
-		/*super.enableSensorService(context);*/
-		compassOrientation.enableSensorListener(context);
-		enableSensors();
-	}	
 	
 }

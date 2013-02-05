@@ -1,5 +1,6 @@
 package usp.ime.gclib.sensor.location;
 
+import usp.ime.gclib.device.Device;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -11,11 +12,21 @@ public class LocationGpsListener implements LocationListener {
 	private LocationManager lm;
 	private DeviceLocation deviceLocation;
 	private Location oldLocation;
-	
+
 	int limitPeriodToControlBetterLocation; //InMiliseconds
 
 	public LocationGpsListener(DeviceLocation deviceLocation){
+		initVariables();
 		this.deviceLocation = deviceLocation;
+	}
+
+	public LocationGpsListener(Device device){
+		initVariables();
+		this.deviceLocation = device.getDeviceLocation();
+	}
+	
+	private void initVariables(){
+		this.deviceLocation = null;
 		this.limitPeriodToControlBetterLocation = 0;
 		this.oldLocation = null;
 	}
@@ -36,7 +47,12 @@ public class LocationGpsListener implements LocationListener {
 		lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     	lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeWait, minDist, this);
 	}
-
+	
+	protected void enableLocationActivities(Context context, int timeWait, int minDist){
+		enableLocationListener(context,timeWait,minDist);
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeWait, minDist, this);
+	}
+	
 	protected void disableLocationListener(){
 		lm.removeUpdates(this);
 		/*lm = null;*/
@@ -49,7 +65,6 @@ public class LocationGpsListener implements LocationListener {
 			deviceLocation.setGpsEnable(true);
 			deviceLocation.setAccuracy(location.getAccuracy());
 		}
-			
 		this.oldLocation = location;
 	}
 

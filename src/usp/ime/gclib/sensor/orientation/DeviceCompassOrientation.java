@@ -21,9 +21,9 @@ public class DeviceCompassOrientation extends DeviceOrientation{
 	private boolean isMagnetDefined;
 
 	private boolean isCompassOrientationDefined;
-	
-	public DeviceCompassOrientation(Device device) {
-		super(device); 
+
+	public DeviceCompassOrientation() {
+		super(); 
 		
 		// magnetic field vector
 		magnet = new float[3];
@@ -36,9 +36,13 @@ public class DeviceCompassOrientation extends DeviceOrientation{
 		
 		// accelerometer and magnetometer based rotation matrix
 		rotationMatrix = new float[9];
+		
+		sensors = new ESensorType[3];
+		sensors[0] = ESensorType.ACCELEROMETER;
+		sensors[1] = ESensorType.GYROSCOPE;
+		sensors[2] = ESensorType.MAGNETIC_FIELD;
 
 		prepareForOrientationObtaining();		
-
 	}
 	
 	@Override
@@ -49,9 +53,8 @@ public class DeviceCompassOrientation extends DeviceOrientation{
 	@Override
 	public void setOrientation(float[] accMagOrientation) {
 		this.orientation = accMagOrientation;
-		this.device.setOritentation(this.orientation);
 	}
-
+	
 	public boolean isMagnetDefined() {
 		return isMagnetDefined;
 	}
@@ -68,14 +71,13 @@ public class DeviceCompassOrientation extends DeviceOrientation{
 		this.isCompassOrientationDefined = isAccMagOrientationDefined;
 	}
 
-	
 	public void prepareForOrientationObtaining(){
 		isCompassOrientationDefined = false;
 		isMagnetDefined = false;
 	}
 	
 	@Override
-	public void sensorManager(ESensorType sensorType, float[] sample, long timestampSample) {
+	public void sensorManager(ESensorType sensorType, float[] sample, long timestampSample, OrientationSensorListener listener) {
 		switch(sensorType) {
 		    case ACCELEROMETER:
 		        // copy new accelerometer data into accel array
@@ -103,22 +105,7 @@ public class DeviceCompassOrientation extends DeviceOrientation{
 	        SensorManager.getOrientation(rotationMatrix, orientation);
 	    }
 	}		
-	
-	public void disableSensors(){
-		this.getListener().disableSensorListener(ESensorType.ACCELEROMETER);
-		this.getListener().disableSensorListener(ESensorType.GYROSCOPE);
-	}
-	
-	public void enableSensors(){
-		this.getListener().enableSensorListener(ESensorType.ACCELEROMETER, ESensorDelayType.GAME_DELAY);
-		this.getListener().enableSensorListener(ESensorType.GYROSCOPE, ESensorDelayType.GAME_DELAY);
-	}
-	
-	@Override
-	public void enableSensorListener(Context context){
-		super.enableSensorListener(context);
-		enableSensors();		
-	}	
+
 	
 }
 

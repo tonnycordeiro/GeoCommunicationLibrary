@@ -1,16 +1,13 @@
 package usp.ime.gclib.sensor.orientation;
 
-import java.io.Serializable;
-
+import usp.ime.gclib.device.Device;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-public class OrientationSensorListener implements SensorEventListener, Serializable{
-
-	private static final long serialVersionUID = 6L;
+public class OrientationSensorListener implements SensorEventListener {
 
 	private boolean isAcclerometerActivated;
 	private boolean isGyroscopeActivated;
@@ -19,25 +16,39 @@ public class OrientationSensorListener implements SensorEventListener, Serializa
 	
 	private SensorManager sensorManager;
 	
-	private static OrientationSensorListener listener;
+	private ESensorDelayType delay;
 	
-	public static OrientationSensorListener getInstance(DeviceOrientation deviceOrientation) {
-		if(listener == null)
-			listener = new OrientationSensorListener(deviceOrientation);
-		return listener;
+	public OrientationSensorListener(DeviceOrientation deviceOrientation) {
+		initVariables();
+		this.deviceOrientation = deviceOrientation;
+	}	
+	
+	public OrientationSensorListener(Device device) {
+		initVariables();
+		this.deviceOrientation = device.getDeviceOrientation();
 	}
 	
-	private OrientationSensorListener(DeviceOrientation deviceOrientation) {
-		this.deviceOrientation = deviceOrientation;
+	private void initVariables(){
+		this.deviceOrientation = null;
+		this.delay = ESensorDelayType.NORMAL_DELAY;
 		this.isAcclerometerActivated = false;
 		this.isGyroscopeActivated = false;
 		this.isMagneticFieldActivated = false;
 	}
 	
-	protected void enableSensorService(Context context){
+	public void enableSensorService(Context context){
+		enableDeviceSensors();
 		sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);		
 	}
 	
+	public ESensorDelayType getDelay() {
+		return delay;
+	}
+
+	public void setDelay(ESensorDelayType delay) {
+		this.delay = delay;
+	}
+
 	public boolean isAcclerometerActivated() {
 		return isAcclerometerActivated;
 	}
@@ -114,6 +125,26 @@ public class OrientationSensorListener implements SensorEventListener, Serializa
 		sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorTypeForAndoid), microsecondsDelay);
 	}
 	
+	protected void enableDeviceSensors(){
+		for(int i=0; i< deviceOrientation.getSensors().length; i++)
+			enableSensorListener(deviceOrientation.getSensors()[i], delay);
+	}
+	
+	protected void enableDeviceSensors(ESensorType[] sensors){
+		for(int i=0; i< sensors.length; i++)
+			enableSensorListener(sensors[i], delay);
+	}
+	
+	protected void disableDeviceSensors(){
+		for(int i=0; i< deviceOrientation.getSensors().length; i++)
+			disableSensorListener(deviceOrientation.getSensors()[i]);
+	}
+	
+	protected void disableDeviceSensors(ESensorType[] sensors){
+		for(int i=0; i< sensors.length; i++)
+			disableSensorListener(sensors[i]);
+	}
+	
 	protected void enableAllSensorListener(ESensorDelayType sensorDelayType) {
 		
 		int sensorDelayForAndoid = getAndroidConstantOfSensorDelay(sensorDelayType);
@@ -144,15 +175,15 @@ public class OrientationSensorListener implements SensorEventListener, Serializa
 	public void onSensorChanged(SensorEvent event) {
 		switch(event.sensor.getType()) {
 		    case Sensor.TYPE_ACCELEROMETER:
-		    	deviceOrientation.sensorManager(ESensorType.ACCELEROMETER, event.values, event.timestamp);
+		    	deviceOrientation.sensorManager(ESensorType.ACCELEROMETER, event.values, event.timestamp, this);
 		        break;
 		 
 		    case Sensor.TYPE_GYROSCOPE:
-		    	deviceOrientation.sensorManager(ESensorType.GYROSCOPE, event.values, event.timestamp);
+		    	deviceOrientation.sensorManager(ESensorType.GYROSCOPE, event.values, event.timestamp, this);
 		        break;
 		 
 		    case Sensor.TYPE_MAGNETIC_FIELD:
-		    	deviceOrientation.sensorManager(ESensorType.MAGNETIC_FIELD, event.values, event.timestamp);
+		    	deviceOrientation.sensorManager(ESensorType.MAGNETIC_FIELD, event.values, event.timestamp, this);
 		        break;
 		    default:
 		    	break;

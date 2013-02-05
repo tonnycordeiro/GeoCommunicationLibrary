@@ -1,25 +1,22 @@
 package usp.ime.gclib.sensor.orientation;
 
-import usp.ime.gclib.device.Device;
-import android.content.Context;
+import java.io.Serializable;
 
-
-public class DeviceOrientation {
+public class DeviceOrientation implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	private float[] orientation;
-	private OrientationSensorListener listener;
-	protected Device device;
-	
+
 	public static final int AZIMUTH_INDEX = 0;
 	public static final int YAW_INDEX = 0;
 	public static final int PITCH_INDEX = 1;
 	public static final int ROLL_INDEX = 2;
 	
+	protected ESensorType sensors[];
 	
-	public DeviceOrientation(Device device){
-		this.device = device;
+	public DeviceOrientation(){
 		this.orientation = new float[3];
-		this.listener = OrientationSensorListener.getInstance(this);
 	}
 	
 	public float[] getOrientation() {
@@ -28,7 +25,6 @@ public class DeviceOrientation {
 
 	public void setOrientation(float[] orientation) {
 		this.orientation = orientation;
-		device.setOritentation(this.orientation);
 	}
 
 	public float getAzimuth(){
@@ -37,7 +33,6 @@ public class DeviceOrientation {
 
 	public void setAzimuth(float azimuth){
 		this.orientation[AZIMUTH_INDEX] = azimuth;
-		device.setOritentation(this.orientation);
 	}
 
 	public float getYaw(){
@@ -46,7 +41,6 @@ public class DeviceOrientation {
 
 	public void setYaw(float angle){
 		this.orientation[YAW_INDEX] = angle;
-		device.setOritentation(this.orientation);
 	}
 
 	public float getPitch(){
@@ -55,7 +49,6 @@ public class DeviceOrientation {
 
 	public void setPitch(float angle){
 		this.orientation[PITCH_INDEX] = angle;
-		device.setOritentation(this.orientation);
 	}
 
 	public float getRoll(){
@@ -64,24 +57,19 @@ public class DeviceOrientation {
 
 	public void setRoll(float angle){
 		this.orientation[ROLL_INDEX] = angle;
-		device.setOritentation(this.orientation);
 	}
+
+	public ESensorType[] getSensors() {
+		return sensors;
+	}
+
+	public void setSensors(ESensorType sensors[]) {
+		this.sensors = sensors;
+	}	
 	
-	public OrientationSensorListener getListener() {
-		return listener;
-	}
-
-	public void setListener(OrientationSensorListener listener) {
-		this.listener = listener;
-	}
-
 	/*TODO: providenciar auto-generate*/
-	public void sensorManager(ESensorType sensorType, float[] sample, long timestampSample) {
+	public void sensorManager(ESensorType sensorType, float[] sample, long timestampSample, OrientationSensorListener listener) {
 	}	
-	
-	public void enableSensorListener(Context context){
-		this.listener.enableSensorService(context);
-	}	
-	
+
 }
 

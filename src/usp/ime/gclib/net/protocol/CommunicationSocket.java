@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
+import usp.ime.gclib.device.Device;
 import usp.ime.gclib.net.communication.IP;
 import usp.ime.gclib.net.communication.ReceiveListener;
 import usp.ime.gclib.net.communication.TCPReceiver;
@@ -95,13 +96,13 @@ public class CommunicationSocket {
 	 * 	<li>1: Listener was already create</li>
 	 * </ul>
 	 */
-	public synchronized int acceptListener(final ReceiveListener listener){
+	public synchronized int acceptListener(final ReceiveListener listener, final Device receiverDevice){
 		if(alreadyInitializeListener)
 			return 1;
 		
 		alreadyInitializeListener = true;
-		threadUdp = new Thread(new UDPReceiver(listener));
-		threadTcp = new Thread(new TCPReceiver(listener));
+		threadUdp = new Thread(new UDPReceiver(listener, receiverDevice));
+		threadTcp = new Thread(new TCPReceiver(listener, receiverDevice));
 		
 		threadUdp.start();
 		threadTcp.start();

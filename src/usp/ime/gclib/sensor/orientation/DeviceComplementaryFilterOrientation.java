@@ -21,15 +21,15 @@ public class DeviceComplementaryFilterOrientation extends DeviceOrientation{
 	public static final float FILTER_COEFICIENT_DEFAULT = 0.8f;
 	
 	private float filter_coeficient = 0.8f;
-
+	
 	public DeviceComplementaryFilterOrientation(Device device){
-		super(device);
+		super();
 		this.filter_coeficient = FILTER_COEFICIENT_DEFAULT;
 		initVariables();
 	}
 	
 	public DeviceComplementaryFilterOrientation(Device device, float filter_coeficient){
-		super(device);
+		super();
 		this.filter_coeficient = filter_coeficient;
 		initVariables();
 	}
@@ -50,17 +50,21 @@ public class DeviceComplementaryFilterOrientation extends DeviceOrientation{
 	@Override
 	public void setOrientation(float[] fusedOrientation) {
 		this.orientation = fusedOrientation;
-		this.device.setOritentation(this.orientation);
 	}
 	
 	private void initVariables(){
 		
 		// orientation angles from gyro matrix
-		gyroOrientation = new DeviceGyroscopeOrientation(device);
+		gyroOrientation = new DeviceGyroscopeOrientation();
 		
 		// final orientation angles from sensor fusion
 		orientation = new float[3];
 		
+		sensors = new ESensorType[3];
+		sensors[0] = ESensorType.ACCELEROMETER;
+		sensors[1] = ESensorType.GYROSCOPE;
+		sensors[2] = ESensorType.MAGNETIC_FIELD;
+
 	}
 	
 	public void startFilter(long timeSample){
@@ -99,23 +103,9 @@ public class DeviceComplementaryFilterOrientation extends DeviceOrientation{
 	    }
 	}	
 	
-	public void disableSensors(){
-		this.gyroOrientation.disableSensors();
-	}
-	
-	public void enableSensors(){
-		//Não é necessário fazer nada aqui. Os sensores já são habilitados no enableSensorService.
-	}
-	
 	@Override
-	public void sensorManager(ESensorType sensorType, float[] sample, long timestampSample) {
-		this.gyroOrientation.sensorManager(sensorType, sample, timestampSample);
+	public void sensorManager(ESensorType sensorType, float[] sample, long timestampSample,OrientationSensorListener listener) {
+		this.gyroOrientation.sensorManager(sensorType, sample, timestampSample,listener);
 	}
 		
-	@Override
-	public void enableSensorListener(Context context){
-		this.gyroOrientation.enableSensorListener(context);
-	}	
-	
-	
 }

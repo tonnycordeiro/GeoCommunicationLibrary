@@ -8,20 +8,20 @@ public class HitCalculations {
 	private TargetRestrictions targetRestrictions;
 	private ShootingRestrictions shootRestrictions;
 
-	public TargetRestrictions getShootRestrictions() {
+	public TargetRestrictions getTargetRestrictions() {
 		return targetRestrictions;
 	}
 
-	public void setShootRestrictions(TargetRestrictions shootRestrictions) {
-		this.targetRestrictions = shootRestrictions;
+	public void setTargetRestrictions(TargetRestrictions targetRestrictions) {
+		this.targetRestrictions = targetRestrictions;
 	}
 
-	public ShootingRestrictions getTargetRestrictions() {
+	public ShootingRestrictions getShootingRestrictions() {
 		return shootRestrictions;
 	}
 
-	public void setTargetRestrictions(ShootingRestrictions targetRestrictions) {
-		this.shootRestrictions = targetRestrictions;
+	public void setShootingRestrictions(ShootingRestrictions shootingRestrictions) {
+		this.shootRestrictions = shootingRestrictions;
 	}
 	
 	public boolean isValidTheDistanceBetweenDevices(Device srcDevice,Device dstDevice, double maximumDistanceSrcToDst){
@@ -46,8 +46,8 @@ public class HitCalculations {
 		virtualTargetAux = GeodesicManager.getHitDeviceVirtual(srcDevice,srcAzimuth,distanceSrcToDst);
 		
 		if (virtualTarget != null){
-			virtualTarget.setLatitude(virtualTargetAux.getLatitude());
-			virtualTarget.setLongitude(virtualTargetAux.getLongitude());
+			virtualTarget.getDeviceLocation().setLatitude(virtualTargetAux.getDeviceLocation().getLatitude());
+			virtualTarget.getDeviceLocation().setLongitude(virtualTargetAux.getDeviceLocation().getLongitude());
 		}
 		
 		distanceDstToVitual = GeodesicManager.getDistanceBetween(virtualTargetAux, dstDevice);

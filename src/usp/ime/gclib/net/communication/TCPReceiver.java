@@ -6,19 +6,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-import usp.ime.gclib.net.protocol.ProtocolGEOACKInformation;
-import usp.ime.gclib.net.protocol.ProtocolGEOMSGInformation;
+import usp.ime.gclib.device.Device;
+import usp.ime.gclib.hit.TargetRestrictions;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
-import usp.ime.gclib.net.protocol.ProtocolLIBCONFIGInformation;
 
-public class TCPReceiver implements Runnable{
+public class TCPReceiver extends Receiver implements Runnable{
 
 	public static int SERVERPORT = 2389;
-	private ReceiveListener listener;
 	public static ServerSocket serverSocket;
 	
-	public TCPReceiver(ReceiveListener listener) {
-		this.listener = listener;
+	public TCPReceiver(ReceiveListener listener, Device receiverDevice) {
+		super(listener, receiverDevice);
+	}
+	
+	public TCPReceiver(ReceiveListener listener, Device receiverDevice, TargetRestrictions targetRestrictions) {
+		super(listener,targetRestrictions, receiverDevice);
 	}
 	
 	public void run() {
@@ -39,27 +41,8 @@ public class TCPReceiver implements Runnable{
 				try {
 					ProtocolInformation appInfo = (ProtocolInformation) inFromClient.readObject();
 					
-					switch (appInfo.getTypeMsg()) {
-						case GEOMSG:
-							listener.onReceiveGEOMSG((ProtocolGEOMSGInformation)appInfo);
-							break;
-						case GEOACK:
-							listener.onReceiveGEOACK((ProtocolGEOACKInformation)appInfo);
-							break;
-						case APPDATA:
-							listener.onReceiveAPPDATA(appInfo);
-							break;
-						case ONLINE:
-							listener.onReceiveONLINE(appInfo);
-							break;
-						case ONLINEANSWER:
-							listener.onReceiveONLINEANSWER(appInfo);
-							break;
-						case LIBCONFIG:
-							listener.onReceiveLIBCONFIG((ProtocolLIBCONFIGInformation)appInfo);
-							break;
-						default:
-							break;
+					if(thisMessageIsForMe(appInfo)){
+						activateEvents(appInfo);
 					}
 				} catch (ClassNotFoundException e) {
 					e.printStackTrace();
