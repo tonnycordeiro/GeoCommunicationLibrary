@@ -33,32 +33,34 @@ public class TesteClasses implements ReceiveListener{
 		System.out.println("Recebendo...");
 		CommunicationSocket socket = new CommunicationSocket();
 		TesteClasses listener = new TesteClasses();
-		/*int ret = socket.acceptListener(listener);*/
-		/*System.out.println("Recebimento " + ret +"\n");*/
-		
-		System.out.println("Enviando...");
-		String s = "Mensagem";
-		CommunicationSocket sndSocket = new CommunicationSocket();
-		
 		
 		DeviceGyroscopeOrientation devOr = new DeviceGyroscopeOrientation();
 		DeviceLocation dl = new DeviceLocation();
 		Device dev = new Device("teste",dl,devOr);
 		LocationGpsListener loc = new LocationGpsListener(dev);
-		
 		OrientationSensorListener osl = new OrientationSensorListener(devOr);
 		
-		/*loc.enableLocationListener(context, 0, 0);
-		devOr.enableSensorListener(context);*/
+		loc.enableLocationActivities(context, 0, 0);
+		osl.enableSensorService(context);
 		
-	 	AppProtocol o = new AppProtocol(s.getBytes(), EProtocolMessages.GEOMSG, ESendTo.ALL, EProtocolTranspLayer.UDP);
+		int ret = socket.acceptListener(listener, dev);
+		System.out.println("Recebimento " + ret +"\n");
+		
+		
+		
+		System.out.println("Enviando...");
+		String s = "Mensagem";
+		CommunicationSocket sndSocket = new CommunicationSocket();
+		
+	 	AppProtocol o = new AppProtocol(EProtocolMessages.GEOMSG, ESendTo.ALL, EProtocolTranspLayer.UDP);
 	 	TargetRestrictions targetRest = new TargetRestrictions();
 	 	ShootingRestrictions shootRest = new ShootingRestrictions();
 	 	LibConfigurationObject libConfig = new LibConfigurationObject(targetRest, shootRest);
-	 	ProtocolLIBCONFIGInformation pc = new ProtocolLIBCONFIGInformation(dev, o, libConfig);
-		/*ret = sndSocket.sendMessage(o, pc);
+	 	ProtocolLIBCONFIGInformation pc = new ProtocolLIBCONFIGInformation(dev, s.getBytes(), o, libConfig);
 		
-		System.out.println("Envio " + ret);*/
+	 	ret = sndSocket.sendMessage(o, pc);
+		
+		System.out.println("Envio " + ret);
 		
 	}
 

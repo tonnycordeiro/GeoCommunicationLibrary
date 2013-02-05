@@ -2,12 +2,12 @@ package usp.ime.gclib.sensor.orientation;
 
 import javax.vecmath.Vector3f;
 
-import usp.ime.gclib.device.Device;
-import android.content.Context;
 import android.hardware.SensorManager;
 import android.util.FloatMath;
 
 public class DeviceGyroscopeOrientation extends DeviceOrientation{
+
+	private static final long serialVersionUID = 1L;
 
 	// angular speeds from gyro
 	private float[] gyro;

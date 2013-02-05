@@ -4,10 +4,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import usp.ime.gclib.device.Device;
-import android.content.Context;
 
 /*Versão do Android >= 2.3*/
 public class DeviceComplementaryFilterOrientation extends DeviceOrientation{
+
+	private static final long serialVersionUID = 1L;
 
 	// final orientation angles from sensor fusion
 	private float[] orientation;

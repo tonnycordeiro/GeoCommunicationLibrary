@@ -12,10 +12,18 @@ public class ProtocolInformation implements Serializable{
 	private EProtocolMessages typeMsg;
 	private EProtocolTranspLayer protocol;
 	private byte[] message;
+	private Object object;
 	
-	public ProtocolInformation(Device deviceSrc, AppProtocol app) {
+	public ProtocolInformation(Device deviceSrc, byte[] message, AppProtocol app) {
 		this.deviceSrc = deviceSrc;
-		this.message = app.getMessage();
+		this.message = message;
+		this.typeMsg = app.getTypeMsg();
+		this.protocol = app.getProtocol();
+	}
+	
+	public ProtocolInformation(Device deviceSrc, Object object, AppProtocol app) {
+		this.deviceSrc = deviceSrc;
+		this.object = object;
 		this.typeMsg = app.getTypeMsg();
 		this.protocol = app.getProtocol();
 	}
@@ -26,6 +34,10 @@ public class ProtocolInformation implements Serializable{
 
 	public void setDeviceSrc(Device deviceSrc) {
 		this.deviceSrc = deviceSrc;
+	}
+	
+	public void setMessage(byte[] message) {
+		this.message = message;
 	}
 
 	public byte[] getMessage() {
@@ -46,6 +58,14 @@ public class ProtocolInformation implements Serializable{
 
 	public void setProtocol(EProtocolTranspLayer protocol) {
 		this.protocol = protocol;
+	}
+
+	public Object getObject() {
+		return object;
+	}
+
+	public void setObject(Object object) {
+		this.object = object;
 	}
 
 }

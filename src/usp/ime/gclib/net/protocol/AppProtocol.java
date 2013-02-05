@@ -9,20 +9,17 @@ public class AppProtocol implements Serializable{
 	final static String dividerHeader = " ";
 	
 	private List<String> listIpDst;
-	private byte[] message;
 	private EProtocolMessages typeMsg;
 	private ESendTo sendTo;
 	private EProtocolTranspLayer protocol;
 	
-	public AppProtocol(byte[] message, EProtocolMessages typeMsg, ESendTo sendTo, EProtocolTranspLayer protocol) {
-		this.message = message;
+	public AppProtocol(EProtocolMessages typeMsg, ESendTo sendTo, EProtocolTranspLayer protocol) {
 		this.typeMsg = typeMsg;
 		this.sendTo = sendTo;
 		this.protocol = protocol;
 	}
 	
-	public AppProtocol(byte[] message, EProtocolMessages typeMsg, List<String> listIpDst, EProtocolTranspLayer protocol) {
-		this.message = message;
+	public AppProtocol(EProtocolMessages typeMsg, List<String> listIpDst, EProtocolTranspLayer protocol) {
 		this.typeMsg = typeMsg;
 		this.listIpDst = listIpDst;
 		this.protocol = protocol;
@@ -35,14 +32,6 @@ public class AppProtocol implements Serializable{
 
 	public List<String> getListIpDst() {
 		return this.listIpDst;
-	}
-
-	public byte[] getMessage() {
-		return message;
-	}
-
-	public void setMessage(byte[] message) {
-		this.message = message;
 	}
 
 	public EProtocolMessages getTypeMsg() {

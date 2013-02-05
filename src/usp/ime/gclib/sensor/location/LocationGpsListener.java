@@ -43,19 +43,18 @@ public class LocationGpsListener implements LocationListener {
 		this.limitPeriodToControlBetterLocation = limitPeriodToControlBetterLocation;
 	}
 
-	protected void enableLocationListener(Context context, int timeWait, int minDist){
+	public void enableLocationListener(Context context, int timeWait, int minDist){
 		lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     	lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeWait, minDist, this);
 	}
 	
-	protected void enableLocationActivities(Context context, int timeWait, int minDist){
+	public void enableLocationActivities(Context context, int timeWait, int minDist){
 		enableLocationListener(context,timeWait,minDist);
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeWait, minDist, this);
 	}
 	
-	protected void disableLocationListener(){
+	public void disableLocationListener(){
 		lm.removeUpdates(this);
-		/*lm = null;*/
 	}
 
 	public void onLocationChanged(Location location) {
@@ -73,7 +72,7 @@ public class LocationGpsListener implements LocationListener {
      * @param location  The new Location that you want to evaluate
      * @param currentBestLocation  The current Location fix, to which you want to compare the new one
      */
-	public static boolean isBetterLocation(Location location, Location currentBestLocation, int limitPeriodInMiliseconds) {
+	private static boolean isBetterLocation(Location location, Location currentBestLocation, int limitPeriodInMiliseconds) {
 		
 		if (currentBestLocation == null) {
 			// A new location is always better than no location

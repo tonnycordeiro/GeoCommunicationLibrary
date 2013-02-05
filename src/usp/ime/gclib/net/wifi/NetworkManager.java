@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
@@ -83,6 +85,13 @@ public class NetworkManager {
 			}
 		}
 		return nets;
+	}
+	
+	public boolean isConnect() {
+		ConnectivityManager connManager =  (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = connManager.getActiveNetworkInfo();
+		
+		return (netInfo != null && netInfo.isConnected());
 	}
 	
 	/**

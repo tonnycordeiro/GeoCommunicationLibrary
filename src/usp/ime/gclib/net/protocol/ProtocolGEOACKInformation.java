@@ -10,8 +10,13 @@ public class ProtocolGEOACKInformation extends ProtocolInformation implements Se
 	
 	private GeoAckInformation geoAckInfo;
 	
-	public ProtocolGEOACKInformation(Device deviceSrc, AppProtocol app, GeoAckInformation geaoAckInfo) {
-		super(deviceSrc, app);
+	public ProtocolGEOACKInformation(Device deviceSrc, byte[] message, AppProtocol app, GeoAckInformation geaoAckInfo) {
+		super(deviceSrc, message, app);
+		this.geoAckInfo = geaoAckInfo;
+	}
+	
+	public ProtocolGEOACKInformation(Device deviceSrc, Object object, AppProtocol app, GeoAckInformation geaoAckInfo) {
+		super(deviceSrc, object, app);
 		this.geoAckInfo = geaoAckInfo;
 	}
 

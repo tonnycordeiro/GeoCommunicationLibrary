@@ -10,8 +10,13 @@ public class ProtocolLIBCONFIGInformation extends ProtocolInformation implements
 
 	private LibConfigurationObject libConfig;
 
-	public ProtocolLIBCONFIGInformation(Device deviceSrc, AppProtocol app, LibConfigurationObject libConfig) {
-		super(deviceSrc, app);
+	public ProtocolLIBCONFIGInformation(Device deviceSrc, byte[] message, AppProtocol app, LibConfigurationObject libConfig) {
+		super(deviceSrc, message, app);
+		this.setLibConfig(libConfig);
+	}
+	
+	public ProtocolLIBCONFIGInformation(Device deviceSrc, Object object, AppProtocol app, LibConfigurationObject libConfig) {
+		super(deviceSrc, object, app);
 		this.setLibConfig(libConfig);
 	}
 

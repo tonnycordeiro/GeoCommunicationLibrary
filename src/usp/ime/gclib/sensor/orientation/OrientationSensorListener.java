@@ -37,8 +37,8 @@ public class OrientationSensorListener implements SensorEventListener {
 	}
 	
 	public void enableSensorService(Context context){
+		sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
 		enableDeviceSensors();
-		sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);		
 	}
 	
 	public ESensorDelayType getDelay() {

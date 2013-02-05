@@ -12,8 +12,13 @@ public class ProtocolGEOMSGInformation extends ProtocolInformation implements Se
 
 	private ShootingRestrictions shootRestrictions;
 	
-	public ProtocolGEOMSGInformation(Device deviceSrc, AppProtocol app, ShootingRestrictions shootRestrictions) {
-		super(deviceSrc, app);
+	public ProtocolGEOMSGInformation(Device deviceSrc, byte[] message, AppProtocol app, ShootingRestrictions shootRestrictions) {
+		super(deviceSrc, message, app);
+		this.shootRestrictions = shootRestrictions;
+	}
+	
+	public ProtocolGEOMSGInformation(Device deviceSrc, Object object, AppProtocol app, ShootingRestrictions shootRestrictions) {
+		super(deviceSrc, object, app);
 		this.shootRestrictions = shootRestrictions;
 	}
 

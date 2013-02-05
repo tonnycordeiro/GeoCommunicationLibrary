@@ -1,11 +1,11 @@
 package usp.ime.gclib.sensor.orientation;
 
-import usp.ime.gclib.device.Device;
-import android.content.Context;
 import android.hardware.SensorManager;
 
 public class DeviceCompassOrientation extends DeviceOrientation{
 	
+	private static final long serialVersionUID = 1L;
+
 	// magnetic field vector
 	private float[] magnet;
 	
