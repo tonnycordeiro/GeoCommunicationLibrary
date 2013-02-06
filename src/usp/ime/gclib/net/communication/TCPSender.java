@@ -41,6 +41,7 @@ public class TCPSender {
 			outToServer.writeObject(appInfo);
 			
 			socket.close();
+			outToServer.flush();
 			outToServer.close();
 		} 
 		catch (UnknownHostException e) {

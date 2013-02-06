@@ -37,6 +37,18 @@ public class Device implements Serializable{
 		deviceOrientation = new DeviceOrientation();
 	}
 	
+	public Device(String nick, DeviceLocation deviceLocation) {
+		this.nick = nick;
+		this.deviceLocation = deviceLocation;
+		deviceOrientation = new DeviceOrientation();
+	}
+	
+	public Device(String nick, DeviceOrientation deviceOrientation) {
+		this.nick = nick;
+		this.deviceLocation = new DeviceLocation();
+		this.deviceOrientation = deviceOrientation;
+	}
+	
 	public Device(String nick, DeviceLocation deviceLocation, DeviceOrientation deviceOrientation) {
 		this.nick = nick;
 		this.deviceLocation = deviceLocation;
