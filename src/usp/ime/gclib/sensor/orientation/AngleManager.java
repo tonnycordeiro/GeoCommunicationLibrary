@@ -21,7 +21,7 @@ public class AngleManager {
 	public static double convertAngleFrom180To360Graus(double angle){
 		angle = Math.signum(angle)*(Math.abs(angle)%360);
 		if(angle<0)
-			angle = 180 + -1*angle;
+			angle = 180 + -angle;
 		return angle;
 	}
 
@@ -30,10 +30,6 @@ public class AngleManager {
 		if(angle>180)
 			angle = -(angle - 180); 
 		return angle;
-	}
-	
-	public static float radiansToDegree(float radianValue){
-		return (float) ((radianValue*180)/Math.PI);
 	}
 	
 }
