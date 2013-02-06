@@ -7,7 +7,10 @@ import android.util.FloatMath;
 
 public class DeviceGyroscopeOrientation extends DeviceOrientation{
 
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8089121916401443406L;
 
 	// angular speeds from gyro
 	private float[] gyro;
@@ -15,9 +18,6 @@ public class DeviceGyroscopeOrientation extends DeviceOrientation{
 	// rotation matrix from gyro data
 	private float[] gyroMatrix;
 
-	// orientation angles from gyro matrix
-	private float[] orientation;
-	
 	private boolean isGyroOrientationDefined;
 	
 	private DeviceCompassOrientation compassOrientation;
@@ -56,15 +56,6 @@ public class DeviceGyroscopeOrientation extends DeviceOrientation{
 	@Override
 	public float[] getOrientation() {
 		return orientation;
-	}
-
-	@Override
-	public void setOrientation(float[] gyroOrientation) {
-		this.orientation = gyroOrientation;
-	}
-	
-	public float[] getGyroMatrix() {
-		return gyroMatrix;
 	}
 
 	public void setGyroMatrix(float[] gyroMatrix) {

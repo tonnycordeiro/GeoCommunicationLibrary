@@ -6,6 +6,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 public class OrientationSensorListener implements SensorEventListener {
 
@@ -26,6 +27,13 @@ public class OrientationSensorListener implements SensorEventListener {
 	public OrientationSensorListener(Device device) {
 		initVariables();
 		this.deviceOrientation = device.getDeviceOrientation();
+		if (deviceOrientation instanceof DeviceCompassOrientation)
+			Log.e("device","DeviceCompassOrientation");
+		if (deviceOrientation instanceof DeviceGyroscopeOrientation)
+			Log.e("device","DeviceComplementaryFilterOrientation");
+		if (deviceOrientation instanceof DeviceComplementaryFilterOrientation)
+			Log.e("device","DeviceComplementaryFilterOrientation");
+		
 	}
 	
 	private void initVariables(){
@@ -128,6 +136,8 @@ public class OrientationSensorListener implements SensorEventListener {
 	protected void enableDeviceSensors(){
 		for(int i=0; i< deviceOrientation.getSensors().length; i++)
 			enableSensorListener(deviceOrientation.getSensors()[i], delay);
+		//enableAllSensorListener(delay);
+		
 	}
 	
 	protected void enableDeviceSensors(ESensorType[] sensors){

@@ -71,14 +71,13 @@ public class Receiver{
 				HitCalculations hitCalculations;
 				
 				geoData = (ProtocolGEOMSGInformation) appInfo;
-				
 				hitCalculations = new HitCalculations();
 				
 				hitCalculations.setShootingRestrictions(geoData.getShootRestrictions());
 				hitCalculations.setTargetRestrictions(this.getTargetRestrictions());
-				return hitCalculations.hitTheDestination(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth(), 
-												  appInfo.getDeviceSrc(),
-												  receiverDevice);
+				return hitCalculations.hitTheDestination(Math.toDegrees(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth()), 
+														  appInfo.getDeviceSrc(),
+														  receiverDevice);
 				
 			case GEOACK:
 			case APPDATA:

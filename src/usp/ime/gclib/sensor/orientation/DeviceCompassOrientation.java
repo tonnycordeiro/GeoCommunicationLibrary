@@ -4,16 +4,16 @@ import android.hardware.SensorManager;
 
 public class DeviceCompassOrientation extends DeviceOrientation{
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7279605737905035298L;
 
 	// magnetic field vector
 	private float[] magnet;
 	
 	// accelerometer vector
 	private float[] accel;
-	
-	// orientation angles from accel and magnet
-	private float[] orientation;
 	
 	// accelerometer and magnetometer based rotation matrix
 	private float[] rotationMatrix;
@@ -41,18 +41,8 @@ public class DeviceCompassOrientation extends DeviceOrientation{
 		sensors[0] = ESensorType.ACCELEROMETER;
 		sensors[1] = ESensorType.GYROSCOPE;
 		sensors[2] = ESensorType.MAGNETIC_FIELD;
-
+		
 		prepareForOrientationObtaining();		
-	}
-	
-	@Override
-	public float[] getOrientation() {
-		return orientation;
-	}
-
-	@Override
-	public void setOrientation(float[] accMagOrientation) {
-		this.orientation = accMagOrientation;
 	}
 	
 	public boolean isMagnetDefined() {
@@ -71,6 +61,14 @@ public class DeviceCompassOrientation extends DeviceOrientation{
 		this.isCompassOrientationDefined = isAccMagOrientationDefined;
 	}
 
+/*	public ESensorType[] getSensors() {
+		return sensors;
+	}*/
+
+/*	public void setSensors(ESensorType[] sensors) {
+		this.sensors = sensors;
+	}
+*/	
 	public void prepareForOrientationObtaining(){
 		isCompassOrientationDefined = false;
 		isMagnetDefined = false;
@@ -78,6 +76,7 @@ public class DeviceCompassOrientation extends DeviceOrientation{
 	
 	@Override
 	public void sensorManager(ESensorType sensorType, float[] sample, long timestampSample, OrientationSensorListener listener) {
+		
 		switch(sensorType) {
 		    case ACCELEROMETER:
 		        // copy new accelerometer data into accel array

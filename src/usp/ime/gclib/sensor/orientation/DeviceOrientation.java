@@ -6,14 +6,13 @@ public class DeviceOrientation implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
-	private float[] orientation;
+	protected float[] orientation;
+	protected ESensorType sensors[];
 
 	public static final int AZIMUTH_INDEX = 0;
 	public static final int YAW_INDEX = 0;
 	public static final int PITCH_INDEX = 1;
 	public static final int ROLL_INDEX = 2;
-	
-	protected ESensorType sensors[];
 	
 	public DeviceOrientation(){
 		this.orientation = new float[3];

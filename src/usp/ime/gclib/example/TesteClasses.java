@@ -40,7 +40,7 @@ public class TesteClasses implements ReceiveListener{
 		LocationGpsListener loc = new LocationGpsListener(dev);
 		OrientationSensorListener osl = new OrientationSensorListener(devOr);
 		
-		loc.enableLocationActivities(context, 0, 0);
+		loc.enableLocationService(context, 0, 0);
 		osl.enableSensorService(context);
 		
 		int ret = socket.acceptListener(listener, dev);

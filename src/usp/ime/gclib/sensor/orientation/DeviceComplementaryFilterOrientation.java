@@ -8,10 +8,10 @@ import usp.ime.gclib.device.Device;
 /*Versão do Android >= 2.3*/
 public class DeviceComplementaryFilterOrientation extends DeviceOrientation{
 
-	private static final long serialVersionUID = 1L;
-
-	// final orientation angles from sensor fusion
-	private float[] orientation;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2077738169884031117L;
 
 	private DeviceGyroscopeOrientation gyroOrientation;
 	
@@ -23,7 +23,7 @@ public class DeviceComplementaryFilterOrientation extends DeviceOrientation{
 	
 	private float filter_coeficient = 0.8f;
 	
-	public DeviceComplementaryFilterOrientation(Device device){
+	public DeviceComplementaryFilterOrientation(){
 		super();
 		this.filter_coeficient = FILTER_COEFICIENT_DEFAULT;
 		initVariables();
@@ -41,16 +41,6 @@ public class DeviceComplementaryFilterOrientation extends DeviceOrientation{
 
 	public void setFilter_coeficient(float filter_coeficient) {
 		this.filter_coeficient = filter_coeficient;
-	}
-	
-	@Override
-	public float[] getOrientation() {
-		return orientation;
-	}
-
-	@Override
-	public void setOrientation(float[] fusedOrientation) {
-		this.orientation = fusedOrientation;
 	}
 	
 	private void initVariables(){
