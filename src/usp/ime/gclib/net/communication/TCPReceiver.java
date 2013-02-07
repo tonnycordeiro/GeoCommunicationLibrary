@@ -41,7 +41,7 @@ public class TCPReceiver extends Receiver implements Runnable{
 				try {
 					ProtocolInformation appInfo = (ProtocolInformation) inFromClient.readObject();
 					
-					if(thisMessageIsForMe(appInfo)){
+					if(isValidDestination(appInfo)){
 						activateEvents(appInfo);
 					}
 				} catch (ClassNotFoundException e) {

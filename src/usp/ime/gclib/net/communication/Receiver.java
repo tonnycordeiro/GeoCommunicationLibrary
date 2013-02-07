@@ -66,7 +66,7 @@ public class Receiver{
 		}
 	}
 	
-	protected boolean thisMessageIsForMe(ProtocolInformation appInfo) {
+	protected boolean isValidDestination(ProtocolInformation appInfo) {
 		if(receiverDevice.getIp().equals(appInfo.getDeviceSrc().getIp()))
 			return false;
 		switch(appInfo.getTypeMsg()){
@@ -76,6 +76,11 @@ public class Receiver{
 						" azi_src:" + Math.toDegrees(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth()) +
 						" lat_dst:" + receiverDevice.getDeviceLocation().getLatitude() +
 						" long_dst:" + receiverDevice.getDeviceLocation().getLongitude());
+				
+				if(!appInfo.getDeviceSrc().getDeviceLocation().isDefined() || 
+						!receiverDevice.getDeviceLocation().isDefined())
+					return false;
+				
 				ProtocolGEOMSGInformation geoData;
 				HitCalculations hitCalculations;
 				

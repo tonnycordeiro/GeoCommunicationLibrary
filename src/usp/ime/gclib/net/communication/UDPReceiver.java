@@ -47,7 +47,7 @@ public class UDPReceiver extends Receiver implements Runnable {
 	            	System.out.println("RECEBI UMA MENSAGEM");
 					in = new ObjectInputStream(bis);
 					ProtocolInformation appInfo = (ProtocolInformation) in.readObject();
-					if(thisMessageIsForMe(appInfo)){
+					if(isValidDestination(appInfo)){
 						activateEvents(appInfo);
 					}
 	            } catch(Exception e) {
