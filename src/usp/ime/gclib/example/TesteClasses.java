@@ -1,11 +1,11 @@
 package usp.ime.gclib.example;
 
-import usp.ime.gclib.device.Device;
+import usp.ime.gclib.Device;
 import usp.ime.gclib.hit.ShootingRestrictions;
 import usp.ime.gclib.hit.TargetRestrictions;
-import usp.ime.gclib.net.communication.ReceiveListener;
+import usp.ime.gclib.net.communication.CommunicationSocket;
+import usp.ime.gclib.net.communication.IReceiveListener;
 import usp.ime.gclib.net.protocol.AppProtocol;
-import usp.ime.gclib.net.protocol.CommunicationSocket;
 import usp.ime.gclib.net.protocol.EProtocolMessages;
 import usp.ime.gclib.net.protocol.EProtocolTranspLayer;
 import usp.ime.gclib.net.protocol.ESendTo;
@@ -21,7 +21,7 @@ import usp.ime.gclib.sensor.orientation.OrientationSensorListener;
 import android.content.Context;
 
 
-public class TesteClasses implements ReceiveListener{
+public class TesteClasses implements IReceiveListener{
 
 	private static Context context;
 	

@@ -11,8 +11,12 @@ import usp.ime.gclib.net.protocol.ESendTo;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 
 public class TCPSender {
+	
+	protected TCPSender() {
+		
+	}
 
-	public int send(AppProtocol protocol, ProtocolInformation appInfo) {
+	protected int send(AppProtocol protocol, ProtocolInformation appInfo) {
 		int sendReturn = 0;
 		
 		if(protocol.getSendTo() == ESendTo.ALL)

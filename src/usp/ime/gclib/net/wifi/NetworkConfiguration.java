@@ -34,7 +34,7 @@ public class NetworkConfiguration {
 		return this.isOpen;
 	}
 
-	public void setisOpen(boolean isOpen) {
+	public void setOpen(boolean isOpen) {
 		this.isOpen = isOpen;
 	}
 

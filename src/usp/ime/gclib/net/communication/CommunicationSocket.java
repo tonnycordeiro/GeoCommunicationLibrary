@@ -1,17 +1,16 @@
-package usp.ime.gclib.net.protocol;
+package usp.ime.gclib.net.communication;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 
-import usp.ime.gclib.device.Device;
-import usp.ime.gclib.net.communication.IP;
-import usp.ime.gclib.net.communication.ReceiveListener;
-import usp.ime.gclib.net.communication.TCPReceiver;
-import usp.ime.gclib.net.communication.TCPSender;
-import usp.ime.gclib.net.communication.UDPReceiver;
-import usp.ime.gclib.net.communication.UDPSender;
+import usp.ime.gclib.Device;
+import usp.ime.gclib.hit.TargetRestrictions;
+import usp.ime.gclib.net.protocol.AppProtocol;
+import usp.ime.gclib.net.protocol.EProtocolTranspLayer;
+import usp.ime.gclib.net.protocol.ESendTo;
+import usp.ime.gclib.net.protocol.ProtocolInformation;
 
 
 /**
@@ -24,6 +23,8 @@ public class CommunicationSocket {
 
 	private Thread threadUdp;
 	private Thread threadTcp;
+	private UDPReceiver udpReceiver;
+	private TCPReceiver tcpReceiver;
 	
 	private boolean alreadyInitializeListener = false;
 	
@@ -41,7 +42,7 @@ public class CommunicationSocket {
 	public int sendMessage(AppProtocol protocol, ProtocolInformation appInfo){
 		int sendReturn = 1;
 		
-		byte[] header = new byte[1024]; //TODO Pode ser um problema no futuro. Pensar num jeito de contornar isso.
+		byte[] header = new byte[2048]; //TODO Pode ser um problema no futuro. Pensar num jeito de contornar isso.
 		
 		if(protocol.getProtocol() == EProtocolTranspLayer.TCP) {
 			TCPSender tcp = new TCPSender();
@@ -55,6 +56,7 @@ public class CommunicationSocket {
 			out.writeObject(appInfo);
 			header = baos.toByteArray();
 			
+			out.flush();
 			out.close();
 			baos.close();
 		} catch (IOException e) {
@@ -96,7 +98,7 @@ public class CommunicationSocket {
 	 * 	<li>1: Listener was already create</li>
 	 * </ul>
 	 */
-	public synchronized int acceptListener(final ReceiveListener listener, final Device receiverDevice){
+	public synchronized int acceptListener(final IReceiveListener listener, final Device receiverDevice){
 		if(alreadyInitializeListener)
 			return 1;
 		
@@ -110,10 +112,27 @@ public class CommunicationSocket {
 		return 0;
 	}
 	
+	public synchronized int acceptListener(final IReceiveListener listener, final Device receiverDevice, final TargetRestrictions targetRestrictions){
+		if(alreadyInitializeListener)
+			return 1;
+		
+		alreadyInitializeListener = true;
+		tcpReceiver = new TCPReceiver(listener, receiverDevice, targetRestrictions);
+		udpReceiver = new UDPReceiver(listener, receiverDevice, targetRestrictions);
+		
+		threadUdp = new Thread(udpReceiver);
+		threadTcp = new Thread(tcpReceiver);
+		
+		threadUdp.start();
+		threadTcp.start();
+		
+		return 0;
+	}
+	
 	public int stopListener() {
-		UDPReceiver.serverSocket.close();
 		try {
-			TCPReceiver.serverSocket.close();
+			udpReceiver.closeSocket();
+			tcpReceiver.closeSocket();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return 1;

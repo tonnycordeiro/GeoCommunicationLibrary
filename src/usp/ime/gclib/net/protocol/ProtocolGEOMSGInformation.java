@@ -2,7 +2,7 @@ package usp.ime.gclib.net.protocol;
 
 import java.io.Serializable;
 
-import usp.ime.gclib.device.Device;
+import usp.ime.gclib.Device;
 import usp.ime.gclib.hit.ShootingRestrictions;
 
 

@@ -1,6 +1,6 @@
 package usp.ime.gclib.sensor.orientation;
 
-import usp.ime.gclib.device.Device;
+import usp.ime.gclib.Device;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

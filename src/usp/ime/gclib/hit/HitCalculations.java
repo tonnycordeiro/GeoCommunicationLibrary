@@ -1,6 +1,6 @@
 package usp.ime.gclib.hit;
 
-import usp.ime.gclib.device.Device;
+import usp.ime.gclib.Device;
 import usp.ime.gclib.sensor.orientation.AngleManager;
 
 
@@ -38,7 +38,7 @@ public class HitCalculations {
 	}
 	
 	public boolean hitTheDestinationByEndRangeOfShoot(double srcAzimuth, Device srcDevice, 
-			 									Device dstDevice, Device virtualTarget,double radiusRangeOfShoot){
+			 									Device dstDevice, Device virtualTarget, double radiusRangeOfShoot){
 		double distanceSrcToDst, distanceDstToVitual;
 		Device virtualTargetAux;
 		
@@ -58,12 +58,21 @@ public class HitCalculations {
 	
 	public boolean hitTheDestinationByEndRangeOfShoot(double srcAzimuth, Device srcDevice, 
 			 									Device dstDevice, Device virtualTarget){
-		double radiusRange = this.targetRestrictions.getRadiusRangeOfShoot() + this.targetRestrictions.getGpsLocationAccuracy()
-							+ (this.shootRestrictions.getWidthShoot()/2);
+		
+		double radiusRange = this.getRadiusRange(dstDevice);
 		return hitTheDestinationByEndRangeOfShoot(srcAzimuth, dstDevice, dstDevice, virtualTarget, radiusRange);
 	}
 	
 	
+	private double getRadiusRange(Device dstDevice) {
+		double accuracy = 0;
+		if(this.targetRestrictions.isUseGpsLocationAccuracy())
+			accuracy = dstDevice.getDeviceLocation().getAccuracy();
+		double radiusRange = this.targetRestrictions.getRadius() + accuracy
+							+ (this.shootRestrictions.getWidthShoot()/2);
+		return radiusRange;
+	}
+
 	public boolean hitTheDestinationByEndRangeOfShoot(double srcAzimuth, Device srcDevice,Device dstDevice){
 		return hitTheDestinationByEndRangeOfShoot(srcAzimuth, dstDevice, dstDevice, null);
 	}
@@ -101,12 +110,12 @@ public class HitCalculations {
 	public boolean hitTheDestination(double srcAzimuth, Device srcDevice, 
 									 Device dstDevice, Device virtualTarget){
 
-		return(  isValidTheDistanceBetweenDevices(srcDevice, dstDevice,this.shootRestrictions.getMaximumDistanceSrcToDst()) &&
-				  ( hitTheDestinationByEndRangeOfShoot(srcAzimuth,srcDevice,dstDevice,virtualTarget,
-						  this.targetRestrictions.getRadiusRangeOfShoot()+(this.shootRestrictions.getWidthShoot()/2)
-						  	+this.targetRestrictions.getGpsLocationAccuracy()) 
+		double radiusRange = this.getRadiusRange(dstDevice);
+		
+		return( isValidTheDistanceBetweenDevices(srcDevice, dstDevice, this.shootRestrictions.getMaximumDistanceSrcToDst()) &&
+				  ( hitTheDestinationByEndRangeOfShoot(srcAzimuth, srcDevice, dstDevice, virtualTarget, radiusRange) 
 					||
-				    (this.shootRestrictions.getOpeningAngleShoot()> 0 && 
+				  (this.shootRestrictions.getOpeningAngleShoot()> 0 && 
 				     hitTheDestinationByOpeningAngleOfShoot(srcAzimuth,srcDevice,dstDevice,this.shootRestrictions.getOpeningAngleShoot()))
 				  )
 			  );

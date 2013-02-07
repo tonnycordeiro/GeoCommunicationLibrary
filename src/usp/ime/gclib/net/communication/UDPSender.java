@@ -8,6 +8,9 @@ import java.net.InetAddress;
 
 public class UDPSender {
 
+	protected UDPSender() {
+		
+	}
 	
 	/**
 	 * Send a message on the network.
@@ -23,7 +26,7 @@ public class UDPSender {
 	 * 	<li>2: Undefined error</li>
 	 * </ul>
 	 */
-	public int send(byte[] sndData, String ipAddress){
+	protected int send(byte[] sndData, String ipAddress){
 		try{
 			InetAddress serverAddr = InetAddress.getByName(ipAddress);
 

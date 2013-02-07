@@ -7,40 +7,43 @@ public class TargetRestrictions implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	double radiusRangeOfShoot;
-	float gpsLocationAccuracy;
+	/**
+	 * meter
+	 */
+	private double radius;
+	/**
+	 * meter
+	 */
+	private boolean useGpsLocationAccuracy;
 	
-	public static final double RADIUS_RANGE_OF_SHOOT_DEFAULT = 1.0; 
-	public static final float GPS_LOCATION_ACCURACY_DEFAULT = 0.0f;
+	public static final double RADIUS_DEFAULT = 3.0; 
+	public static final boolean USE_GPS_LOCATION_ACCURACY_DEFAULT = false;
 
 	
 	public TargetRestrictions() {
-		this.radiusRangeOfShoot = RADIUS_RANGE_OF_SHOOT_DEFAULT;
-		this.gpsLocationAccuracy = GPS_LOCATION_ACCURACY_DEFAULT;
+		this.radius = RADIUS_DEFAULT;
+		this.useGpsLocationAccuracy = USE_GPS_LOCATION_ACCURACY_DEFAULT;
 	}
 	
-	public TargetRestrictions(double radiusRangeOfShoot, float gpsLocationAccuracy) {
-		this.radiusRangeOfShoot = radiusRangeOfShoot;
-		this.gpsLocationAccuracy = gpsLocationAccuracy;
+	public TargetRestrictions(double radiusRangeOfShoot, boolean useGpsLocationAccuracy) {
+		this.radius = radiusRangeOfShoot;
+		this.useGpsLocationAccuracy = useGpsLocationAccuracy;
 	}
 
-	public float getGpsLocationAccuracy() {
-		return gpsLocationAccuracy;
+	public double getRadius() {
+		return radius;
 	}
 
-	public void setGpsLocationAccuracy(float gpsLocationAccuracy) {
-		this.gpsLocationAccuracy = (this.gpsLocationAccuracy<0?GPS_LOCATION_ACCURACY_DEFAULT:gpsLocationAccuracy);
+	public void setRadius(double radius) {
+		this.radius = (this.radius<0 ? RADIUS_DEFAULT : radius);
 	}
 
-	public double getRadiusRangeOfShoot() {
-		return radiusRangeOfShoot;
+	public boolean isUseGpsLocationAccuracy() {
+		return useGpsLocationAccuracy;
 	}
 
-	public void setRadiusRangeOfShoot(double radiusRangeOfShoot) {
-		this.radiusRangeOfShoot = (this.radiusRangeOfShoot<0?RADIUS_RANGE_OF_SHOOT_DEFAULT:radiusRangeOfShoot);
+	public void setUseGpsLocationAccuracy(boolean useGpsLocationAccuracy) {
+		this.useGpsLocationAccuracy = useGpsLocationAccuracy;
 	}
-
-
-	
 	
 }

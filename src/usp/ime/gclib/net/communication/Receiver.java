@@ -1,7 +1,9 @@
 package usp.ime.gclib.net.communication;
 
-import usp.ime.gclib.device.Device;
+import android.util.Log;
+import usp.ime.gclib.Device;
 import usp.ime.gclib.hit.HitCalculations;
+import usp.ime.gclib.hit.ShootingRestrictions;
 import usp.ime.gclib.hit.TargetRestrictions;
 import usp.ime.gclib.net.protocol.ProtocolGEOACKInformation;
 import usp.ime.gclib.net.protocol.ProtocolGEOMSGInformation;
@@ -9,33 +11,33 @@ import usp.ime.gclib.net.protocol.ProtocolInformation;
 import usp.ime.gclib.net.protocol.ProtocolLIBCONFIGInformation;
 
 public class Receiver{
-	protected ReceiveListener listener;
+	protected IReceiveListener listener;
 	private TargetRestrictions targetRestrictions;
 	private Device receiverDevice;
 
-	public Receiver(ReceiveListener listener, Device receiverDevice) {
+	protected Receiver(IReceiveListener listener, Device receiverDevice) {
 		this.listener = listener;
 		this.receiverDevice = receiverDevice;
 		targetRestrictions = new TargetRestrictions();
 	}
 	
-	public Receiver(ReceiveListener listener, Device receiverDevice, TargetRestrictions targetRestrictions) {
+	protected Receiver(IReceiveListener listener, Device receiverDevice, TargetRestrictions targetRestrictions) {
 		this.listener = listener;
 		this.receiverDevice = receiverDevice;
 		this.targetRestrictions = targetRestrictions;
 	}
 
-	public Receiver(ReceiveListener listener, TargetRestrictions targetRestrictions, Device receiverDevice) {
+	protected Receiver(IReceiveListener listener, TargetRestrictions targetRestrictions, Device receiverDevice) {
 		this.listener = listener;
 		this.targetRestrictions = targetRestrictions;
 		this.receiverDevice = receiverDevice;
 	}
 	
-	public TargetRestrictions getTargetRestrictions() {
+	protected TargetRestrictions getTargetRestrictions() {
 		return targetRestrictions;
 	}
 
-	public void setTargetRestrictions(TargetRestrictions targetRestrictions) {
+	protected void setTargetRestrictions(TargetRestrictions targetRestrictions) {
 		this.targetRestrictions = targetRestrictions;
 	}	
 	
@@ -65,16 +67,26 @@ public class Receiver{
 	}
 	
 	protected boolean thisMessageIsForMe(ProtocolInformation appInfo) {
+		if(receiverDevice.getIp().equals(appInfo.getDeviceSrc().getIp()))
+			return false;
 		switch(appInfo.getTypeMsg()){
 			case GEOMSG:
+				Log.d("Receiver", "lat_src:" + appInfo.getDeviceSrc().getDeviceLocation().getLatitude() +
+						" long_src:" + appInfo.getDeviceSrc().getDeviceLocation().getLongitude() +
+						" azi_src:" + Math.toDegrees(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth()) +
+						" lat_dst:" + receiverDevice.getDeviceLocation().getLatitude() +
+						" long_dst:" + receiverDevice.getDeviceLocation().getLongitude());
 				ProtocolGEOMSGInformation geoData;
 				HitCalculations hitCalculations;
 				
 				geoData = (ProtocolGEOMSGInformation) appInfo;
 				hitCalculations = new HitCalculations();
 				
-				hitCalculations.setShootingRestrictions(geoData.getShootRestrictions());
-				hitCalculations.setTargetRestrictions(this.getTargetRestrictions());
+				if(geoData.getShootRestrictions() == null)
+					hitCalculations.setShootingRestrictions(new ShootingRestrictions());
+				else
+					hitCalculations.setShootingRestrictions(geoData.getShootRestrictions());
+				hitCalculations.setTargetRestrictions(getTargetRestrictions());
 				return hitCalculations.hitTheDestination(Math.toDegrees(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth()), 
 														  appInfo.getDeviceSrc(),
 														  receiverDevice);

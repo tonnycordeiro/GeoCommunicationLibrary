@@ -108,7 +108,7 @@ public class NetworkManager {
 			return 2;
 		
 		NetworkConfiguration netConfig = new NetworkConfiguration();
-		netConfig.setisOpen(net.isOpen());
+		netConfig.setOpen(net.isOpen());
 		netConfig.setSSID("\"" + NetworkConfiguration.getSsidPrefix() + net.getSSID() + "\"");
 		netConfig.setPassword("\"" + password + "\"");
 		

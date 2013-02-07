@@ -6,8 +6,17 @@ public class ShootingRestrictions implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * degree
+	 */
 	double openingAngleShoot;
+	/**
+	 * meter
+	 */
 	double widthShoot;
+	/**
+	 * meter
+	 */
 	double maximumDistanceSrcToDst;
 	
 	public static final double OPENING_ANGLE_SHOOT_DEFAULT = 0.0;

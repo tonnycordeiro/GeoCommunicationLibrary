@@ -6,20 +6,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 
-import usp.ime.gclib.device.Device;
+import usp.ime.gclib.Device;
 import usp.ime.gclib.hit.TargetRestrictions;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 
 public class TCPReceiver extends Receiver implements Runnable{
 
-	public static int SERVERPORT = 2389;
-	public static ServerSocket serverSocket;
+	protected static int SERVERPORT = 2389;
+	private ServerSocket serverSocket;
 	
-	public TCPReceiver(ReceiveListener listener, Device receiverDevice) {
+	protected TCPReceiver(IReceiveListener listener, Device receiverDevice) {
 		super(listener, receiverDevice);
 	}
 	
-	public TCPReceiver(ReceiveListener listener, Device receiverDevice, TargetRestrictions targetRestrictions) {
+	protected TCPReceiver(IReceiveListener listener, Device receiverDevice, TargetRestrictions targetRestrictions) {
 		super(listener,targetRestrictions, receiverDevice);
 	}
 	
@@ -52,6 +52,10 @@ public class TCPReceiver extends Receiver implements Runnable{
 		catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected void closeSocket() throws IOException {
+		serverSocket.close();
 	}
 
 }

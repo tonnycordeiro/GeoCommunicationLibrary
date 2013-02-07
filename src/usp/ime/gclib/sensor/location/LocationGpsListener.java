@@ -1,6 +1,6 @@
 package usp.ime.gclib.sensor.location;
 
-import usp.ime.gclib.device.Device;
+import usp.ime.gclib.Device;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -48,9 +48,8 @@ public class LocationGpsListener implements LocationListener {
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, timeWait, minDist, this);
 	}
 	
-	protected void disableLocationListener(){
+	public void disableLocationListener(){
 		lm.removeUpdates(this);
-		/*lm = null;*/
 	}
 
 	public void onLocationChanged(Location location) {

@@ -1,4 +1,4 @@
-package usp.ime.gclib.device;
+package usp.ime.gclib;
 
 import java.io.Serializable;
 

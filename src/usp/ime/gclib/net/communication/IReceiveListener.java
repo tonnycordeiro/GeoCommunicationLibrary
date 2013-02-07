@@ -5,7 +5,7 @@ import usp.ime.gclib.net.protocol.ProtocolGEOMSGInformation;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 import usp.ime.gclib.net.protocol.ProtocolLIBCONFIGInformation;
 
-public interface ReceiveListener {
+public interface IReceiveListener {
 
 	public void onReceiveGEOMSG(ProtocolGEOMSGInformation appInfo);
 	

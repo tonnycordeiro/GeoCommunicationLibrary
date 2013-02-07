@@ -3,7 +3,7 @@ package usp.ime.gclib.sensor.orientation;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import usp.ime.gclib.device.Device;
+import usp.ime.gclib.Device;
 
 /*Versão do Android >= 2.3*/
 public class DeviceComplementaryFilterOrientation extends DeviceOrientation{

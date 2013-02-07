@@ -8,22 +8,20 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-import usp.ime.gclib.device.Device;
+import usp.ime.gclib.Device;
 import usp.ime.gclib.hit.TargetRestrictions;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 
-
-
 public class UDPReceiver extends Receiver implements Runnable {
 
-	static final int SERVER_PORT = 27385;
-	public static DatagramSocket serverSocket;
+	protected static final int SERVER_PORT = 27385;
+	private DatagramSocket serverSocket;
 	
-	public UDPReceiver(ReceiveListener listener, Device receiverDevice) {
+	protected UDPReceiver(IReceiveListener listener, Device receiverDevice) {
 		super(listener, receiverDevice);
 	}
 	
-	public UDPReceiver(ReceiveListener listener, Device receiverDevice, TargetRestrictions targetRestrictions) {
+	protected UDPReceiver(IReceiveListener listener, Device receiverDevice, TargetRestrictions targetRestrictions) {
 		super(listener, receiverDevice, targetRestrictions);
 	}
 	
@@ -31,7 +29,7 @@ public class UDPReceiver extends Receiver implements Runnable {
 		
 		try{
 			serverSocket = new DatagramSocket(SERVER_PORT);
-	        byte[] rcvData = new byte[1024];
+	        byte[] rcvData = new byte[2048];
 
 	        while(true){
 				DatagramPacket rcvPacket = new DatagramPacket(rcvData, rcvData.length);
@@ -46,12 +44,13 @@ public class UDPReceiver extends Receiver implements Runnable {
 	            ByteArrayInputStream bis = new ByteArrayInputStream(rcvPacket.getData());
 	            ObjectInput in = null;
 	            try {
+	            	System.out.println("RECEBI UMA MENSAGEM");
 					in = new ObjectInputStream(bis);
 					ProtocolInformation appInfo = (ProtocolInformation) in.readObject();
 					if(thisMessageIsForMe(appInfo)){
 						activateEvents(appInfo);
 					}
-	            } catch(ClassNotFoundException e) {
+	            } catch(Exception e) {
 	            	e.printStackTrace();
 	            }
 
@@ -60,6 +59,10 @@ public class UDPReceiver extends Receiver implements Runnable {
 		catch(IOException e){
 			e.printStackTrace();
 		}
+	}
+	
+	protected void closeSocket() {
+		serverSocket.close();
 	}
 
 }
