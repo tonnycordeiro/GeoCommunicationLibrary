@@ -23,8 +23,6 @@ public class CommunicationSocket {
 
 	private Thread threadUdp;
 	private Thread threadTcp;
-	private UDPReceiver udpReceiver;
-	private TCPReceiver tcpReceiver;
 	
 	private boolean alreadyInitializeListener = false;
 	
@@ -117,11 +115,9 @@ public class CommunicationSocket {
 			return 1;
 		
 		alreadyInitializeListener = true;
-		tcpReceiver = new TCPReceiver(listener, receiverDevice, targetRestrictions);
-		udpReceiver = new UDPReceiver(listener, receiverDevice, targetRestrictions);
 		
-		threadUdp = new Thread(udpReceiver);
-		threadTcp = new Thread(tcpReceiver);
+		threadUdp = new Thread(new UDPReceiver(listener, receiverDevice, targetRestrictions));
+		threadTcp = new Thread(new TCPReceiver(listener, receiverDevice, targetRestrictions));
 		
 		threadUdp.start();
 		threadTcp.start();
@@ -131,8 +127,8 @@ public class CommunicationSocket {
 	
 	public int stopListener() {
 		try {
-			udpReceiver.closeSocket();
-			tcpReceiver.closeSocket();
+			UDPReceiver.serverSocket.close();
+			TCPReceiver.serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			return 1;

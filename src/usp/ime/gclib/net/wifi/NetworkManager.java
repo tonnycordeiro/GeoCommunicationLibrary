@@ -24,6 +24,7 @@ public class NetworkManager {
 	private WifiConfiguration wifiConfig;
 	private boolean wasStartedNetwork;
 	private Context context;
+	private int networkId;
 	
 	public NetworkManager(Context context) {
 		this.context = context;
@@ -114,23 +115,27 @@ public class NetworkManager {
 		
 		parseConfiguration(netConfig);
 		
-		int id = wifiManager.addNetwork(wifiConfig);
-		if(id < 0)
+		networkId = wifiManager.addNetwork(wifiConfig);
+		if(networkId < 0)
 			return 3;
-		wifiManager.enableNetwork(id, true);;
-		wifiManager.saveConfiguration();
-        
-			
-		List<WifiConfiguration> list = wifiManager.getConfiguredNetworks();
-		for( WifiConfiguration i : list ) {
-		    if(i.SSID != null && i.SSID.equals(wifiConfig.SSID)) {
-		        wifiManager.disconnect();
-		    	wifiManager.enableNetwork(i.networkId, true);
-		    	wifiManager.reconnect();
-		        return 0;
-		    }           
+		boolean ret = wifiManager.enableNetwork(networkId, true);
+		
+		if(ret)
+			return 0;
+		else
+			return 4;
+	}
+	
+	/**
+	 * Remove network that was connect before
+	 * 
+	 * @return true if successful operation, false otherwise. 
+	 */
+	public boolean removeNetwork() {
+		if(networkId > 0) {
+			return wifiManager.removeNetwork(networkId);
 		}
-		return 4;
+		return false;
 	}
 	
 	/**
@@ -154,17 +159,14 @@ public class NetworkManager {
 			return 3;
 		netConfig.setSSID(NetworkConfiguration.getSsidPrefix() + netConfig.getSSID());
 		
-		if(wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED)
+		if(wifiManager.isWifiEnabled())
 			wifiManager.setWifiEnabled(false);
 		
 		int ret = parseConfiguration(netConfig);
 		if(ret > 0)
 			return ret;
-		int id = wifiManager.addNetwork(wifiConfig);
-        wifiManager.enableNetwork(id, true);
-        wifiManager.saveConfiguration();
 		
-        boolean res = setWifiApEnabled(wifiConfig, true);
+		boolean res = setWifiApEnabled(wifiConfig, true);
 		if(!res)
 			return 1;
 		

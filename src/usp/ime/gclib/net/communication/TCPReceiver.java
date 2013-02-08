@@ -13,7 +13,7 @@ import usp.ime.gclib.net.protocol.ProtocolInformation;
 public class TCPReceiver extends Receiver implements Runnable{
 
 	protected static int SERVERPORT = 2389;
-	private ServerSocket serverSocket;
+	protected static ServerSocket serverSocket;
 	
 	protected TCPReceiver(IReceiveListener listener, Device receiverDevice) {
 		super(listener, receiverDevice);
@@ -52,10 +52,6 @@ public class TCPReceiver extends Receiver implements Runnable{
 		catch(IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	protected void closeSocket() throws IOException {
-		serverSocket.close();
 	}
 
 }

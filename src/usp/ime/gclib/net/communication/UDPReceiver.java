@@ -15,7 +15,7 @@ import usp.ime.gclib.net.protocol.ProtocolInformation;
 public class UDPReceiver extends Receiver implements Runnable {
 
 	protected static final int SERVER_PORT = 27385;
-	private DatagramSocket serverSocket;
+	protected static DatagramSocket serverSocket;
 	
 	protected UDPReceiver(IReceiveListener listener, Device receiverDevice) {
 		super(listener, receiverDevice);
@@ -61,8 +61,4 @@ public class UDPReceiver extends Receiver implements Runnable {
 		}
 	}
 	
-	protected void closeSocket() {
-		serverSocket.close();
-	}
-
 }
