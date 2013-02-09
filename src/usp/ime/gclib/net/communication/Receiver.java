@@ -1,14 +1,13 @@
 package usp.ime.gclib.net.communication;
 
-import android.util.Log;
 import usp.ime.gclib.Device;
 import usp.ime.gclib.hit.HitCalculations;
 import usp.ime.gclib.hit.ShootingRestrictions;
 import usp.ime.gclib.hit.TargetRestrictions;
-import usp.ime.gclib.net.protocol.ProtocolGEOACKInformation;
 import usp.ime.gclib.net.protocol.ProtocolGEOMSGInformation;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 import usp.ime.gclib.net.protocol.ProtocolLIBCONFIGInformation;
+import android.util.Log;
 
 public class Receiver{
 	protected IReceiveListener listener;
@@ -47,7 +46,7 @@ public class Receiver{
 				listener.onReceiveGEOMSG((ProtocolGEOMSGInformation)appInfo);
 				break;
 			case GEOACK:
-				listener.onReceiveGEOACK((ProtocolGEOACKInformation)appInfo);
+				listener.onReceiveGEOACK(appInfo);
 				break;
 			case APPDATA:
 				listener.onReceiveAPPDATA(appInfo);

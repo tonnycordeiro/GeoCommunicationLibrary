@@ -1,6 +1,5 @@
 package usp.ime.gclib.net.communication;
 
-import usp.ime.gclib.net.protocol.ProtocolGEOACKInformation;
 import usp.ime.gclib.net.protocol.ProtocolGEOMSGInformation;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 import usp.ime.gclib.net.protocol.ProtocolLIBCONFIGInformation;
@@ -15,7 +14,7 @@ public interface IReceiveListener {
 	
 	public void onReceiveLIBCONFIG(ProtocolLIBCONFIGInformation appInfo);
 
-	public void onReceiveGEOACK(ProtocolGEOACKInformation appInfo);
+	public void onReceiveGEOACK(ProtocolInformation appInfo);
 
 	public void onReceiveONLINEANSWER(ProtocolInformation appInfo);
 	

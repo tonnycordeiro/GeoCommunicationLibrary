@@ -10,7 +10,6 @@ import usp.ime.gclib.net.protocol.EProtocolMessages;
 import usp.ime.gclib.net.protocol.EProtocolTranspLayer;
 import usp.ime.gclib.net.protocol.ESendTo;
 import usp.ime.gclib.net.protocol.LibConfigurationObject;
-import usp.ime.gclib.net.protocol.ProtocolGEOACKInformation;
 import usp.ime.gclib.net.protocol.ProtocolGEOMSGInformation;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 import usp.ime.gclib.net.protocol.ProtocolLIBCONFIGInformation;
@@ -76,7 +75,7 @@ public class TesteClasses implements IReceiveListener{
 		
 	}
 
-	public void onReceiveGEOACK(ProtocolGEOACKInformation appInfo) {
+	public void onReceiveGEOACK(ProtocolInformation appInfo) {
 		
 	}
 
