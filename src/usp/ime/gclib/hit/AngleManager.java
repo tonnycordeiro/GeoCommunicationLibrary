@@ -21,7 +21,7 @@ public class AngleManager {
 	public static double convertAngleFrom180To360Graus(double angle){
 		angle = Math.signum(angle)*(Math.abs(angle)%360);
 		if(angle<0)
-			angle = 360 - angle;
+			angle = angle + 360;
 		return angle;
 	}
 
