@@ -5,8 +5,6 @@ import java.util.List;
 
 public class AppProtocol implements Serializable{
 	private static final long serialVersionUID = 1L;
-	final static String CRLF = "\r\n";
-	final static String dividerHeader = " ";
 	
 	private List<String> listIpDst;
 	private EProtocolMessages typeMsg;
