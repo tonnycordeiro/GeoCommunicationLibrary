@@ -20,7 +20,7 @@ public class ProtocolLIBCONFIGInformation extends ProtocolInformation implements
 
 	public ProtocolLIBCONFIGInformation(Device deviceSrc, byte[] message, AppProtocol app, LibConfigurationObject libConfig) {
 		super(deviceSrc, message, app);
-		this.setLibConfig(libConfig);
+		this.libConfig = libConfig;
 	}
 	/**
 	 * The object parameter must be Serializable, otherwise it will be throws a IllegalArgumentException.

@@ -6,7 +6,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.util.Log;
 /**
  * This class creates a sensor listener to the motion and position sensors: magnetometer, accelerometer and gyroscope 
  * 

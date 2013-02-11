@@ -19,7 +19,7 @@ public class DeviceOrientation implements Serializable {
 	/**
 	 * sensor types available to generate the orientation vector 
 	 */
-	protected ESensorType sensors[];
+	protected ESensorType[] sensors;
 	
 	/**
 	 * orientation vector index of azimuth angle 
@@ -41,6 +41,11 @@ public class DeviceOrientation implements Serializable {
 	
 	public DeviceOrientation(){
 		this.orientation = new float[3];
+	}
+	
+	public DeviceOrientation(float[] orientation, ESensorType[] sensors) {
+		this.orientation = orientation;
+		this.sensors = sensors;
 	}
 	
 	public float[] getOrientation() {

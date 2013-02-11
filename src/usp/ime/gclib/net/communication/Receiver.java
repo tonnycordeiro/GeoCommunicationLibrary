@@ -129,12 +129,12 @@ public class Receiver{
 						" ip_dst:" + receiverDevice.getIp() + 
 						" lat_dst:" + receiverDevice.getDeviceLocation().getLatitude() +
 						" long_dst:" + receiverDevice.getDeviceLocation().getLongitude() +
-						" azi_rel:" + GeodesicManager.getAzimuthBetween(appInfo.getDeviceSrc(), receiverDevice) +
+						" azi_rel:" + GeodesicManager.azimuthBetween(appInfo.getDeviceSrc(), receiverDevice) +
 						" lat_devVirtual:" + devVirtual.getDeviceLocation().getLatitude() + 
 						" long_devVirtual:" + devVirtual.getDeviceLocation().getLongitude() +
-						" dist_virtual_destino:" + GeodesicManager.getDistanceBetween(receiverDevice, devVirtual) +
+						" dist_virtual_destino:" + GeodesicManager.distanceBetween(receiverDevice, devVirtual) +
 						"m raio_dst:" + getTargetRestrictions().getRadius() + "m" +
-						" acertou:" + (isForMe ? "SIM" : "NAO");
+						" acertou:" + (isForMe ? "SIM" : "NAO") + "\n\n";
 				Log.d("TCC_LOG", s);
 				
 				

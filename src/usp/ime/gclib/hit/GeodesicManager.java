@@ -19,7 +19,7 @@ public class GeodesicManager {
 	 * @param dev2 {@link Device} with {@link DeviceLocation} not null
 	 * @return distance in meters 
 	 */
-	public static double getDistanceBetween(Device dev1, Device dev2){
+	public static double distanceBetween(Device dev1, Device dev2){
 		GeodeticCalculator gcTarget = new GeodeticCalculator();
 		gcTarget.setStartingGeographicPoint(dev1.getDeviceLocation().getLongitude(),dev1.getDeviceLocation().getLatitude());
 		gcTarget.setDestinationGeographicPoint(dev2.getDeviceLocation().getLongitude(),dev2.getDeviceLocation().getLatitude());
@@ -32,7 +32,7 @@ public class GeodesicManager {
 	 * @param dev2 {@link Device} with {@link DeviceLocation} not null
 	 * @return azimuth in degrees 
 	 */
-	public static double getAzimuthBetween(Device dev1, Device dev2){
+	public static double azimuthBetween(Device dev1, Device dev2){
 		GeodeticCalculator gcTarget = new GeodeticCalculator();
 		gcTarget.setStartingGeographicPoint(dev1.getDeviceLocation().getLongitude(),dev1.getDeviceLocation().getLatitude());
 		gcTarget.setDestinationGeographicPoint(dev2.getDeviceLocation().getLongitude(),dev2.getDeviceLocation().getLatitude());
@@ -46,7 +46,7 @@ public class GeodesicManager {
 	 * @param distance meters
 	 * @return destination device
 	 */
-	public static Device getHitDeviceVirtual(Device srcDevice, double azimuth, double distance){
+	public static Device hitDeviceVirtual(Device srcDevice, double azimuth, double distance){
 		GeodesicPosition virtualPos = null;
 		Device virtualDevice = new Device();
 		

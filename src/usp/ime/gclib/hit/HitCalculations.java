@@ -14,6 +14,15 @@ import usp.ime.gclib.sensor.location.DeviceLocation;
 public class HitCalculations {
 	private TargetRestrictions targetRestrictions;
 	private ShootingRestrictions shootRestrictions;
+	
+	public HitCalculations() {
+		
+	}
+	
+	public HitCalculations(TargetRestrictions targetRestrictions, ShootingRestrictions shootRestrictions) {
+		this.targetRestrictions = targetRestrictions;
+		this.shootRestrictions = shootRestrictions;
+	}
 
 	public TargetRestrictions getTargetRestrictions() {
 		return targetRestrictions;
@@ -40,7 +49,7 @@ public class HitCalculations {
 	 */
 	public boolean isValidTheDistanceBetweenDevices(Device srcDevice,Device dstDevice, double maximumDistanceSrcToDst){
 		double distanceSrcToDst;
-		distanceSrcToDst = GeodesicManager.getDistanceBetween(srcDevice, dstDevice);
+		distanceSrcToDst = GeodesicManager.distanceBetween(srcDevice, dstDevice);
 
 		if(maximumDistanceSrcToDst > 0 && distanceSrcToDst>maximumDistanceSrcToDst)
 			return false;
@@ -71,15 +80,15 @@ public class HitCalculations {
 		double distanceSrcToDst, distanceDstToVitual;
 		Device virtualTargetAux;
 		
-		distanceSrcToDst = GeodesicManager.getDistanceBetween(srcDevice, dstDevice);
-		virtualTargetAux = GeodesicManager.getHitDeviceVirtual(srcDevice,srcAzimuth,distanceSrcToDst);
+		distanceSrcToDst = GeodesicManager.distanceBetween(srcDevice, dstDevice);
+		virtualTargetAux = GeodesicManager.hitDeviceVirtual(srcDevice,srcAzimuth,distanceSrcToDst);
 		
 		if (virtualTarget != null){
 			virtualTarget.getDeviceLocation().setLatitude(virtualTargetAux.getDeviceLocation().getLatitude());
 			virtualTarget.getDeviceLocation().setLongitude(virtualTargetAux.getDeviceLocation().getLongitude());
 		}
 		
-		distanceDstToVitual = GeodesicManager.getDistanceBetween(virtualTargetAux, dstDevice);
+		distanceDstToVitual = GeodesicManager.distanceBetween(virtualTargetAux, dstDevice);
 		
 		return (radiusRange >= distanceDstToVitual);
 	}
@@ -145,7 +154,7 @@ public class HitCalculations {
 		
 		this.shootRestrictions.setOpeningAngleShoot(currentOpeningAngleShoot); 
 		
-		shootAzimuth = GeodesicManager.getAzimuthBetween(srcDevice, dstDevice);
+		shootAzimuth = GeodesicManager.azimuthBetween(srcDevice, dstDevice);
 		
 		return ((hitRight || hitLeft) || 
 				AngleManager.isAngleContainedInArcBasedIn180Graus(shootAzimuth,srcAzimuthR,srcAzimuthL));
