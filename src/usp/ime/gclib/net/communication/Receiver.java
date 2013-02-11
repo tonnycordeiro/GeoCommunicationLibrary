@@ -1,5 +1,11 @@
 package usp.ime.gclib.net.communication;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import usp.ime.gclib.Device;
 import usp.ime.gclib.hit.GeodesicManager;
 import usp.ime.gclib.hit.HitCalculations;
@@ -8,23 +14,46 @@ import usp.ime.gclib.hit.TargetRestrictions;
 import usp.ime.gclib.net.protocol.ProtocolGEOMSGInformation;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 import usp.ime.gclib.net.protocol.ProtocolLIBCONFIGInformation;
+import android.os.Environment;
 import android.util.Log;
 
+/**
+ * This class is for internal use, it must not called.
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class Receiver{
 	protected IReceiveListener listener;
 	private TargetRestrictions targetRestrictions;
 	private Device receiverDevice;
 
+	FileWriter fileOutput;
+	DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss.SSS");
+	
 	protected Receiver(IReceiveListener listener, Device receiverDevice) {
 		this.listener = listener;
 		this.receiverDevice = receiverDevice;
 		targetRestrictions = new TargetRestrictions();
+		try{
+			fileOutput = new FileWriter(Environment.getExternalStorageDirectory().getPath() + "/log_tcc.txt", true);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	protected Receiver(IReceiveListener listener, Device receiverDevice, TargetRestrictions targetRestrictions) {
 		this.listener = listener;
 		this.receiverDevice = receiverDevice;
 		this.targetRestrictions = targetRestrictions;
+		try{
+			fileOutput = new FileWriter(Environment.getExternalStorageDirectory().getPath() + "/log_tcc.txt", true);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	protected Receiver(IReceiveListener listener, TargetRestrictions targetRestrictions, Device receiverDevice) {
@@ -91,8 +120,9 @@ public class Receiver{
 				boolean isForMe =  hitCalculations.hitTheDestination(Math.toDegrees(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth()), 
 														  appInfo.getDeviceSrc(),
 														  receiverDevice, devVirtual);
-				
-				Log.d("TCC_LOG", "Recebendo: ip_src:" + appInfo.getDeviceSrc().getIp() + 
+				String s = "hora:" + dateFormat.format(new Date()) +
+						" evt:" + "recebe" +
+						" ip_src:" + appInfo.getDeviceSrc().getIp() + 
 						" lat_src:" + appInfo.getDeviceSrc().getDeviceLocation().getLatitude() +
 						" long_src:" + appInfo.getDeviceSrc().getDeviceLocation().getLongitude() +
 						" azi_src:" + Math.toDegrees(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth()) +
@@ -104,7 +134,18 @@ public class Receiver{
 						" long_devVirtual:" + devVirtual.getDeviceLocation().getLongitude() +
 						" dist_virtual_destino:" + GeodesicManager.getDistanceBetween(receiverDevice, devVirtual) +
 						"m raio_dst:" + getTargetRestrictions().getRadius() + "m" +
-						" acertou:" + (isForMe ? "SIM" : "NAO"));
+						" acertou:" + (isForMe ? "SIM" : "NAO");
+				Log.d("TCC_LOG", s);
+				
+				
+				synchronized (fileOutput) {
+        			try {
+        				fileOutput.write(s);
+        				fileOutput.flush();
+        			} catch (IOException e) {
+        				e.printStackTrace();
+        			}
+        		}
 				
 				return isForMe;
 				

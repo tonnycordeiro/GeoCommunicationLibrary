@@ -10,6 +10,14 @@ import usp.ime.gclib.net.protocol.AppProtocol;
 import usp.ime.gclib.net.protocol.ESendTo;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 
+/**
+ * This class is for internal use, it must not called.
+ * It must use {@link CommunicationSocket} for send messages.
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class TCPSender {
 	
 	protected TCPSender() {

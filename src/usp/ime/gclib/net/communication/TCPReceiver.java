@@ -10,6 +10,14 @@ import usp.ime.gclib.Device;
 import usp.ime.gclib.hit.TargetRestrictions;
 import usp.ime.gclib.net.protocol.ProtocolInformation;
 
+/**
+ * This class is for internal use, it must not called.
+ * It must use {@link CommunicationSocket} and {@link IReceiveListener} for receive messages.
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class TCPReceiver extends Receiver implements Runnable{
 
 	protected static int SERVERPORT = 2389;

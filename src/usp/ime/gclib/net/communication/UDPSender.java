@@ -5,7 +5,14 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-
+/**
+ * This class is for internal use, it must not called.
+ * It must use {@link CommunicationSocket} for send messages.
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class UDPSender {
 
 	protected UDPSender() {
@@ -15,7 +22,7 @@ public class UDPSender {
 	/**
 	 * Send a message on the network.
 	 * 
-	 * @param message Specify the message that will be send.
+	 * @param sndData Specify the message that will be send.
 	 * 
 	 * @param ipAddress Specify the IP address of the destine node.
 	 * 

@@ -7,6 +7,8 @@ import usp.ime.gclib.sensor.location.DeviceLocation;
 import usp.ime.gclib.sensor.orientation.DeviceOrientation;
 
 /**
+ * This class is used to identify each device in application.
+ * If the application doesn't specify the attributes, the default values will be set. 
  * 
  * @author Renato Avila e Tonny Cordeiro
  * @version 1.0
@@ -21,12 +23,9 @@ public class Device implements Serializable{
 	private DeviceLocation deviceLocation;
 	private DeviceOrientation deviceOrientation;
 	private boolean isAccessPoint;
-	/**
-	 * Initialize a device with nick name.
-	 * 
-	 * @param nick Nick name to identify easily the device by application.
-	 */
+	
 	public Device() {
+		this.nick = "";
 		deviceLocation = new DeviceLocation();
 		deviceOrientation = new DeviceOrientation();
 	}
@@ -71,8 +70,14 @@ public class Device implements Serializable{
 		this.deviceOrientation = deviceOrientation;
 	}
 	
+	/**
+	 * throws a {@link IllegalArgumentException} if a problem occurs when try to get IP address.
+	 * Then the IP address attribute will set to <code>null</code>. 
+	 */
 	public void startIp() {
 		this.ip = IP.getLocalIpAddress();
+		if(this.ip == null)
+			throw new IllegalArgumentException("A problem occurred when try to get IP address. Certify that you are connected a network.");
 	}
 
 	public String getIp(){

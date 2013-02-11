@@ -9,15 +9,15 @@ public class ShootingRestrictions implements Serializable {
 	/**
 	 * degree
 	 */
-	double openingAngleShoot;
+	private double openingAngleShoot;
 	/**
 	 * meter
 	 */
-	double widthShoot;
+	private double widthShoot;
 	/**
 	 * meter
 	 */
-	double maximumDistanceSrcToDst;
+	private double maximumDistanceSrcToDst;
 	
 	public static final double OPENING_ANGLE_SHOOT_DEFAULT = 0.0;
 	public static final double WIDTH_SHOOT_DEFAULT = 0.0;
