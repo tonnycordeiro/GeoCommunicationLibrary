@@ -5,11 +5,16 @@ import javax.vecmath.Vector3f;
 import android.hardware.SensorManager;
 import android.util.FloatMath;
 
+/**
+ * This class creates a device orientation with gyroscope sensor, but the first orientation is generate by the Compass Orientation
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ * @see DeviceOrientation, DeviceCompassOrientation
+ * 
+ */
 public class DeviceGyroscopeOrientation extends DeviceOrientation{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8089121916401443406L;
 
 	// angular speeds from gyro
@@ -78,6 +83,10 @@ public class DeviceGyroscopeOrientation extends DeviceOrientation{
 		this.isGyroOrientationDefined = isGyroOrientationDefined;
 	}
 
+	/**
+	 * Restart to status initial of obtaining orientation process
+	 */
+	
 	public void prepareForOrientationObtaining(){
 		this.updateWithCompassOrientation = true;
 		this.isGyroOrientationDefined= false;
@@ -184,6 +193,10 @@ public class DeviceGyroscopeOrientation extends DeviceOrientation{
 	    this.isGyroOrientationDefined= true; 
 	}	
 	
+	/**
+	 * Enables the Compass Orientation to renew the current value of orientation vector using the listener 
+	 * @param listener: listener that update the orientation vector
+	 */
 	public void renewOrientationWithCompass(OrientationSensorListener listener){
 		if(!listener.isAcclerometerActivated()){
 			listener.enableSensorListener(ESensorType.ACCELEROMETER, ESensorDelayType.GAME_DELAY);

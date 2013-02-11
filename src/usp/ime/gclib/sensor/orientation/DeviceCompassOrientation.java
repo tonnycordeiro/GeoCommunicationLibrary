@@ -2,11 +2,16 @@ package usp.ime.gclib.sensor.orientation;
 
 import android.hardware.SensorManager;
 
+/**
+ * This class creates a device orientation with magnetometer and accelerometer sensors
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ * @see DeviceOrientation
+ * 
+ */
 public class DeviceCompassOrientation extends DeviceOrientation{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 7279605737905035298L;
 
 	// magnetic field vector
@@ -37,10 +42,9 @@ public class DeviceCompassOrientation extends DeviceOrientation{
 		// accelerometer and magnetometer based rotation matrix
 		rotationMatrix = new float[9];
 		
-		sensors = new ESensorType[3];
+		sensors = new ESensorType[2];
 		sensors[0] = ESensorType.ACCELEROMETER;
-		sensors[1] = ESensorType.GYROSCOPE;
-		sensors[2] = ESensorType.MAGNETIC_FIELD;
+		sensors[1] = ESensorType.MAGNETIC_FIELD;
 		
 		prepareForOrientationObtaining();		
 	}
@@ -61,14 +65,9 @@ public class DeviceCompassOrientation extends DeviceOrientation{
 		this.isCompassOrientationDefined = isAccMagOrientationDefined;
 	}
 
-/*	public ESensorType[] getSensors() {
-		return sensors;
-	}*/
-
-/*	public void setSensors(ESensorType[] sensors) {
-		this.sensors = sensors;
-	}
-*/	
+	/**
+	 * Restart to status initial of obtaining orientation process
+	 */
 	public void prepareForOrientationObtaining(){
 		isCompassOrientationDefined = false;
 		isMagnetDefined = false;

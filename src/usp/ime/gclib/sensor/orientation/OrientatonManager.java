@@ -4,19 +4,29 @@ import javax.vecmath.Matrix3f;
 
 import android.util.FloatMath;
 
+/**
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class OrientatonManager {
-	/*TODO: USAR getRotationMatrixFromVector from the SensoManager*/
-	public static float[] getRotationMatrixFromOrientation(float[] o) {
+	/**
+	 * Generate rotation matrix from orientation vector
+	 * @param orientation
+	 * @return rotation matrix
+	 */
+	public static float[] getRotationMatrixFromOrientation(float[] orientation) {
 	    float[] xM = new float[9];
 	    float[] yM = new float[9];
 	    float[] zM = new float[9];
 	 
-	    float sinX = (float)FloatMath.sin(o[1]);
-	    float cosX = (float)FloatMath.cos(o[1]);
-	    float sinY = (float)FloatMath.sin(o[2]);
-	    float cosY = (float)FloatMath.cos(o[2]);
-	    float sinZ = (float)FloatMath.sin(o[0]);
-	    float cosZ = (float)FloatMath.cos(o[0]);
+	    float sinX = (float)FloatMath.sin(orientation[1]);
+	    float cosX = (float)FloatMath.cos(orientation[1]);
+	    float sinY = (float)FloatMath.sin(orientation[2]);
+	    float cosY = (float)FloatMath.cos(orientation[2]);
+	    float sinZ = (float)FloatMath.sin(orientation[0]);
+	    float cosZ = (float)FloatMath.cos(orientation[0]);
 	
 	    // rotation about x-axis (pitch)
 	    xM[0] = 1.0f; xM[1] = 0.0f; xM[2] = 0.0f;
@@ -39,6 +49,12 @@ public class OrientatonManager {
 	    return resultMatrix;
 	}	
 	
+	/**
+	 * Multiplicate two square matriz 3 x 3  
+	 * @param A first matrix
+	 * @param B second matrix
+	 * @return matrix A x B
+	 */
 	public static float[] matrixMultiplication(float[] A, float[] B) {
 		
 		Matrix3f matrixA = new Matrix3f(A);
@@ -60,6 +76,13 @@ public class OrientatonManager {
 	    return result;
 	}
 
+	/**
+	 * Integrate two vectors, updating the old vector with the new vector by the alpha value 
+	 * @param currentVector
+	 * @param newVector
+	 * @param alpha Between 0 and 1.The higher it is, the more new vector will be privileged   
+	 * @return integrated vector
+	 */
 	public float[] integrationOfVectors(float[] currentVector, float[] newVector, float alpha){
 		for(int i =0; i< newVector.length; i++){
 			currentVector[i] = currentVector[i]*alpha + (1 - alpha)*newVector[i];

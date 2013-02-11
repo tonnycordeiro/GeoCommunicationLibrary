@@ -2,12 +2,21 @@ package usp.ime.gclib.sensor.location;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class DeviceLocation implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
+
 	private double latitude;
 	private double longitude;
+	/**
+	 * radius of 68% confidence, in meters
+	 */
 	private float accuracy;
 	private boolean isGpsEnable;
 	private boolean isDefined;

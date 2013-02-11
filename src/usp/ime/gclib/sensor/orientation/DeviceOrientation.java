@@ -1,18 +1,43 @@
 package usp.ime.gclib.sensor.orientation;
 
 import java.io.Serializable;
-
+/**
+ * This class creates a device orientation to monitor the position of a device relative to the earth's frame of reference 
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class DeviceOrientation implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * orientation vector relative to the earth's frame of reference
+	 */
 	protected float[] orientation;
+	/**
+	 * sensor types available to generate the orientation vector 
+	 */
 	protected ESensorType sensors[];
-
+	
+	/**
+	 * orientation vector index of azimuth angle 
+	 */
 	public static final int AZIMUTH_INDEX = 0;
+	/**
+	 * orientation vector index of yaw angle 
+	 */
 	public static final int YAW_INDEX = 0;
+	/**
+	 * orientation vector index of pitch angle 
+	 */
 	public static final int PITCH_INDEX = 1;
+	/**
+	 * orientation vector index of roll angle 
+	 */
 	public static final int ROLL_INDEX = 2;
+	
 	
 	public DeviceOrientation(){
 		this.orientation = new float[3];
@@ -66,7 +91,14 @@ public class DeviceOrientation implements Serializable {
 		this.sensors = sensors;
 	}	
 	
-	/*TODO: providenciar auto-generate*/
+	/**
+	 * Called when sensor values have changed by the listener parameter 
+	 * 
+	 * @param sensorType sensor type of SensorManager in Android API 2.2
+	 * @param sample SensorEvent values in Android API 2.2
+	 * @param timestampSample SensorEvent timestamp in Android API 2.2
+	 * @param listener
+	 */
 	public void sensorManager(ESensorType sensorType, float[] sample, long timestampSample, OrientationSensorListener listener) {
 	}	
 

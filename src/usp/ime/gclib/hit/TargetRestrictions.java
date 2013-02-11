@@ -2,7 +2,11 @@ package usp.ime.gclib.hit;
 
 import java.io.Serializable;
 
-
+/**
+ * This class creates a target restrictions to a Destination Device to verify if it can receive a message
+ * @author Tonny
+ *
+ */
 public class TargetRestrictions implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -11,9 +15,6 @@ public class TargetRestrictions implements Serializable {
 	 * meter
 	 */
 	private double radius;
-	/**
-	 * meter
-	 */
 	private boolean useGpsLocationAccuracy;
 	
 	public static final double RADIUS_DEFAULT = 3.0; 
@@ -25,6 +26,11 @@ public class TargetRestrictions implements Serializable {
 		this.useGpsLocationAccuracy = USE_GPS_LOCATION_ACCURACY_DEFAULT;
 	}
 	
+	/**
+	 * 
+	 * @param radiusRangeOfShoot radius range in meters
+	 * @param useGpsLocationAccuracy if it is true the accuracy will be considered as a range radius of the target 
+	 */
 	public TargetRestrictions(double radiusRangeOfShoot, boolean useGpsLocationAccuracy) {
 		this.radius = radiusRangeOfShoot;
 		this.useGpsLocationAccuracy = useGpsLocationAccuracy;

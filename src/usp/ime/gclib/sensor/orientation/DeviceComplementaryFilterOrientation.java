@@ -6,21 +6,38 @@ import java.util.TimerTask;
 import usp.ime.gclib.Device;
 
 /*Versão do Android >= 2.3*/
+/**
+ * This class creates a device orientation by the fusion of Compass Orientation and Gyroscope Orientation
+ * It intends eliminate the error restricts to each sensor
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ * @see DeviceOrientation, DeviceCompassOrientation
+ * 
+ */
+
 public class DeviceComplementaryFilterOrientation extends DeviceOrientation{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -2077738169884031117L;
 
 	private DeviceGyroscopeOrientation gyroOrientation;
 	
 	private Timer fuseTimer;
 	
+	/**
+	 * Delay to update the orientation vector with current samples of sensor values  
+	 */
 	public static final long TIME_SAMPLE_DEFAULT = 30;
-	
+	/**
+	 * filter coeficient default  
+	 */
 	public static final float FILTER_COEFICIENT_DEFAULT = 0.8f;
 	
+	/**
+	 * The higher it is, the more Gyroscope orientation will be privileged
+	 * The lower it is, the more Compass orientation will be privileged  
+	 * It is necessary a tradeoff to choice the best value for an application 
+	 */
 	private float filter_coeficient = 0.8f;
 	
 	public DeviceComplementaryFilterOrientation(){
@@ -29,6 +46,11 @@ public class DeviceComplementaryFilterOrientation extends DeviceOrientation{
 		initVariables();
 	}
 	
+	/**
+	 * 
+	 * @param device
+	 * @param filter_coeficient %
+	 */
 	public DeviceComplementaryFilterOrientation(Device device, float filter_coeficient){
 		super();
 		this.filter_coeficient = filter_coeficient;
@@ -58,10 +80,18 @@ public class DeviceComplementaryFilterOrientation extends DeviceOrientation{
 
 	}
 	
+	/**
+	 * Init the task to calculate the orientation vector 
+	 * @param timeSample amount of time in milliseconds between subsequent executions. 
+	 */
 	public void startFilter(long timeSample){
 		initCalculateTask(timeSample);
 	}
 	
+	/**
+	 * Init the task to calculate the orientation vector 
+	 * @param timeSample amount of time in milliseconds between subsequent executions. 
+	 */
 	public void initCalculateTask(long timeSample){
 		fuseTimer = new Timer();
 		fuseTimer.scheduleAtFixedRate(new CalculateFusedOrientationTask(),

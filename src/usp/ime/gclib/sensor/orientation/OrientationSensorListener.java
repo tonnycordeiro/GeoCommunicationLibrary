@@ -7,7 +7,14 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
-
+/**
+ * This class creates a sensor listener to the motion and position sensors: magnetometer, accelerometer and gyroscope 
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ * @see SensorEventListener
+ * 
+ */
 public class OrientationSensorListener implements SensorEventListener {
 
 	private boolean isAcclerometerActivated;
@@ -18,21 +25,20 @@ public class OrientationSensorListener implements SensorEventListener {
 	private SensorManager sensorManager;
 
 	private ESensorDelayType delay;
-
+	/**
+	 * @param deviceOrientation it will be updated by the listener
+	 */
 	public OrientationSensorListener(DeviceOrientation deviceOrientation) {
 		initVariables();
 		this.deviceOrientation = deviceOrientation;
 	}	
-
+	
+	/**
+	 * @param device its attribute deviceOrientation will be updated by the listener
+	 */
 	public OrientationSensorListener(Device device) {
 		initVariables();
 		this.deviceOrientation = device.getDeviceOrientation();
-		if (deviceOrientation instanceof DeviceCompassOrientation)
-			Log.e("device","DeviceCompassOrientation");
-		else if (deviceOrientation instanceof DeviceGyroscopeOrientation)
-			Log.e("device","DeviceComplementaryFilterOrientation");
-		else if (deviceOrientation instanceof DeviceComplementaryFilterOrientation)
-			Log.e("device","DeviceComplementaryFilterOrientation");
 	}
 
 	private void initVariables(){
@@ -42,7 +48,10 @@ public class OrientationSensorListener implements SensorEventListener {
 		this.isGyroscopeActivated = false;
 		this.isMagneticFieldActivated = false;
 	}
-
+	/**
+	 * Enable the sensor service by the context
+	 * @param context
+	 */
 	public void enableSensorService(Context context){
 		sensorManager = (SensorManager)context.getSystemService(Context.SENSOR_SERVICE);
 		enableDeviceSensors();
@@ -113,6 +122,11 @@ public class OrientationSensorListener implements SensorEventListener {
 		this.isMagneticFieldActivated = isEnable;
 	}
 
+	/**
+	 * Enable sensor lister defined by sensor type and set the type of sample rate 
+	 * @param sensorType
+	 * @param sensorDelayType sample rate 
+	 */
 	protected void enableSensorListener(ESensorType sensorType, ESensorDelayType sensorDelayType) {
 
 		int sensorTypeForAndoid = getAndroidConstantOfSensorType(sensorType);  
@@ -123,6 +137,11 @@ public class OrientationSensorListener implements SensorEventListener {
 		sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorTypeForAndoid), sensorDelayForAndoid);
 	}
 
+	/**
+	 * Enable sensor lister defined by sensor type and set its sample rate
+	 * @param sensorType
+	 * @param microsecondsDelay sample rate in microseconds
+	 */
 	protected void enableSensorListener(ESensorType sensorType, int microsecondsDelay) {
 
 		int sensorTypeForAndoid = getAndroidConstantOfSensorType(sensorType);  
@@ -131,28 +150,45 @@ public class OrientationSensorListener implements SensorEventListener {
 
 		sensorManager.registerListener(this, sensorManager.getDefaultSensor(sensorTypeForAndoid), microsecondsDelay);
 	}
-
+	
+	/**
+	 * Enable all sensors
+	 */
 	protected void enableDeviceSensors(){
 		for(int i=0; i< deviceOrientation.getSensors().length; i++)
 			enableSensorListener(deviceOrientation.getSensors()[i], delay);
 		//enableAllSensorListener(delay);
 	}
-
+	/**
+	 * Enable a sensor list
+	 * @param sensors
+	 */
 	protected void enableDeviceSensors(ESensorType[] sensors){
 		for(int i=0; i< sensors.length; i++)
 			enableSensorListener(sensors[i], delay);
 	}
 
+	/**
+	 * Disable all sensors
+	 */
 	protected void disableDeviceSensors(){
 		for(int i=0; i< deviceOrientation.getSensors().length; i++)
 			disableSensorListener(deviceOrientation.getSensors()[i]);
 	}
-
+	
+	/**
+	 * Disable a sensors list
+	 * @param sensors
+	 */
 	protected void disableDeviceSensors(ESensorType[] sensors){
 		for(int i=0; i< sensors.length; i++)
 			disableSensorListener(sensors[i]);
 	}
-
+	
+	/**
+	 * Enable all sensors listeners with a delay type 
+	 * @param sensorDelayType
+	 */
 	protected void enableAllSensorListener(ESensorDelayType sensorDelayType) {
 
 		int sensorDelayForAndoid = getAndroidConstantOfSensorDelay(sensorDelayType);
@@ -165,21 +201,34 @@ public class OrientationSensorListener implements SensorEventListener {
 
 	}
 
+	/**
+	 * Disable all sensors listeners
+	 */
 	protected void disableAllSensorListener() {
 		sensorManager.unregisterListener(this);
 		updateAllControlVariables(false);
 	}
 
+	/**
+	 * Disable sensor listener defined by sensor type
+	 * @param sensorType
+	 */
 	protected void disableSensorListener(ESensorType sensorType){
 		int sensorTypeForAndoid = getAndroidConstantOfSensorType(sensorType);  
 		sensorManager.unregisterListener(this,sensorManager.getDefaultSensor(sensorTypeForAndoid));
 		updateControlVariables(sensorType,false);
 	}	
 
+	/**
+	 * Not implemented
+	 */
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * @see SensorEventListener 
+	 */
 	public void onSensorChanged(SensorEvent event) {
 		switch(event.sensor.getType()) {
 		    case Sensor.TYPE_ACCELEROMETER:

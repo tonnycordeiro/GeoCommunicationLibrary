@@ -1,13 +1,20 @@
 package usp.ime.gclib.hit;
 
 import java.io.Serializable;
-
+/**
+ * This class creates a shooting restrictions to a Device that send a message to another Device 
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ * @see DeviceOrientation, DeviceCompassOrientation
+ * 
+ */
 public class ShootingRestrictions implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * degree
+	 * range -180 to 180 degrees
 	 */
 	private double openingAngleShoot;
 	/**
@@ -28,7 +35,14 @@ public class ShootingRestrictions implements Serializable {
 		this.widthShoot = WIDTH_SHOOT_DEFAULT;
 		this.maximumDistanceSrcToDst = MAXIMUM_DISTANCE_SRC_TO_DST_DEFAULT;
 	}
-	
+	/**
+	 * 
+	 * @param openingAngleShoot opening angle shoot: range -180 to 180 degrees
+	 * All destinations between the two orientation vector projected with an opening angle will be hit by the source
+	 * @param widthShoot width shoot in meters. 
+	 * All destinations between the two parallel orientation vector projected by the shoot will be hit by the source  
+	 * @param maximumDistanceSrcToDst maximum distance from source to destination in meters
+	 */
 	public ShootingRestrictions(double openingAngleShoot,
 						double widthShoot, double maximumDistanceSrcToDst) {
 		this.openingAngleShoot = openingAngleShoot;
