@@ -4,6 +4,13 @@ import java.io.Serializable;
 
 import usp.ime.gclib.Device;
 
+/**
+ * This class contain all necessary information that will be sent through network.
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class ProtocolInformation implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -21,7 +28,16 @@ public class ProtocolInformation implements Serializable{
 		this.protocol = app.getProtocol();
 	}
 	
+	/**
+	 * The object parameter must be Serializable, otherwise it will be throws a IllegalArgumentException.
+	 * 
+	 * @param deviceSrc
+	 * @param object
+	 * @param app
+	 */
 	public ProtocolInformation(Device deviceSrc, Object object, AppProtocol app) {
+		if(!(object instanceof Serializable))
+			throw new IllegalArgumentException("Object must be serializable to send through network.");
 		this.deviceSrc = deviceSrc;
 		this.object = object;
 		this.typeMsg = app.getTypeMsg();

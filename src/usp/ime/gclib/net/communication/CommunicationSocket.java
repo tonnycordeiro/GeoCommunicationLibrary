@@ -14,6 +14,7 @@ import usp.ime.gclib.net.protocol.ProtocolInformation;
 
 
 /**
+ * This class creates a socket of communication that allows applications communicate to each other.
  * 
  * @author Renato Avila e Tonny Cordeiro
  * @version 1.0
@@ -27,7 +28,8 @@ public class CommunicationSocket {
 	private boolean alreadyInitializeListener = false;
 	
 	/**
-	 * This method will send the message that is specified in packet parameter.
+	 * This method will send the ProtocolInformation object through network.
+	 * The information, like who send to and how send, is extract from AppProtocol object.
 	 * 
 	 * @return A integer that indicates the result of the sending.
 	 * The possibles values are:
@@ -88,8 +90,10 @@ public class CommunicationSocket {
 	
 	/**
 	 * This method is used to receive a message from another device.
-	 * It's create a new thread to wait the packets.
+	 * It's create a new thread to wait the packets, then this method is asynchronous.
 	 * 
+	 * @param receiverDevice Used to determinate information about the receiver device.
+	 *  
 	 * @return
 	 * <ul>
 	 * 	<li>0: Listener create successfully</li>
@@ -110,6 +114,21 @@ public class CommunicationSocket {
 		return 0;
 	}
 	
+	/**
+	 * This method is used to receive a message from another device.
+	 * It's create a new thread to wait the packets, then this method is asynchronous.
+	 * 
+	 * @param receiverDevice Used to determinate information about the receiver device.
+	 * @param targetRestrictions Used to set restrictions about the receiver device
+	 * 
+	 * @see TargetRestrictions
+	 *  
+	 * @return
+	 * <ul>
+	 * 	<li>0: Listener create successfully</li>
+	 * 	<li>1: Listener was already create</li>
+	 * </ul>
+	 */
 	public synchronized int acceptListener(final IReceiveListener listener, final Device receiverDevice, final TargetRestrictions targetRestrictions){
 		if(alreadyInitializeListener)
 			return 1;
@@ -125,6 +144,14 @@ public class CommunicationSocket {
 		return 0;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 * <ul>
+	 * 	<li>0: Successful</li>
+	 * 	<li>1: Unsuccessful - An Exception occurred.</li>
+	 * </ul>
+	 */
 	public int stopListener() {
 		try {
 			UDPReceiver.serverSocket.close();

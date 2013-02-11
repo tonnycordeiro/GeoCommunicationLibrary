@@ -4,6 +4,14 @@ import java.io.Serializable;
 
 import usp.ime.gclib.Device;
 
+/**
+ * This class extends ProtocolInformation and use a LibConfigurationObject object for additional informations.
+ * @see LibConfigurationObject
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class ProtocolLIBCONFIGInformation extends ProtocolInformation implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -14,7 +22,14 @@ public class ProtocolLIBCONFIGInformation extends ProtocolInformation implements
 		super(deviceSrc, message, app);
 		this.setLibConfig(libConfig);
 	}
-	
+	/**
+	 * The object parameter must be Serializable, otherwise it will be throws a IllegalArgumentException.
+	 * 
+	 * @param deviceSrc
+	 * @param object
+	 * @param app
+	 * @param libConfig
+	 */
 	public ProtocolLIBCONFIGInformation(Device deviceSrc, Object object, AppProtocol app, LibConfigurationObject libConfig) {
 		super(deviceSrc, object, app);
 		this.setLibConfig(libConfig);

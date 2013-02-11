@@ -1,7 +1,6 @@
 package usp.ime.gclib.hit;
 
 import usp.ime.gclib.Device;
-import usp.ime.gclib.sensor.orientation.AngleManager;
 
 
 public class HitCalculations {

@@ -13,6 +13,9 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 
 /**
+ * This class is the main class in this package. From this, it is possible
+ * connect in a network available, create a new access point, get information
+ * about all networks and more.
  * 
  * @author Renato Avila e Tonny Cordeiro
  * @version 1.0

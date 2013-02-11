@@ -1,5 +1,13 @@
 package usp.ime.gclib.net.wifi;
 
+/**
+ * This class contains only the basic configuration of a network, name (ssid) and password.
+ * It's concatenate a prefix in ssid, "AND_GCLIB_", for internal use. 
+ * 
+ * @author Renato Avila e Tonny Cordeiro
+ * @version 1.0
+ *
+ */
 public class NetworkConfiguration {
 
 	private static final String SSID_PREFIX = "AND_GCLIB_";

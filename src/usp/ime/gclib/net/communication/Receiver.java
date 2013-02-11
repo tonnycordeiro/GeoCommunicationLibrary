@@ -1,6 +1,7 @@
 package usp.ime.gclib.net.communication;
 
 import usp.ime.gclib.Device;
+import usp.ime.gclib.hit.GeodesicManager;
 import usp.ime.gclib.hit.HitCalculations;
 import usp.ime.gclib.hit.ShootingRestrictions;
 import usp.ime.gclib.hit.TargetRestrictions;
@@ -70,11 +71,6 @@ public class Receiver{
 			return false;
 		switch(appInfo.getTypeMsg()){
 			case GEOMSG:
-				Log.d("Receiver", "lat_src:" + appInfo.getDeviceSrc().getDeviceLocation().getLatitude() +
-						" long_src:" + appInfo.getDeviceSrc().getDeviceLocation().getLongitude() +
-						" azi_src:" + Math.toDegrees(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth()) +
-						" lat_dst:" + receiverDevice.getDeviceLocation().getLatitude() +
-						" long_dst:" + receiverDevice.getDeviceLocation().getLongitude());
 				
 				if(!appInfo.getDeviceSrc().getDeviceLocation().isDefined() || 
 						!receiverDevice.getDeviceLocation().isDefined())
@@ -91,9 +87,26 @@ public class Receiver{
 				else
 					hitCalculations.setShootingRestrictions(geoData.getShootRestrictions());
 				hitCalculations.setTargetRestrictions(getTargetRestrictions());
-				return hitCalculations.hitTheDestination(Math.toDegrees(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth()), 
+				Device devVirtual = new Device();
+				boolean isForMe =  hitCalculations.hitTheDestination(Math.toDegrees(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth()), 
 														  appInfo.getDeviceSrc(),
-														  receiverDevice);
+														  receiverDevice, devVirtual);
+				
+				Log.d("TCC_LOG", "Recebendo: ip_src:" + appInfo.getDeviceSrc().getIp() + 
+						" lat_src:" + appInfo.getDeviceSrc().getDeviceLocation().getLatitude() +
+						" long_src:" + appInfo.getDeviceSrc().getDeviceLocation().getLongitude() +
+						" azi_src:" + Math.toDegrees(appInfo.getDeviceSrc().getDeviceOrientation().getAzimuth()) +
+						" ip_dst:" + receiverDevice.getIp() + 
+						" lat_dst:" + receiverDevice.getDeviceLocation().getLatitude() +
+						" long_dst:" + receiverDevice.getDeviceLocation().getLongitude() +
+						" azi_rel:" + GeodesicManager.getAzimuthBetween(appInfo.getDeviceSrc(), receiverDevice) +
+						" lat_devVirtual:" + devVirtual.getDeviceLocation().getLatitude() + 
+						" long_devVirtual:" + devVirtual.getDeviceLocation().getLongitude() +
+						" dist_virtual_destino:" + GeodesicManager.getDistanceBetween(receiverDevice, devVirtual) +
+						"m raio_dst:" + getTargetRestrictions().getRadius() + "m" +
+						" acertou:" + (isForMe ? "SIM" : "NAO"));
+				
+				return isForMe;
 				
 			case GEOACK:
 			case APPDATA:
