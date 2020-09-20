@@ -4,7 +4,7 @@ GeoCommunication is a library developed in Java by Renato Avila and Tonny Cordei
 Follows a short description about the library functionalities:
 * creation of network among the devices that will be delivered for just one of them through the access point feature enabled on its operating system;
 * an application protocol to provide the communication inside the network;
-* a set of functions based on motion and position sensors to calculate the range of message reception.
+* a set of functions based on GPS and motion and position sensors to calculate the range of message reception.
 
 To clarify its usability, it's possible for example create a kind of a virtual paintball.
 
