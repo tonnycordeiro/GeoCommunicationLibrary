@@ -1,4 +1,4 @@
-# TCC_Library
+# GeoCommunicationLibrary
 
 GeoCommunication is a library developed in Java by Renato Avila and Tonny Cordeiro that provides Android developers a set of resources to create applications where a device can send a message to another one since the first is "pointing" at the second. In the other words, the other devices are not in that direction, but sharing the same network and application, won't receive the message. 
 Below is a short description of the library functions:
@@ -9,4 +9,4 @@ For example, to clarify its usability, it's possible to create a kind of a virtu
 
 -------------------------------------------------
 
-For more details about implementation and usability, you can look for inside documentation folder or Wiki
+For more details about implementation and usability, you can look for inside documentation folder or [Wiki](https://github.com/tonnycordeiro/GeoCommunicationLibrary/wiki)
